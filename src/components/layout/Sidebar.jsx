@@ -37,7 +37,10 @@ const Sidebar = () => {
       style={{ width: 'var(--sidebar-width, 260px)' }}
     >
       {/* Brand Section */}
-      <div className="p-6 py-8 pl-8 flex items-center gap-6 shrink-0 overflow-hidden">
+      <div 
+        className="p-6 py-8 flex items-center gap-6 shrink-0 overflow-hidden"
+        style={{ paddingLeft: '32px' }}
+      >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />
         </div>
@@ -56,7 +59,10 @@ const Sidebar = () => {
       </div>
 
       {/* Primary Navigation */}
-      <nav className="flex-1 px-6 space-y-2 overflow-y-auto no-scrollbar scroll-smooth">
+      <nav 
+        className="flex-1 space-y-2 overflow-y-auto no-scrollbar scroll-smooth"
+        style={{ paddingLeft: '24px', paddingRight: '24px' }}
+      >
         {navItems.map((item) => (
           <NavLink
             key={item.path}

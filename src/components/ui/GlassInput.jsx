@@ -120,18 +120,45 @@ export const GlassSelect = forwardRef(({ label, error, options = [], className =
 ))
 GlassSelect.displayName = 'GlassSelect'
 
-export function GlassToggle({ label, checked, onChange, className = '' }) {
+export function GlassToggle({ label, checked: initialChecked, onChange, className = '' }) {
+  const [isOn, setIsOn] = React.useState(initialChecked ?? false);
+  
+  const handleToggle = () => {
+    const newVal = !isOn;
+    setIsOn(newVal);
+    onChange?.(newVal);
+  };
+
   return (
-    <label className={`flex items-center gap-4 cursor-pointer group ${className}`}>
+    <label className={`flex items-center cursor-pointer group ${className}`} style={{ gap: '16px' }}>
       <div
-        onClick={() => onChange?.(!checked)}
-        className={`w-10 h-5.5 rounded-full p-1 transition-all duration-150 relative ${checked ? 'bg-[#3b82f6]' : 'bg-[#27272a]'}`}
+        onClick={handleToggle}
+        style={{
+          width: '52px',
+          height: '28px',
+          borderRadius: '14px',
+          padding: '3px',
+          transition: 'all 0.2s ease',
+          backgroundColor: isOn ? '#007aff' : '#3a3a3c',
+          boxShadow: isOn ? '0 0 16px rgba(0, 122, 255, 0.4)' : 'none',
+          cursor: 'pointer',
+          position: 'relative',
+          flexShrink: 0,
+        }}
       >
         <div
-          className={`w-3.5 h-3.5 rounded-full bg-[#ffffff] transition-transform duration-150 ${checked ? 'translate-x-[18px]' : 'translate-x-0'}`}
+          style={{
+            width: '22px',
+            height: '22px',
+            borderRadius: '11px',
+            backgroundColor: '#ffffff',
+            transition: 'transform 0.2s ease',
+            transform: isOn ? 'translateX(24px)' : 'translateX(0)',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+          }}
         />
       </div>
-      {label && <span className="text-[14px] font-medium text-[#a1a1aa] group-hover:text-[#fafafa] transition-colors">{label}</span>}
+      {label && <span className="font-semibold text-[#a1a1aa] group-hover:text-white transition-colors" style={{ fontSize: '15px' }}>{label}</span>}
     </label>
   )
 }

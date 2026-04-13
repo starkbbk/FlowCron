@@ -63,10 +63,10 @@ const LandingPage = () => {
       </nav>
 
       {/* ADDED massive gap of 40 (160px) between major sections ensuring zero overlapping */}
-      <main className="relative z-10 flex flex-col items-center gap-40 pb-40">
+      <main className="relative z-10 flex flex-col items-center gap-40 pb-40" style={{ paddingTop: '160px' }}>
         
         {/* HERO SECTION */}
-        <section className="w-full max-w-6xl px-6 pt-24 flex flex-col items-center text-center">
+        <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">
           <motion.div 
             initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-10 shadow-sm"

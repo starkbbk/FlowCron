@@ -201,70 +201,106 @@ const SettingsPage = () => {
               )}
 
               {activeTab === 'security' && (
-                <div className="space-y-8">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                     <div className="flex justify-between items-start">
                         <div>
-                           <h3 className="text-xl font-bold text-[#fafafa] mb-1">Security</h3>
-                           <p className="text-[14px] font-medium text-[#71717a]">Manage your password and account protection.</p>
+                           <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Security</h3>
+                           <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage your password and account protection.</p>
                         </div>
-                        <div className="p-2 bg-[#18181b] rounded-lg border border-[#27272a]">
-                           <Lock size={20} className="#ef4444" />
+                        <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}>
+                           <Lock size={24} className="text-[#ff3b30]" />
                         </div>
                     </div>
 
-                    <div className="space-y-6 max-w-md">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '520px' }}>
                        <GlassInput label="Current Password" type="password" placeholder="••••••••" />
-                       <div className="h-px bg-[#27272a] w-full" />
+                       <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)', width: '100%' }} />
                        <GlassInput label="New Password" type="password" />
                        <GlassInput label="Confirm New Password" type="password" />
                     </div>
 
-                   <div className="pt-8 border-t border-[#27272a]">
-                      <div className="p-6 rounded-lg bg-[#ef444405] border border-[#ef444415]">
-                        <div className="flex items-center gap-3 text-[#ef4444] mb-3">
-                            <Trash2 size={16} />
-                            <h4 className="text-[12px] font-bold uppercase tracking-wider">Danger Zone</h4>
+                    <div className="flex justify-end" style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                       <GlassButton icon={Save} onClick={onSave} style={{ padding: '14px 32px', fontSize: '14px' }}>Update Password</GlassButton>
+                    </div>
+
+                   <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ padding: '28px', borderRadius: '20px', backgroundColor: 'rgba(255, 59, 48, 0.04)', border: '1px solid rgba(255, 59, 48, 0.12)' }}>
+                        <div className="flex items-center text-[#ff3b30]" style={{ gap: '12px', marginBottom: '16px' }}>
+                            <Trash2 size={20} />
+                            <h4 className="font-extrabold uppercase tracking-wider" style={{ fontSize: '13px' }}>Danger Zone</h4>
                         </div>
-                         <p className="text-[13px] font-medium text-[#71717a] mb-6 leading-relaxed">
+                         <p className="font-medium text-[#86868b]" style={{ fontSize: '15px', lineHeight: 1.7, marginBottom: '24px' }}>
                             Deleting your account is permanent. All workflows, execution logs, and data will be wiped immediately.
                          </p>
-                         <GlassButton variant="danger" className="!py-2 !px-6 !text-[12px]">Delete My Account</GlassButton>
+                         <button
+                           className="font-bold text-white cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                           style={{ 
+                             padding: '12px 24px', fontSize: '14px', borderRadius: '14px', 
+                             background: 'linear-gradient(135deg, #ff3b30, #ff2d55)', 
+                             boxShadow: '0 4px 20px rgba(255, 59, 48, 0.3)', border: 'none' 
+                           }}
+                         >Delete My Account</button>
                       </div>
                    </div>
                 </div>
               )}
 
               {activeTab === 'api_keys' && (
-                <div className="space-y-8">
-                   <div className="flex justify-between items-end pb-4 border-b border-[#27272a]">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                   <div className="flex justify-between items-end" style={{ paddingBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                       <div>
-                       <h3 className="text-xl font-bold text-[#fafafa] mb-1">API Keys</h3>
-                       <p className="text-[14px] font-medium text-[#71717a]">Use these keys to access our API from your own scripts.</p>
+                       <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>API Keys</h3>
+                       <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Use these keys to access our API from your own scripts.</p>
                     </div>
-                       <GlassButton icon={Plus} className="!py-2 !px-5 !text-[12px]" onClick={generateKey}>Create Key</GlassButton>
+                       <button
+                         onClick={generateKey}
+                         className="flex items-center font-bold text-white cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                         style={{ 
+                           gap: '10px', padding: '12px 24px', fontSize: '14px', borderRadius: '14px', 
+                           background: 'linear-gradient(135deg, #007aff, #5856d6)', 
+                           boxShadow: '0 4px 20px rgba(0, 122, 255, 0.4)', border: 'none' 
+                         }}
+                       >
+                         <Plus size={18} />
+                         Create Key
+                       </button>
                    </div>
 
-                   <div className="space-y-3">
+                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {isLoadingKeys ? (
-                        <div className="text-center py-20 text-[#52525b] font-semibold text-[13px]">Loading keys...</div>
+                        <div className="text-center text-[#86868b] font-bold" style={{ padding: '80px 0', fontSize: '14px' }}>Loading keys...</div>
                       ) : apiKeys.length === 0 ? (
-                         <div className="flex flex-col items-center justify-center py-24 text-[#27272a] border border-dashed border-[#27272a] rounded-lg">
-                            <Key size={32} className="mb-3 opacity-20" />
-                            <span className="text-[12px] font-bold text-[#52525b] uppercase tracking-wider">No active keys</span>
+                         <div 
+                           className="flex flex-col items-center justify-center border border-dashed border-white/10"
+                           style={{ padding: '80px 0', borderRadius: '20px' }}
+                         >
+                            <Key size={40} className="text-[#86868b] opacity-30" style={{ marginBottom: '16px' }} />
+                            <span className="font-bold text-[#52525b] uppercase tracking-wider" style={{ fontSize: '13px' }}>No active keys</span>
                          </div>
                       ) : apiKeys.map(k => (
-                        <div key={k.id} className="p-4 rounded-lg border border-[#27272a] bg-[#09090b] flex items-center justify-between hover:border-[#3b82f650] transition-colors group">
-                           <div className="flex items-center gap-4">
-                              <div className="p-2.5 rounded-lg bg-[#18181b] text-[#71717a] border border-[#27272a] group-hover:text-[#3b82f6] transition-colors">
-                                 <Database size={18} />
+                        <div 
+                          key={k.id} 
+                          className="flex items-center justify-between hover:bg-white/5 transition-colors group border border-white/10"
+                          style={{ padding: '20px 24px', borderRadius: '16px' }}
+                        >
+                           <div className="flex items-center" style={{ gap: '20px' }}>
+                              <div 
+                                className="flex items-center justify-center text-[#86868b] border border-white/10 group-hover:text-[#007aff] transition-colors"
+                                style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: '#2c2c2e' }}
+                              >
+                                 <Database size={22} />
                               </div>
                                <div>
-                                  <div className="text-[14px] font-bold text-[#fafafa]">{k.name}</div>
-                                  <div className="text-[11px] font-mono text-[#52525b] mt-0.5">Prefix: {k.prefix} • {new Date(k.created_at).toLocaleDateString()}</div>
+                                  <div className="font-bold text-white" style={{ fontSize: '16px', marginBottom: '4px' }}>{k.name}</div>
+                                  <div className="font-mono text-[#52525b]" style={{ fontSize: '12px' }}>Prefix: {k.prefix} • {new Date(k.created_at).toLocaleDateString()}</div>
                                </div>
                            </div>
-                           <button onClick={() => deleteKey(k.id)} className="text-[#52525b] hover:text-[#ef4444] p-2 hover:bg-[#ef444410] rounded-lg transition-colors">
-                              <Trash2 size={16} />
+                           <button 
+                             onClick={() => deleteKey(k.id)} 
+                             className="text-[#52525b] hover:text-[#ff3b30] hover:bg-[#ff3b3010] transition-colors"
+                             style={{ padding: '10px', borderRadius: '12px' }}
+                           >
+                              <Trash2 size={18} />
                            </button>
                         </div>
                       ))}
@@ -273,21 +309,32 @@ const SettingsPage = () => {
               )}
 
               {activeTab === 'notifications' && (
-                <div className="space-y-8">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                     <div>
-                       <h3 className="text-xl font-bold text-[#fafafa] mb-1">Notifications</h3>
-                       <p className="text-[14px] font-medium text-[#71717a]">Manage how you receive alerts and updates.</p>
+                       <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Notifications</h3>
+                       <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage how you receive alerts and updates.</p>
                     </div>
 
-                    <div className="space-y-4 pt-2">
-                       <div className="p-6 rounded-lg bg-[#09090b] border border-[#27272a] space-y-6">
-                          <GlassToggle label="Workflow failure alerts" checked={true} />
-                          <div className="h-px bg-[#27272a]" />
-                          <GlassToggle label="Weekly summary emails" checked={false} />
-                          <div className="h-px bg-[#27272a]" />
-                          <GlassToggle label="New product features" checked={true} />
-                          <div className="h-px bg-[#27272a]" />
-                          <GlassToggle label="System maintenance notifications" checked={true} />
+                    <div>
+                       <div 
+                         className="border border-white/10"
+                         style={{ borderRadius: '20px', backgroundColor: 'rgba(255,255,255,0.03)', padding: '8px' }}
+                       >
+                          <div style={{ padding: '20px 24px' }}>
+                            <GlassToggle label="Workflow failure alerts" checked={true} />
+                          </div>
+                          <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)', marginLeft: '24px', marginRight: '24px' }} />
+                          <div style={{ padding: '20px 24px' }}>
+                            <GlassToggle label="Weekly summary emails" checked={false} />
+                          </div>
+                          <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)', marginLeft: '24px', marginRight: '24px' }} />
+                          <div style={{ padding: '20px 24px' }}>
+                            <GlassToggle label="New product features" checked={true} />
+                          </div>
+                          <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)', marginLeft: '24px', marginRight: '24px' }} />
+                          <div style={{ padding: '20px 24px' }}>
+                            <GlassToggle label="System maintenance notifications" checked={true} />
+                          </div>
                        </div>
                     </div>
                 </div>

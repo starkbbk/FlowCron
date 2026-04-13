@@ -75,7 +75,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <button 
-          onClick={() => navigate('/workflows/new')}
+          onClick={() => navigate('/workflows')}
           className="flex items-center gap-3 bg-[#007aff] text-white font-extrabold rounded-2xl hover:bg-[#006ce6] active:scale-95 transition-all mt-4 md:mt-0 cursor-pointer"
           style={{
             paddingTop: '20px',

@@ -35,7 +35,10 @@ const ActivityLogPage = () => {
   }, []);
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-20">
+    <div 
+      className="space-y-8 mx-auto pb-20"
+      style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
+    >
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
         <div>
           <h1 className="page-title mb-2">Activity Feed</h1>

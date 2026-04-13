@@ -61,8 +61,8 @@ const Sidebar = () => {
 
       {/* Primary Navigation */}
       <nav 
-        className="flex-1 space-y-2 overflow-y-auto no-scrollbar scroll-smooth"
-        style={{ marginLeft: '24px', marginRight: '24px' }}
+        className="flex-1 overflow-y-auto no-scrollbar scroll-smooth"
+        style={{ marginLeft: '24px', marginRight: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}
       >
         {navItems.map((item) => (
           <NavLink

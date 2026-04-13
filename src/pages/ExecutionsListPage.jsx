@@ -49,46 +49,47 @@ const ExecutionsListPage = () => {
       className="space-y-8 mx-auto pb-20"
       style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
     >
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end" style={{ gap: '24px' }}>
         <div>
-          <h1 className="page-title mb-2">History</h1>
-          <p className="text-[#71717a] font-medium tracking-tight">View the status and execution logs of all your workflow runs.</p>
+          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>History</h1>
+          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>View the status and execution logs of all your workflow runs.</p>
         </div>
-        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchExecutions} className="!py-2 !px-4 !text-[12px]">
+        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchExecutions} style={{ padding: '14px 24px', fontSize: '14px' }}>
           Refresh History
         </GlassButton>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-         <div className="flex p-1 rounded-lg bg-[#111113] border border-[#27272a] overflow-x-auto no-scrollbar">
+         <div className="flex p-1.5 rounded-2xl bg-[#1c1c1e] border border-white/10 overflow-x-auto no-scrollbar" style={{ gap: '4px' }}>
             {['All', 'Running', 'Completed', 'Failed'].map(status => (
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-5 py-1.5 text-[12px] font-semibold rounded-md transition-all flex-shrink-0 ${
+                className={`font-bold rounded-xl transition-all flex-shrink-0 cursor-pointer ${
                   filterStatus === status 
-                    ? 'bg-[#3b82f6] text-[#fafafa]' 
-                    : 'text-[#71717a] hover:text-[#a1a1aa] hover:bg-[#18181b]'
+                    ? 'bg-[#007aff] text-white' 
+                    : 'text-[#86868b] hover:text-white hover:bg-white/10'
                 }`}
+                style={{ padding: '12px 24px', fontSize: '14px' }}
               >
                 {status}
               </button>
             ))}
          </div>
-         <div className="text-[11px] font-bold uppercase tracking-wider text-[#52525b] bg-[#111113] px-3 py-1.5 rounded-md border border-[#27272a]">
-            {filteredExecutions.length} Workflow Runs
+         <div className="text-[#86868b] bg-[#1c1c1e] border border-white/10 rounded-xl" style={{ padding: '12px 20px', fontSize: '13px', fontWeight: 700, letterSpacing: '0.05em' }}>
+            {filteredExecutions.length} WORKFLOW RUNS
          </div>
       </div>
 
       {isLoading ? (
         <TableSkeleton rows={8} />
       ) : executions.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center py-24" hover={false}>
-            <div className="w-16 h-16 bg-[#18181b] rounded-xl flex items-center justify-center mb-6 text-[#27272a] border border-[#27272a]">
-               <Activity size={32} />
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+               <Activity size={40} className="text-[#86868b]" />
             </div>
-            <h3 className="text-xl font-bold text-[#fafafa] mb-2 tracking-tight">No execution history</h3>
-            <p className="text-[#71717a] max-w-sm font-medium leading-relaxed text-[14px]">
+            <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No execution history</h3>
+            <p className="text-[#86868b] font-medium" style={{ maxWidth: '420px', fontSize: '16px', lineHeight: 1.6 }}>
               Your workflow runs will appear here once they start executing.
             </p>
         </GlassCard>

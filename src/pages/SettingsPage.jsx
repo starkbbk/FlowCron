@@ -78,10 +78,10 @@ const SettingsPage = () => {
       className="space-y-8 mx-auto pb-20"
       style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
     >
-      <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+      <div className="flex flex-col md:flex-row justify-between items-end" style={{ gap: '24px' }}>
         <div>
-          <h1 className="page-title mb-2">Settings</h1>
-          <p className="text-[#71717a] font-medium tracking-tight">Manage your profile, security, and notification settings.</p>
+          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>Settings</h1>
+          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>Manage your profile, security, and notification settings.</p>
         </div>
       </div>
 

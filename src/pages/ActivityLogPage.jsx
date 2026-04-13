@@ -39,12 +39,12 @@ const ActivityLogPage = () => {
       className="space-y-8 mx-auto pb-20"
       style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
     >
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end" style={{ gap: '24px' }}>
         <div>
-          <h1 className="page-title mb-2">Activity Feed</h1>
-          <p className="text-[#71717a] font-medium tracking-tight">Real-time chronicle of all workflow executions and system events.</p>
+          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>Activity Feed</h1>
+          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>Real-time chronicle of all workflow executions and system events.</p>
         </div>
-        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchLogs} className="!py-2 !px-4 !text-[12px]">
+        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchLogs} style={{ padding: '14px 24px', fontSize: '14px' }}>
           Refresh Feed
         </GlassButton>
       </div>
@@ -52,12 +52,12 @@ const ActivityLogPage = () => {
       {isLoading ? (
         <TableSkeleton rows={10} />
       ) : logs.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center py-24" hover={false}>
-            <div className="w-16 h-16 bg-[#18181b] rounded-xl flex items-center justify-center mb-6 text-[#27272a] border border-[#27272a]">
-               <Activity size={32} />
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+               <Activity size={40} className="text-[#86868b]" />
             </div>
-            <h3 className="text-xl font-bold text-[#fafafa] mb-2 tracking-tight">No activity recorded</h3>
-            <p className="text-[#71717a] max-w-sm font-medium leading-relaxed text-[14px]">Your automated activity will manifest here once workflows begin execution.</p>
+            <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No activity recorded</h3>
+            <p className="text-[#86868b] font-medium" style={{ maxWidth: '420px', fontSize: '16px', lineHeight: 1.6 }}>Your automated activity will manifest here once workflows begin execution.</p>
         </GlassCard>
       ) : (
         <div className="bg-[#111113] border border-[#27272a] rounded-xl overflow-hidden shadow-sm">

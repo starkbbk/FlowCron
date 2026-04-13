@@ -83,19 +83,20 @@ export default function WorkflowsListPage() {
       style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
     >
       {/* Header & Controls */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center" style={{ gap: '32px', marginBottom: '16px' }}>
         <div>
-          <h1 className="text-3xl font-bold text-[#fafafa] tracking-tight mb-2">Workflows</h1>
-          <p className="text-[#71717a] font-medium">Manage and monitor your automated workflows.</p>
+          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>Workflows</h1>
+          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>Manage and monitor your automated workflows.</p>
         </div>
         
         <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto">
           <div className="relative group flex-1 md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#52525b] group-focus-within:text-[#3b82f6] transition-colors" size={14} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#52525b] group-focus-within:text-[#007aff] transition-colors" size={18} />
             <input 
               type="text"
               placeholder="Search workflows..."
-              className="w-full pl-11 pr-4 py-2.5 bg-[#111113] border border-[#27272a] rounded-lg text-sm focus:border-[#3b82f650] outline-none transition-all placeholder:text-[#52525b] font-medium text-[#fafafa]"
+              className="w-full bg-[#1c1c1e] border border-white/10 rounded-2xl focus:border-[#007aff]/50 outline-none transition-all placeholder:text-[#52525b] font-medium text-white"
+              style={{ paddingLeft: '52px', paddingRight: '20px', paddingTop: '16px', paddingBottom: '16px', fontSize: '15px' }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -142,12 +143,12 @@ export default function WorkflowsListPage() {
       {isLoading ? (
         <TableSkeleton rows={6} />
       ) : filteredWorkflows.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center py-32 bg-[#111113] border-[#27272a]" hover={false}>
-           <div className="w-16 h-16 bg-[#18181b] rounded-xl flex items-center justify-center mb-6 text-[#27272a] border border-[#27272a]">
-              <GitBranch size={32} />
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+           <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+              <GitBranch size={40} className="text-[#86868b]" />
            </div>
-           <h3 className="text-xl font-bold text-[#fafafa] mb-2">No workflows found</h3>
-           <p className="text-[#71717a] mb-8 max-w-sm font-medium">
+           <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No workflows found</h3>
+           <p className="text-[#86868b] font-medium" style={{ maxWidth: '420px', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
              {searchQuery ? "No workflows match your search query." : "Create your first workflow to start automating your tasks."}
            </p>
            <GlassButton variant="secondary" onClick={() => setIsModalOpen(true)} className="!px-8">

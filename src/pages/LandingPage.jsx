@@ -69,10 +69,11 @@ const LandingPage = () => {
         <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">
           <motion.div 
             initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-10 shadow-sm"
+            className="inline-flex items-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-10 shadow-sm"
+            style={{ padding: '12px 28px', gap: '10px' }}
           >
-             <Sparkles size={16} className="text-[#34c759] mr-3" />
-            <span className="text-[14px] font-semibold text-[#f5f5f7] tracking-wide">Free Forever for Personal Use</span>
+             <Sparkles size={20} className="text-[#34c759]" />
+            <span className="text-[17px] font-semibold text-[#f5f5f7] tracking-wide">Free Forever for Personal Use</span>
           </motion.div>
 
           <motion.h1 

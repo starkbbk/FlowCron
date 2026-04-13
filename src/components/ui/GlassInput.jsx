@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 const baseStyles = {
   backgroundColor: '#111113',
@@ -121,7 +121,7 @@ export const GlassSelect = forwardRef(({ label, error, options = [], className =
 GlassSelect.displayName = 'GlassSelect'
 
 export function GlassToggle({ label, checked: initialChecked, onChange, className = '' }) {
-  const [isOn, setIsOn] = React.useState(initialChecked ?? false);
+  const [isOn, setIsOn] = useState(initialChecked ?? false);
   
   const handleToggle = () => {
     const newVal = !isOn;

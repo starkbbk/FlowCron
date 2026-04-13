@@ -32,9 +32,12 @@ const Sidebar = () => {
   };
 
   return (
-    <aside
-      className="hidden md:flex flex-col fixed inset-y-0 left-0 h-screen bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-[100] transition-all duration-300 ease-in-out overflow-hidden shadow-2xl pl-4"
-      style={{ width: 'var(--sidebar-width, 260px)' }}
+    <aside 
+      className="fixed top-0 bottom-0 left-0 bg-[#1c1c1e]/80 backdrop-blur-2xl border-r border-white/5 z-50 transition-all duration-300 ease-in-out shrink-0 flex flex-col shadow-2xl overflow-visible"
+      style={{ 
+        width: 'var(--sidebar-width, 260px)',
+        overflow: 'visible'
+      }}
     >
       {/* Brand Section */}
       <div 
@@ -62,24 +65,25 @@ const Sidebar = () => {
       {/* Floating Collapse Toggle */}
       <button
         onClick={toggleCollapse}
-        className="text-[#86868b] hover:text-white hover:bg-white/10 transition-all shadow-md group"
+        className="text-[#86868b] hover:text-white hover:bg-[#007aff] transition-all shadow-xl group"
         style={{ 
           position: 'absolute', 
-          right: '-16px', 
-          top: '48px', 
-          width: '32px', 
-          height: '32px', 
+          right: '-24px', 
+          top: '50%', 
+          transform: 'translateY(-50%)',
+          width: '48px', 
+          height: '48px', 
           borderRadius: '50%', 
           backgroundColor: '#2c2c2e', 
           border: '1px solid rgba(255,255,255,0.1)', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          zIndex: 100,
+          zIndex: 9999,
           cursor: 'pointer'
         }}
       >
-        {collapsed ? <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" /> : <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />}
+        {collapsed ? <ChevronRight size={24} className="group-hover:translate-x-0.5 transition-transform text-white/70 group-hover:text-white" /> : <ChevronLeft size={24} className="group-hover:-translate-x-0.5 transition-transform text-white/70 group-hover:text-white" />}
       </button>
 
       {/* Primary Navigation */}

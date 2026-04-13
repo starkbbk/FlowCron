@@ -96,18 +96,23 @@ const Sidebar = () => {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center rounded-2xl transition-all duration-200 group relative font-medium
-              ${isActive ? 'bg-[#007aff] text-white shadow-md' : 'text-[#86868b] hover:bg-white/10 hover:text-white'}
+              flex items-center rounded-2xl transition-all duration-300 group relative font-medium overflow-hidden
+              ${isActive 
+                ? 'bg-[#007aff] text-white' 
+                : 'text-[#86868b] hover:bg-white/10 hover:text-white'}
             `}
-            style={{ 
-              paddingTop: '16px', 
-              paddingBottom: '16px', 
-              paddingLeft: collapsed ? '16px' : '24px', 
-              paddingRight: collapsed ? '16px' : '24px',
-              justifyContent: collapsed ? 'center' : 'flex-start'
-            }}
+            style={({ isActive }) => ({ 
+              paddingTop: '20px', 
+              paddingBottom: '20px', 
+              paddingLeft: collapsed ? '20px' : '28px', 
+              paddingRight: collapsed ? '20px' : '28px',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              boxShadow: isActive 
+                ? '0 8px 32px -4px rgba(0,122,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15)' 
+                : 'none'
+            })}
           >
-            <item.icon size={22} className="shrink-0" />
+            <item.icon size={24} className="shrink-0" />
             <AnimatePresence>
               {!collapsed && (
                 <motion.span 

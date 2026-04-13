@@ -138,6 +138,15 @@ body {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
+.mac-bento-card:active {
+  transform: translateY(-1px) scale(0.995);
+  border-color: rgba(0, 122, 255, 0.4);
+  box-shadow:
+    0 0 40px -8px rgba(0, 122, 255, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.1s ease;
+}
+
 /* App Window Container */
 .mac-window {
   background: #1e1e1e;
@@ -222,4 +231,58 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================
+   CLICK RIPPLE & INTERACTION EFFECTS
+   ========================================== */
+
+@keyframes ripple-blue {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 122, 255, 0);
+  }
+}
+
+@keyframes click-pulse {
+  0% { 
+    transform: scale(1); 
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  50% { 
+    transform: scale(0.98); 
+    border-color: rgba(0, 122, 255, 0.5);
+    box-shadow: 0 0 30px -5px rgba(0, 122, 255, 0.3);
+  }
+  100% { 
+    transform: scale(1); 
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Universal active press effect */
+button:active,
+a:active {
+  transition: transform 0.08s ease !important;
+}
+
+/* Card click effect */
+.mac-bento-card {
+  cursor: pointer;
+}
+
+/* Navigation hover glow */
+nav a:hover {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Interactive element focus glow */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.5);
+  border-color: #007aff !important;
 }

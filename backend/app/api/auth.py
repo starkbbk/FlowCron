@@ -63,3 +63,40 @@ async def login(user_in: schemas.UserLogin, db: AsyncSession = Depends(deps.get_
 @router.get("/me", response_model=schemas.User)
 async def get_me(current_user: models.User = Depends(deps.get_current_user)):
     return current_user
+
+@router.post("/forgot-password")
+async def forgot_password(req: schemas.ForgotPasswordRequest, db: AsyncSession = Depends(deps.get_db)):
+    result = await db.execute(select(models.User).filter(models.User.email == req.email))
+    user = result.scalars().first()
+    
+    if user:
+        reset_token = security.create_reset_token(user.email)
+        # Mocking email sending by printing to console
+        print(f"\n[{'='*40}]")
+        print(f"MOCK EMAIL SENT TO: {user.email}")
+        print(f"RESET LINK: http://localhost:5173/reset-password?token={reset_token}")
+        print(f"[{'='*40}]\n")
+        
+    # Always return 200 for security reasons (don't reveal if email exists)
+    return {"message": "If this email is registered, a password reset link has been sent."}
+
+@router.post("/reset-password")
+async def reset_password(req: schemas.ResetPasswordRequest, db: AsyncSession = Depends(deps.get_db)):
+    email = security.verify_reset_token(req.token)
+    if not email:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired reset token.")
+        
+    result = await db.execute(select(models.User).filter(models.User.email == email))
+    user = result.scalars().first()
+    
+    if not user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid user.")
+        
+    user.password_hash = security.get_password_hash(req.new_password)
+    try:
+        await db.commit()
+    except Exception:
+        await db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to reset password.")
+        
+    return {"message": "Password successfully reset."}

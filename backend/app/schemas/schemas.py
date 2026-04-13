@@ -29,6 +29,13 @@ class Token(BaseModel):
     token_type: str
     user: Optional[User] = None
 
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
 # Workflow
 class WorkflowBase(BaseModel):
     name: str = Field(..., min_length=1)

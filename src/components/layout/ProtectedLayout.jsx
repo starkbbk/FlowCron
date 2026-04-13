@@ -29,6 +29,8 @@ const ProtectedLayout = () => {
     return <Navigate to="/login" replace />;
   }
 
+  const isEditorRoute = location.pathname.includes('/edit');
+
   return (
     <div className="min-h-screen relative bg-[#161618] selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
       <div className="mac-os-wallpaper" />
@@ -37,27 +39,32 @@ const ProtectedLayout = () => {
       {/* 
           Main content area - Precise transitions
           Rule: 260px sidebar width
+          Editor pages render full-bleed (no padding)
       */}
       <main
-        className="min-h-screen relative z-10 pt-4 md:pt-12 transition-all duration-300 ease-in-out"
-        style={{ paddingLeft: 'calc(var(--sidebar-width) + var(--sidebar-gap))' }}
+        className={`min-h-screen relative z-10 transition-all duration-300 ease-in-out ${isEditorRoute ? '' : 'pt-4 md:pt-12'}`}
+        style={{ paddingLeft: isEditorRoute ? 'var(--sidebar-width)' : 'calc(var(--sidebar-width) + var(--sidebar-gap))' }}
       >
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            className="pb-32 gpu-accel"
-            style={{ paddingLeft: '5%', paddingRight: '5%' }}
+            className={isEditorRoute ? 'gpu-accel' : 'pb-32 gpu-accel'}
+            style={isEditorRoute ? {} : { paddingLeft: '5%', paddingRight: '5%' }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <div 
-              className="mx-auto overflow-visible"
-              style={{ maxWidth: '1400px' }}
-            >
+            {isEditorRoute ? (
               <Outlet />
-            </div>
+            ) : (
+              <div 
+                className="mx-auto overflow-visible"
+                style={{ maxWidth: '1400px' }}
+              >
+                <Outlet />
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </main>

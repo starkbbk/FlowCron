@@ -30,7 +30,7 @@ export default function WorkflowsListPage() {
   const workflows = useWorkflowStore(state => state.workflows);
   const setWorkflows = useWorkflowStore(state => state.setWorkflows);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   const fetchWorkflows = async () => {
     setIsLoading(true);

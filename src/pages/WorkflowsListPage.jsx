@@ -156,45 +156,55 @@ export default function WorkflowsListPage() {
            </GlassButton>
         </GlassCard>
       ) : view === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
           <AnimatePresence mode="popLayout">
             {filteredWorkflows.map((wf) => (
-              <GlassCard 
+              <div 
                 key={wf.id} 
-                padding="standard"
-                className="flex flex-col h-[280px] group cursor-pointer bg-[#111113] border-[#27272a] hover:bg-[#18181b]"
+                className="flex flex-col group cursor-pointer hover:bg-white/5 transition-all"
+                style={{ 
+                  height: '340px', 
+                  padding: '28px', 
+                  backgroundColor: '#1c1c1e', 
+                  border: '1px solid rgba(255,255,255,0.1)', 
+                  borderRadius: '24px',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
+                }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
-                 <div className="flex justify-between items-start mb-6">
-                      <div className={`p-2.5 rounded-lg bg-[#18181b] border border-[#27272a] transition-colors group-hover:border-[#3b82f650] ${wf.status === 'active' ? 'text-[#3b82f6]' : 'text-[#52525b]'}`}>
-                         <GitBranch size={18} />
+                 <div className="flex justify-between items-start" style={{ marginBottom: '24px' }}>
+                      <div 
+                        className={`flex items-center justify-center border border-white/10 transition-colors group-hover:border-[#007aff]/30 ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
+                        style={{ width: '52px', height: '52px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}
+                      >
+                         <GitBranch size={24} />
                       </div>
                     <StatusBadge status={wf.status} size="small" />
                  </div>
                  
-                 <h3 className="text-[17px] font-bold text-[#fafafa] mb-2 group-hover:text-[#3b82f6] transition-colors truncate">
+                 <h3 className="font-extrabold text-white group-hover:text-[#007aff] transition-colors truncate" style={{ fontSize: '20px', marginBottom: '10px' }}>
                    {wf.name}
                  </h3>
-                 <p className="text-[14px] text-[#71717a] font-medium leading-relaxed mb-6 line-clamp-2 min-h-[40px]">
+                 <p className="text-[#86868b] font-medium line-clamp-2" style={{ fontSize: '15px', lineHeight: 1.6, minHeight: '48px', marginBottom: '20px' }}>
                    {wf.description || "No description provided for this workflow."}
                  </p>
 
-                 <div className="mt-auto pt-5 border-t border-[#1f1f23] flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                       <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">
-                          {getTriggerIcon(wf.trigger_type)}
+                 <div className="mt-auto flex items-center justify-between" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="flex items-center" style={{ gap: '12px' }}>
+                       <div className="flex items-center font-bold uppercase tracking-wider text-[#86868b]" style={{ gap: '8px', fontSize: '12px' }}>
+                          <span className="text-[#007aff]">{getTriggerIcon(wf.trigger_type)}</span>
                           <span>{wf.trigger_type}</span>
                        </div>
-                       <div className="w-1 h-1 rounded-full bg-[#27272a]" />
-                       <div className="text-[11px] font-medium text-[#52525b]">
+                       <div style={{ width: '4px', height: '4px', borderRadius: '2px', backgroundColor: 'rgba(255,255,255,0.15)' }} />
+                       <div className="font-medium text-[#52525b]" style={{ fontSize: '13px' }}>
                          {timeAgo(wf.last_executed_at)}
                        </div>
                     </div>
-                    <button className="p-2 text-[#52525b] hover:text-[#fafafa] transition-all">
-                       <MoreHorizontal size={18} />
+                    <button className="text-[#52525b] hover:text-white transition-all hover:bg-white/10" style={{ padding: '8px', borderRadius: '10px' }}>
+                       <MoreHorizontal size={20} />
                     </button>
                  </div>
-              </GlassCard>
+              </div>
             ))}
           </AnimatePresence>
         </div>

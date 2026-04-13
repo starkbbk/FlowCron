@@ -42,7 +42,7 @@ const Sidebar = () => {
       {/* Brand Section */}
       <div 
         className="flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ marginLeft: '24px', marginRight: '24px', marginTop: '40px', marginBottom: '32px' }}
+        style={{ marginLeft: collapsed ? '12px' : '24px', marginRight: collapsed ? '12px' : '24px', marginTop: '40px', marginBottom: '32px' }}
       >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />
@@ -89,7 +89,7 @@ const Sidebar = () => {
       {/* Primary Navigation */}
       <nav 
         className="flex-1 overflow-y-auto no-scrollbar scroll-smooth"
-        style={{ marginLeft: '24px', marginRight: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}
+        style={{ marginLeft: collapsed ? '12px' : '24px', marginRight: collapsed ? '12px' : '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}
       >
         {navItems.map((item) => (
           <NavLink
@@ -102,8 +102,9 @@ const Sidebar = () => {
             style={{ 
               paddingTop: '16px', 
               paddingBottom: '16px', 
-              paddingLeft: '24px', 
-              paddingRight: '24px' 
+              paddingLeft: collapsed ? '16px' : '24px', 
+              paddingRight: collapsed ? '16px' : '24px',
+              justifyContent: collapsed ? 'center' : 'flex-start'
             }}
           >
             <item.icon size={22} className="shrink-0" />
@@ -128,8 +129,8 @@ const Sidebar = () => {
       <div 
         className="bg-transparent border-t border-white/10"
         style={{ 
-          marginLeft: '24px', 
-          marginRight: '24px', 
+          marginLeft: collapsed ? '12px' : '24px', 
+          marginRight: collapsed ? '12px' : '24px', 
           paddingTop: '32px', 
           paddingBottom: '32px',
           display: 'flex',
@@ -139,7 +140,7 @@ const Sidebar = () => {
       >
         <div 
           className="flex items-center rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
-          style={{ padding: '20px' }}
+          style={{ padding: collapsed ? '12px' : '20px', justifyContent: collapsed ? 'center' : 'space-between' }}
         >
           <div 
             className="rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-inner"

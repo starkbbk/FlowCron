@@ -43,9 +43,13 @@ export default function LoginPage() {
     <div className="relative min-h-screen bg-[#161618] selection:bg-[#007aff]/30 overflow-hidden font-['Inter']">
       <div className="absolute inset-0 bg-gradient-to-tr from-[#007aff]/10 to-[#5856d6]/10 pointer-events-none" />
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20">
-        <div className="w-full max-w-[460px]">
-          <GlassCard variant="strong" padding="none" hover={false} className="overflow-hidden rounded-[40px] border border-white/10 bg-[#1e1e1e] shadow-2xl">
-            <div className="p-16">
+        <div className="w-full max-w-[500px]">
+          <GlassCard variant="strong" padding="none" hover={false} className="overflow-hidden rounded-[40px] border border-white/10 bg-[#1e1e1e]/90 backdrop-blur-3xl shadow-[0_0_120px_-20px_rgba(0,122,255,0.25)] relative transition-all duration-700 hover:shadow-[0_0_160px_-20px_rgba(0,122,255,0.4)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#007aff]/5 to-transparent opacity-50 pointer-events-none" />
+            <div 
+              className="relative z-10"
+              style={{ padding: '56px' }}
+            >
               {/* Logo Group */}
               <div className="flex flex-col items-center mb-16">
                 <Link to="/" className="mb-6 group">

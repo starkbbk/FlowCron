@@ -1,0 +1,20 @@
+/* FlowCron System Stylesheet */
+/* Core legacy overrides removed in favor of Clean SaaS Design */
+
+:root {
+  --sidebar-width: 280px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotate-x-6 {
+  transform: rotateX(6deg);
+}

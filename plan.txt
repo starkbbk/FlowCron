@@ -1,0 +1,1168 @@
+BUILD A COMPLETE FULL-STACK APPLICATION CALLED "FlowCron"
+
+================================================================================
+SECTION 1: WHAT IS FLOWCRON? (READ THIS CAREFULLY BEFORE BUILDING)
+================================================================================
+
+FlowCron is a VISUAL WORKFLOW AUTOMATION platform — similar to Zapier, Make.com, or n8n.
+
+HERE IS EXACTLY WHAT A USER DOES ON THIS WEBSITE:
+
+STEP 1: User opens the website → Sees a beautiful LANDING PAGE explaining what FlowCron does
+STEP 2: User clicks "Get Started" → Goes to SIGNUP page → Creates account with email & password
+STEP 3: User logs in → Sees DASHBOARD with their workflow stats and recent activity
+STEP 4: User clicks "Create New Workflow" → Opens the WORKFLOW EDITOR page
+STEP 5: On the editor, there is a BLANK CANVAS in the center (powered by React Flow library)
+STEP 6: On the LEFT side, there is a PALETTE of draggable blocks called "nodes" organized in categories:
+         - TRIGGERS (blue): "When should this workflow start?"
+         - ACTIONS (green): "What should this workflow DO?"
+         - CONDITIONS (yellow): "Should it go left or right based on a decision?"
+         - LOGIC (purple): "Wait, loop, transform data, run code"
+STEP 7: User DRAGS a Trigger node from the left palette → DROPS it on the canvas
+         For example: "Cron Schedule" trigger set to "Every 5 minutes"
+STEP 8: User DRAGS an Action node → DROPS it on canvas
+         For example: "HTTP Request" action set to GET https://api.example.com/status
+STEP 9: User DRAGS a Condition node → DROPS it on canvas
+         For example: "If/Else" checking if the HTTP response status_code equals 200
+STEP 10: User DRAGS more Action nodes:
+          - Connected to TRUE branch: "Send Slack Message" saying "Server is UP ✅"
+          - Connected to FALSE branch: "Send Email" saying "SERVER DOWN! ⚠️"
+STEP 11: User CONNECTS these nodes by drawing LINES from one node's output handle to another node's input handle
+          The final workflow looks like:
+
+          [Cron: Every 5min] → [HTTP Request] → [If status==200?]
+                                                      |          |
+                                                     TRUE      FALSE
+                                                      ↓          ↓
+                                               [Send Slack]  [Send Email]
+
+STEP 12: When user CLICKS on any node on the canvas, a CONFIGURATION PANEL appears on the RIGHT side
+          - For HTTP Request node: user fills in URL, method (GET/POST), headers, body
+          - For Cron trigger: user picks schedule using dropdowns (every 5 minutes, every hour, daily at 9am, etc.)
+          - For If/Else: user picks which field to check, what operator (equals, greater than, contains), and what value
+          - For Send Email: user fills in "to" email, subject, body text
+          - For Slack: user fills in webhook URL and message text
+STEP 13: User clicks the green "Execute ▶" button in the top toolbar
+STEP 14: The BACKEND receives the workflow (all nodes + all connections + all configurations)
+STEP 15: The backend EXECUTION ENGINE:
+          a) Looks at all nodes and connections to understand the order (builds a graph)
+          b) Finds the trigger node (starting point)
+          c) Executes the trigger node → gets output data
+          d) Moves to the next connected node → passes the trigger's output as input
+          e) Executes that node (e.g., makes the HTTP request) → gets output
+          f) Moves to next node → if it's a condition, evaluates TRUE or FALSE
+          g) Follows the correct branch → executes connected action nodes
+          h) Continues until all reachable nodes are executed
+          i) For EACH node that executes, it sends a REAL-TIME update via WebSocket
+STEP 16: On the frontend, a BOTTOM PANEL shows LIVE EXECUTION LOGS:
+          "✅ 10:30:01 — Cron Trigger started (0ms)"
+          "✅ 10:30:01 — HTTP Request to https://api.example.com → 200 OK (340ms)"
+          "✅ 10:30:02 — If/Else evaluated: status_code == 200 → TRUE (5ms)"
+          "✅ 10:30:02 — Send Slack: Message sent to #alerts (230ms)"
+          "✅ 10:30:02 — Workflow completed successfully in 575ms"
+STEP 17: While executing, the NODES ON THE CANVAS visually change:
+          - Currently running node: BLUE GLOW + pulse animation
+          - Completed node: GREEN GLOW + checkmark icon
+          - Failed node: RED GLOW + X icon
+          - Not yet reached: stays normal (gray)
+STEP 18: User can also SET the workflow to run AUTOMATICALLY:
+          - Cron: runs every X minutes/hours/days in the background
+          - Webhook: runs whenever someone sends an HTTP POST to a unique URL
+STEP 19: User goes to EXECUTION HISTORY page → sees a table of all past runs
+          Each row shows: workflow name, status (success/failed), duration, when it ran
+STEP 20: User clicks on a specific execution → sees the EXECUTION DETAIL page
+          Shows the canvas with nodes colored by their execution status + input/output data for each node
+
+THIS IS THE COMPLETE USER JOURNEY. Every page and feature must support this flow.
+
+================================================================================
+SECTION 2: DESIGN THEME — APPLE LIQUID GLASS
+================================================================================
+
+The ENTIRE application must use a futuristic "Apple Liquid Glass" design inspired by iOS 26 and macOS Tahoe. Here are the EXACT specifications:
+
+BACKGROUND (on EVERY page):
+- The base background is pure black: #000000
+- On top of the black background, there are 5 large, blurred, colorful circles (orbs) that float around slowly
+- These orbs create a beautiful, living, breathing colorful backdrop behind the glass UI elements
+- Orb specifications:
+  Orb 1: Color #007AFF (blue), diameter 400px, blur 120px, opacity 0.20, positioned top-left area, floats in a slow random path over 20 seconds, infinite loop
+  Orb 2: Color #AF52DE (purple), diameter 350px, blur 100px, opacity 0.18, positioned top-right area, floats over 25 seconds
+  Orb 3: Color #5AC8FA (teal), diameter 300px, blur 110px, opacity 0.15, positioned center area, floats over 18 seconds
+  Orb 4: Color #FF2D55 (pink), diameter 320px, blur 130px, opacity 0.17, positioned bottom-left, floats over 22 seconds
+  Orb 5: Color #34C759 (green), diameter 280px, blur 100px, opacity 0.16, positioned bottom-right, floats over 19 seconds
+- The orbs use CSS keyframe animations with smooth ease-in-out curves
+- The orbs are positioned with position:fixed, z-index:0 so they stay behind all content
+- Create this as a REUSABLE component called AnimatedBackground and place it in the root layout so it appears on every page
+
+GLASS EFFECT (applied to ALL cards, panels, modals, sidebars, navbars, dropdowns, tooltips):
+- background: rgba(255, 255, 255, 0.06) — very subtle white tint
+- backdrop-filter: blur(20px) saturate(180%) — this creates the frosted glass look by blurring the colorful orbs behind
+- -webkit-backdrop-filter: blur(20px) saturate(180%) — Safari support
+- border: 1px solid rgba(255, 255, 255, 0.12) — thin semi-transparent white border
+- border-radius: 20px — rounded corners
+- box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1) — depth shadow + inner top highlight
+- On hover: background becomes rgba(255, 255, 255, 0.1), add glow: box-shadow includes 0 0 30px rgba(0, 122, 255, 0.08)
+- At the very top edge of each glass card, add a 1px line with a subtle white gradient (left transparent, center white 15% opacity, right transparent) — this simulates light reflecting off the top of glass
+
+GLASS STRONG (for important cards like stat cards, main panels):
+- background: rgba(255, 255, 255, 0.1)
+- backdrop-filter: blur(40px) saturate(200%)
+- border: 1px solid rgba(255, 255, 255, 0.18)
+- border-radius: 24px
+
+BUTTONS:
+- Primary button: background is a gradient from #007AFF to #5856D6 (blue to purple), white text, border-radius 14px, on hover it scales to 1.02 and adds a blue glow shadow
+- Secondary button: background rgba(255,255,255,0.08) with glass blur, white text, subtle border
+- Danger button: gradient from #FF3B30 to #FF453A (red), white text
+- Success button: gradient from #34C759 to #30D158 (green), white text
+- All buttons have backdrop-filter blur, smooth 200ms transitions, and spring animation on click (scale down slightly then back)
+
+INPUTS:
+- background: rgba(255, 255, 255, 0.06)
+- backdrop-filter: blur(10px)
+- border: 1px solid rgba(255, 255, 255, 0.1)
+- border-radius: 12px
+- padding: 12px 16px
+- text color: white
+- placeholder color: rgba(255, 255, 255, 0.3)
+- On focus: border changes to #007AFF, add a subtle blue outer glow: box-shadow 0 0 0 3px rgba(0,122,255,0.15)
+
+TYPOGRAPHY:
+- Font family: 'Inter' from Google Fonts (import weights 300, 400, 500, 600, 700, 800)
+- All text is white (#FFFFFF) for primary, rgba(255,255,255,0.6) for secondary, rgba(255,255,255,0.4) for tertiary
+- Headings use font-weight 700-800 with negative letter-spacing (-0.02em to -0.03em) for that Apple tight look
+- Body text: 15px, weight 400, line-height 1.6
+- Apply -webkit-font-smoothing: antialiased globally for crisp text
+
+COLORS used throughout:
+- Blue #007AFF — primary actions, links, active states, trigger nodes
+- Green #34C759 — success, completed, running, action nodes
+- Red #FF3B30 — errors, failed, danger buttons
+- Yellow #FFCC00 — warnings, pending, condition nodes
+- Purple #AF52DE — special features, logic nodes
+- Teal #5AC8FA — info, secondary highlights
+- Gray #8E8E93 — disabled, inactive, placeholder
+
+STATUS DOTS:
+- Small 8px circles with the status color
+- Active/Running states have a PULSE animation: the dot scales from 1 to 1.5 and fades, repeating every 2 seconds
+- Success: static green dot with soft green glow
+- Failed: static red dot with soft red glow
+
+ANIMATIONS (use Framer Motion library for ALL of these):
+- Page transitions: when navigating between pages, old page fades out, new page fades in and slides up slightly (y goes from 20px to 0, opacity 0 to 1, duration 0.5s)
+- Card entrance: when a page loads, cards appear one by one with a stagger delay of 0.08 seconds between each card, each card fades in from below
+- Hover on cards: scale up to 1.02 with enhanced glow
+- Modals: backdrop fades in with blur, modal scales from 0.95 to 1 and fades in
+- Sidebar: slides in from left
+- Number counters on dashboard: numbers animate from 0 to their target value when the page loads
+- Loading states: show glass-styled skeleton placeholders with a shimmer animation (a gradient that moves across the surface from left to right)
+- Toasts: slide in from top-right corner
+- During workflow execution: nodes on canvas glow and pulse as they execute
+
+SCROLLBAR:
+- Width: 6px
+- Track: transparent
+- Thumb: rgba(255,255,255,0.15) with border-radius 3px
+- Thumb on hover: rgba(255,255,255,0.25)
+
+RESPONSIVE:
+- Desktop: full sidebar + canvas + right panel
+- Tablet (below 1024px): sidebar collapses, panels overlay
+- Mobile (below 768px): sidebar becomes bottom tab bar, single column layout
+- All touch targets minimum 44px
+
+================================================================================
+SECTION 3: TECH STACK
+================================================================================
+
+FRONTEND:
+- React 18 with Vite (fast dev server and build tool)
+- React Router v6 (for page navigation)
+- Tailwind CSS v4 (utility CSS classes for styling)
+- Framer Motion (for all animations described above)
+- @xyflow/react (React Flow) — this is the library for the drag-and-drop node canvas editor
+- Recharts (for the execution chart on dashboard)
+- Axios (for making API calls to the backend)
+- Zustand (lightweight state management — store auth state, workflow data, execution state)
+- Lucide React (icon library — consistent, clean icons)
+- React Hot Toast (for toast notifications)
+- React Hook Form (for form handling and validation)
+- date-fns (for formatting dates and times)
+
+BACKEND:
+- FastAPI (Python web framework — fast, modern, async)
+- SQLAlchemy 2.0 with async support (ORM for database)
+- SQLite database (simple, no external DB needed — file stored locally)
+- Alembic (database migrations)
+- python-jose (JWT token creation and verification)
+- passlib with bcrypt (password hashing)
+- HTTPX (async HTTP client — used when executing HTTP Request nodes)
+- Pydantic v2 (data validation for API request/response)
+- FastAPI WebSocket (for streaming real-time execution updates)
+- APScheduler (for running cron-scheduled workflows in the background)
+- smtplib or a mock (for email sending nodes)
+- uvicorn (ASGI server to run FastAPI)
+
+NO Docker required for development. Simple setup:
+- Frontend: npm run dev (runs on port 5173)
+- Backend: uvicorn app.main:app --reload (runs on port 8000)
+- Vite proxies /api and /ws to backend
+
+================================================================================
+SECTION 4: DATABASE SCHEMA (SQLite with SQLAlchemy)
+================================================================================
+
+TABLE: users
+- id: String, primary key, UUID generated on creation
+- email: String, unique, not null, indexed
+- username: String, unique, not null
+- password_hash: String, not null (bcrypt hashed)
+- is_active: Boolean, default True
+- created_at: DateTime, default current UTC time
+- updated_at: DateTime, default current UTC time, updates on modification
+
+TABLE: workflows
+- id: String, primary key, UUID
+- user_id: String, foreign key referencing users.id, indexed
+- name: String, not null, default "Untitled Workflow"
+- description: String, nullable
+- status: String, one of "draft", "active", "paused" — default "draft"
+  (draft = just created/editing, active = cron/webhook enabled, paused = temporarily disabled)
+- trigger_type: String, one of "manual", "cron", "webhook" — default "manual"
+- cron_expression: String, nullable (e.g., "*/5 * * * *" means every 5 minutes)
+- cron_timezone: String, default "UTC"
+- webhook_token: String, nullable, unique (a random UUID string used as the webhook URL identifier)
+- nodes_data: JSON (stores the entire array of React Flow nodes — each node has: id, type, position {x,y}, data {label, config, nodeType})
+- edges_data: JSON (stores the entire array of React Flow edges — each edge has: id, source, target, sourceHandle, targetHandle)
+- last_executed_at: DateTime, nullable
+- total_executions: Integer, default 0
+- success_count: Integer, default 0
+- failure_count: Integer, default 0
+- created_at: DateTime, default now
+- updated_at: DateTime, default now
+
+TABLE: executions
+- id: String, primary key, UUID
+- workflow_id: String, foreign key referencing workflows.id, indexed
+- user_id: String, foreign key referencing users.id
+- status: String, one of "queued", "running", "completed", "failed", "cancelled" — default "queued"
+- trigger_type: String (what triggered: "manual", "cron", "webhook")
+- trigger_data: JSON, nullable (for webhook: the incoming request body/headers)
+- started_at: DateTime, nullable
+- completed_at: DateTime, nullable
+- duration_ms: Integer, nullable (total time in milliseconds)
+- error_message: String, nullable
+- nodes_completed: Integer, default 0
+- nodes_failed: Integer, default 0
+- nodes_total: Integer, default 0
+- created_at: DateTime, default now
+- INDEX on (workflow_id, created_at DESC) for fast querying recent executions
+
+TABLE: node_executions
+- id: String, primary key, UUID
+- execution_id: String, foreign key referencing executions.id, indexed
+- node_id: String, not null (the React Flow node ID like "node_1", "node_2")
+- node_type: String, not null (e.g., "http_request", "if_condition", "send_email")
+- node_label: String, nullable (human-readable name)
+- status: String, one of "pending", "running", "completed", "failed", "skipped" — default "pending"
+- input_data: JSON, nullable (the data this node received from parent nodes)
+- output_data: JSON, nullable (the data this node produced after execution)
+- config_data: JSON, nullable (the node's configuration at time of execution)
+- error_message: String, nullable
+- started_at: DateTime, nullable
+- completed_at: DateTime, nullable
+- duration_ms: Integer, nullable
+- created_at: DateTime, default now
+- INDEX on (execution_id, node_id)
+
+TABLE: activity_logs
+- id: String, primary key, UUID
+- user_id: String, foreign key referencing users.id, indexed
+- action: String, not null (e.g., "workflow.created", "workflow.executed", "workflow.deleted", "user.login")
+- resource_type: String, nullable (e.g., "workflow", "execution")
+- resource_id: String, nullable
+- metadata: JSON, nullable
+- created_at: DateTime, default now
+
+================================================================================
+SECTION 5: ALL API ENDPOINTS (Backend Routes)
+================================================================================
+
+All endpoints return JSON. Protected endpoints require Authorization: Bearer <jwt_token> header.
+
+--- AUTHENTICATION ---
+
+POST /api/auth/signup
+  Request body: { "email": "user@example.com", "username": "shivanand", "password": "MyPass123!" }
+  Validation: email must be valid format, username min 3 chars, password min 8 chars
+  Action: hash password with bcrypt, create user in DB
+  Response 201: { "id": "uuid", "email": "...", "username": "...", "access_token": "jwt...", "token_type": "bearer" }
+  Error 400: { "detail": "Email already registered" }
+
+POST /api/auth/login
+  Request body: { "email": "user@example.com", "password": "MyPass123!" }
+  Action: verify email exists, verify password hash matches
+  Response 200: { "id": "uuid", "email": "...", "username": "...", "access_token": "jwt...", "token_type": "bearer" }
+  Error 401: { "detail": "Invalid email or password" }
+
+GET /api/auth/me (Protected)
+  Action: decode JWT, fetch user from DB
+  Response 200: { "id": "uuid", "email": "...", "username": "...", "created_at": "..." }
+
+PUT /api/auth/me (Protected)
+  Request body: { "username": "new_name" } (partial update)
+  Response 200: updated user object
+
+--- WORKFLOWS ---
+
+GET /api/workflows (Protected)
+  Query params: ?status=active&search=keyword&page=1&limit=20
+  Action: fetch workflows belonging to current user, with optional filters
+  Response 200: { "workflows": [...], "total": 25, "page": 1, "limit": 20 }
+  Each workflow object: { "id", "name", "description", "status", "trigger_type", "total_executions", "success_count", "failure_count", "last_executed_at", "created_at", "updated_at" }
+
+POST /api/workflows (Protected)
+  Request body: { "name": "My Workflow", "description": "optional" }
+  Action: create workflow with empty nodes_data=[] and edges_data=[], status="draft", generate webhook_token
+  Response 201: full workflow object
+
+GET /api/workflows/{workflow_id} (Protected)
+  Action: fetch workflow including nodes_data and edges_data (the full canvas state)
+  Response 200: full workflow object with nodes_data and edges_data
+  Error 404: workflow not found or doesn't belong to user
+
+PUT /api/workflows/{workflow_id} (Protected)
+  Request body: any combination of { "name", "description", "status", "trigger_type", "cron_expression", "nodes_data", "edges_data" }
+  This is called when user saves the workflow from the editor — it saves all the nodes and connections
+  Response 200: updated workflow object
+
+DELETE /api/workflows/{workflow_id} (Protected)
+  Action: delete workflow and all its executions and node_executions
+  Response 200: { "message": "Workflow deleted" }
+
+POST /api/workflows/{workflow_id}/execute (Protected)
+  Action: this is the MAIN execution trigger
+  1. Fetch the workflow with its nodes_data and edges_data
+  2. Create a new Execution record with status "queued"
+  3. Start executing the workflow (see execution engine below)
+  4. Return immediately with the execution ID (execution happens async or in background)
+  Response 202: { "execution_id": "uuid", "message": "Workflow execution started" }
+
+POST /api/workflows/{workflow_id}/activate (Protected)
+  Action: set workflow status to "active" — enables cron scheduling or webhook listening
+  If trigger_type is "cron": register the cron job with APScheduler
+  Response 200: { "message": "Workflow activated" }
+
+POST /api/workflows/{workflow_id}/pause (Protected)
+  Action: set workflow status to "paused" — stops cron scheduling
+  Response 200: { "message": "Workflow paused" }
+
+GET /api/workflows/{workflow_id}/webhook-url (Protected)
+  Response 200: { "webhook_url": "https://your-backend.com/api/webhooks/{webhook_token}" }
+
+--- EXECUTIONS ---
+
+GET /api/workflows/{workflow_id}/executions (Protected)
+  Query params: ?status=failed&page=1&limit=20
+  Action: fetch executions for this workflow, newest first
+  Response 200: { "executions": [...], "total": 50, "page": 1, "limit": 20 }
+
+GET /api/executions/{execution_id} (Protected)
+  Action: fetch execution details
+  Response 200: full execution object
+
+GET /api/executions/{execution_id}/nodes (Protected)
+  Action: fetch all node_execution records for this execution
+  Response 200: { "node_executions": [...] }
+  Each: { "node_id", "node_type", "node_label", "status", "input_data", "output_data", "error_message", "duration_ms", "started_at", "completed_at" }
+
+GET /api/executions/recent (Protected)
+  Action: fetch last 20 executions across all user's workflows
+  Response 200: { "executions": [...] }
+
+--- WEBHOOKS ---
+
+POST /api/webhooks/{webhook_token} (PUBLIC — NO authentication required)
+  This endpoint is called by external services (like GitHub, Stripe, etc.)
+  Action:
+  1. Find the workflow that has this webhook_token
+  2. If found and workflow is active:
+     - Create execution with trigger_type="webhook", trigger_data= the request body and headers
+     - Start executing the workflow
+     - Respond 200: { "execution_id": "uuid", "message": "Workflow triggered" }
+  3. If not found: respond 404
+
+--- DASHBOARD ---
+
+GET /api/dashboard/overview (Protected)
+  Response 200: {
+    "total_workflows": 12,
+    "active_workflows": 8,
+    "total_executions_today": 45,
+    "success_rate": 94.5,
+    "recent_executions": [...last 5 executions across all workflows...],
+    "execution_chart_data": [
+      { "date": "2025-06-14", "success": 12, "failed": 1 },
+      { "date": "2025-06-15", "success": 15, "failed": 0 },
+      ... last 7 days ...
+    ]
+  }
+
+--- NODE TYPES ---
+
+GET /api/node-types (Protected)
+  Response 200: returns the list of all available node types with their metadata:
+  {
+    "node_types": [
+      {
+        "id": "manual_trigger",
+        "category": "trigger",
+        "name": "Manual Trigger",
+        "description": "Run workflow manually with a button click",
+        "icon": "Play",
+        "color": "#007AFF",
+        "config_fields": []
+      },
+      {
+        "id": "cron_trigger",
+        "category": "trigger",
+        "name": "Schedule (Cron)",
+        "description": "Run workflow on a time schedule",
+        "icon": "Clock",
+        "color": "#007AFF",
+        "config_fields": [
+          { "name": "interval_type", "type": "select", "options": ["minutes", "hours", "days"], "default": "minutes", "label": "Run Every" },
+          { "name": "interval_value", "type": "number", "default": 5, "label": "Interval", "min": 1, "max": 1440 },
+          { "name": "at_time", "type": "time", "label": "At Time (for daily)", "required_if": "interval_type=days" }
+        ]
+      },
+      {
+        "id": "webhook_trigger",
+        "category": "trigger",
+        "name": "Webhook",
+        "description": "Run workflow when an HTTP request is received",
+        "icon": "Webhook",
+        "color": "#007AFF",
+        "config_fields": []
+      },
+      {
+        "id": "http_request",
+        "category": "action",
+        "name": "HTTP Request",
+        "description": "Make an HTTP request to any URL",
+        "icon": "Globe",
+        "color": "#34C759",
+        "config_fields": [
+          { "name": "url", "type": "text", "label": "URL", "placeholder": "https://api.example.com/data", "required": true },
+          { "name": "method", "type": "select", "options": ["GET", "POST", "PUT", "DELETE", "PATCH"], "default": "GET", "label": "Method" },
+          { "name": "headers", "type": "key_value_pairs", "label": "Headers", "placeholder_key": "Content-Type", "placeholder_value": "application/json" },
+          { "name": "body", "type": "json_editor", "label": "Request Body", "show_if": "method!=GET" },
+          { "name": "timeout", "type": "number", "label": "Timeout (seconds)", "default": 30 }
+        ]
+      },
+      {
+        "id": "send_email",
+        "category": "action",
+        "name": "Send Email",
+        "description": "Send an email notification",
+        "icon": "Mail",
+        "color": "#34C759",
+        "config_fields": [
+          { "name": "to", "type": "text", "label": "To Email", "required": true },
+          { "name": "subject", "type": "text", "label": "Subject", "required": true },
+          { "name": "body", "type": "textarea", "label": "Email Body", "required": true }
+        ]
+      },
+      {
+        "id": "send_slack",
+        "category": "action",
+        "name": "Slack Message",
+        "description": "Send a message to Slack channel",
+        "icon": "MessageSquare",
+        "color": "#34C759",
+        "config_fields": [
+          { "name": "webhook_url", "type": "text", "label": "Slack Webhook URL", "required": true },
+          { "name": "message", "type": "textarea", "label": "Message", "required": true }
+        ]
+      },
+      {
+        "id": "send_discord",
+        "category": "action",
+        "name": "Discord Message",
+        "description": "Send a message to Discord channel",
+        "icon": "MessageCircle",
+        "color": "#34C759",
+        "config_fields": [
+          { "name": "webhook_url", "type": "text", "label": "Discord Webhook URL", "required": true },
+          { "name": "content", "type": "textarea", "label": "Message Content", "required": true }
+        ]
+      },
+      {
+        "id": "if_condition",
+        "category": "condition",
+        "name": "If / Else",
+        "description": "Branch workflow based on a condition",
+        "icon": "GitBranch",
+        "color": "#FFCC00",
+        "config_fields": [
+          { "name": "field", "type": "text", "label": "Field to Check", "placeholder": "{{node_1.output.status_code}}", "required": true },
+          { "name": "operator", "type": "select", "options": ["equals", "not_equals", "greater_than", "less_than", "contains", "not_contains", "is_empty", "is_not_empty"], "label": "Operator", "required": true },
+          { "name": "value", "type": "text", "label": "Compare Value", "placeholder": "200" }
+        ]
+      },
+      {
+        "id": "switch_condition",
+        "category": "condition",
+        "name": "Switch",
+        "description": "Branch into multiple paths based on value",
+        "icon": "GitMerge",
+        "color": "#FFCC00",
+        "config_fields": [
+          { "name": "field", "type": "text", "label": "Field to Check", "required": true },
+          { "name": "cases", "type": "case_list", "label": "Cases" }
+        ]
+      },
+      {
+        "id": "delay_node",
+        "category": "logic",
+        "name": "Delay",
+        "description": "Wait for specified time before continuing",
+        "icon": "Timer",
+        "color": "#AF52DE",
+        "config_fields": [
+          { "name": "delay_seconds", "type": "number", "label": "Delay (seconds)", "default": 5, "min": 1, "max": 300 }
+        ]
+      },
+      {
+        "id": "transform_node",
+        "category": "logic",
+        "name": "Transform Data",
+        "description": "Reshape or map data from previous nodes",
+        "icon": "Wand2",
+        "color": "#AF52DE",
+        "config_fields": [
+          { "name": "template", "type": "json_editor", "label": "Output Template", "placeholder": "{ \"name\": \"{{node_1.output.user.name}}\" }" }
+        ]
+      },
+      {
+        "id": "code_node",
+        "category": "logic",
+        "name": "Run Code",
+        "description": "Execute custom JavaScript code",
+        "icon": "Code",
+        "color": "#AF52DE",
+        "config_fields": [
+          { "name": "code", "type": "code_editor", "label": "JavaScript Code", "placeholder": "// input contains data from previous node\nreturn { result: input.value * 2 };" }
+        ]
+      },
+      {
+        "id": "filter_node",
+        "category": "logic",
+        "name": "Filter",
+        "description": "Filter items in an array",
+        "icon": "Filter",
+        "color": "#AF52DE",
+        "config_fields": [
+          { "name": "array_field", "type": "text", "label": "Array Field", "placeholder": "{{node_1.output.items}}" },
+          { "name": "condition_field", "type": "text", "label": "Item Field to Check" },
+          { "name": "operator", "type": "select", "options": ["equals", "not_equals", "greater_than", "less_than", "contains"], "label": "Operator" },
+          { "name": "value", "type": "text", "label": "Value" }
+        ]
+      }
+    ]
+  }
+
+--- WEBSOCKET ---
+
+WebSocket endpoint: WS /ws/executions/{execution_id}
+
+When a client connects:
+1. Server sends the current state of all node_executions for this execution
+2. As the execution engine processes each node, it sends an update message:
+   {
+     "type": "node_started",
+     "data": {
+       "node_id": "node_3",
+       "node_type": "http_request",
+       "node_label": "Check API",
+       "status": "running",
+       "timestamp": "2025-06-20T10:30:01Z"
+     }
+   }
+3. When a node completes:
+   {
+     "type": "node_completed",
+     "data": {
+       "node_id": "node_3",
+       "node_type": "http_request",
+       "node_label": "Check API",
+       "status": "completed",
+       "output_data": { "status_code": 200, "body": {...}, "response_time_ms": 340 },
+       "duration_ms": 342,
+       "timestamp": "2025-06-20T10:30:01Z"
+     }
+   }
+4. When a node fails:
+   {
+     "type": "node_failed",
+     "data": {
+       "node_id": "node_3",
+       "status": "failed",
+       "error_message": "Connection timeout after 30s",
+       "timestamp": "..."
+     }
+   }
+5. When entire execution completes:
+   {
+     "type": "execution_completed",
+     "data": {
+       "execution_id": "uuid",
+       "status": "completed",
+       "duration_ms": 1250,
+       "nodes_completed": 4,
+       "nodes_failed": 0,
+       "nodes_total": 4
+     }
+   }
+6. Server sends heartbeat ping every 30 seconds to keep connection alive
+7. Client should auto-reconnect if disconnected (with exponential backoff: 1s, 2s, 4s, max 30s)
+
+================================================================================
+SECTION 6: EXECUTION ENGINE — HOW THE BACKEND RUNS WORKFLOWS
+================================================================================
+
+This is the most important backend feature. Here is the EXACT algorithm:
+
+FUNCTION execute_workflow(workflow_id, trigger_type, trigger_data):
+
+  STEP 1: Fetch the workflow from database (including nodes_data and edges_data)
+  
+  STEP 2: Create an Execution record with status="running", started_at=now()
+  
+  STEP 3: Parse nodes_data into a list of nodes. Each node has:
+    - id: unique string like "node_1", "node_2"
+    - type: the node type like "http_request", "if_condition"
+    - data.config: the user's configuration for this node (URL, email, condition, etc.)
+  
+  STEP 4: Parse edges_data into a list of connections. Each edge has:
+    - source: the source node ID
+    - target: the target node ID
+    - sourceHandle: which output handle (for condition nodes: "true" or "false")
+  
+  STEP 5: Build an adjacency graph (which node connects to which) from the edges
+  
+  STEP 6: Find the TRIGGER node (the node with type ending in "_trigger") — this is the starting point
+  
+  STEP 7: Create a node_execution record for EACH node with status="pending"
+  
+  STEP 8: Execute the trigger node:
+    - For manual_trigger: output = { triggered_at: now(), triggered_by: "manual" }
+    - For cron_trigger: output = { triggered_at: now(), schedule: cron_expression }
+    - For webhook_trigger: output = trigger_data (the incoming webhook payload)
+    - Save output_data to node_execution, set status="completed"
+    - Broadcast via WebSocket: node_started, then node_completed
+  
+  STEP 9: BFS/DFS from trigger node through the graph:
+    For each next connected node (found via edges where source == current node):
+    
+    a) Collect INPUT DATA: gather output_data from ALL parent nodes (nodes that have edges pointing to this node)
+       Merge them into a single input object: { node_1: { output: {...} }, node_2: { output: {...} } }
+    
+    b) RESOLVE VARIABLES: scan the node's config for any {{variable}} patterns
+       Replace {{node_1.output.status_code}} with the actual value from node_1's output
+       Use dot-path resolution: "node_1.output.body.data.name" → traverse the nested objects
+       If variable not found, replace with null
+    
+    c) Broadcast via WebSocket: { type: "node_started", node_id, status: "running" }
+       Update node_execution status="running", started_at=now()
+    
+    d) EXECUTE THE NODE based on its type:
+    
+       IF type == "http_request":
+         - Use HTTPX library to make the HTTP request
+         - URL: config.url (after variable resolution)
+         - Method: config.method
+         - Headers: config.headers (dict)
+         - Body: config.body (if POST/PUT)
+         - Timeout: config.timeout seconds
+         - OUTPUT: { status_code: 200, headers: {...}, body: {...}, response_time_ms: 340 }
+         - If request fails (timeout, connection error): mark as FAILED with error message
+       
+       IF type == "send_email":
+         - In development: just LOG the email (print to console) and return success
+         - In production: use smtplib or Resend API
+         - OUTPUT: { sent: true, to: config.to, subject: config.subject }
+       
+       IF type == "send_slack":
+         - Use HTTPX to POST to config.webhook_url with JSON body: { "text": config.message }
+         - OUTPUT: { sent: true, status_code: response.status_code }
+       
+       IF type == "send_discord":
+         - Use HTTPX to POST to config.webhook_url with JSON body: { "content": config.content }
+         - OUTPUT: { sent: true }
+       
+       IF type == "if_condition":
+         - Get the field value (resolve variable from config.field)
+         - Compare with config.value using config.operator:
+           equals: field_value == config.value
+           not_equals: field_value != config.value
+           greater_than: float(field_value) > float(config.value)
+           less_than: float(field_value) < float(config.value)
+           contains: config.value in str(field_value)
+           is_empty: field_value is None or field_value == ""
+         - OUTPUT: { condition_result: true/false, evaluated_field: field_value }
+         - IMPORTANT: Only follow edges where sourceHandle matches the result
+           If condition is TRUE: follow edges with sourceHandle="true"
+           If condition is FALSE: follow edges with sourceHandle="false"
+           Nodes on the other branch should be marked as "skipped"
+       
+       IF type == "switch_condition":
+         - Similar to if_condition but with multiple cases
+         - Match field_value against each case value
+         - Follow the edge for the matching case (or default)
+         - Skip all other branches
+       
+       IF type == "delay_node":
+         - Sleep for config.delay_seconds (use asyncio.sleep)
+         - OUTPUT: { delayed_seconds: config.delay_seconds, resumed_at: now() }
+       
+       IF type == "transform_node":
+         - Take the template from config.template
+         - Resolve all {{variables}} in it
+         - OUTPUT: the resolved template as a JSON object
+       
+       IF type == "code_node":
+         - WARNING: Do NOT use eval() — it's unsafe
+         - Instead, parse simple expressions or use a restricted Python exec with limited globals
+         - Provide "input" variable containing data from parent nodes
+         - OUTPUT: whatever the code returns
+         - If code has syntax error: mark as failed
+       
+       IF type == "filter_node":
+         - Get the array from config.array_field (resolve variable)
+         - Filter items where item[config.condition_field] matches config.operator and config.value
+         - OUTPUT: { filtered: [...], original_count: X, filtered_count: Y }
+    
+    e) After execution:
+       - Save output_data to node_execution
+       - Set status = "completed" or "failed"
+       - Set completed_at = now()
+       - Calculate duration_ms
+       - Broadcast via WebSocket: node_completed or node_failed
+    
+    f) If node FAILED:
+       - Mark the execution as "failed" with error message
+       - Skip all remaining downstream nodes (mark them as "skipped")
+       - Broadcast execution_completed with status "failed"
+       - STOP execution
+    
+    g) If node SUCCEEDED:
+       - Find all next connected nodes (via edges where source == this node)
+       - For condition nodes: only follow edges matching the condition result
+       - Add next nodes to the execution queue
+       - Continue processing
+  
+  STEP 10: After all reachable nodes are processed:
+    - Set execution status = "completed"
+    - Set completed_at = now()
+    - Calculate total duration_ms
+    - Update workflow: total_executions++, success_count++, last_executed_at = now()
+    - Broadcast via WebSocket: execution_completed
+  
+  STEP 11: If ANY error occurs during execution:
+    - Set execution status = "failed"
+    - Set error_message
+    - Update workflow: total_executions++, failure_count++
+    - Broadcast execution_completed with status "failed"
+
+================================================================================
+SECTION 7: ALL PAGES — DETAILED LAYOUT AND BEHAVIOR
+================================================================================
+
+--- PAGE 1: LANDING PAGE (route: /) ---
+
+This page is visible to EVERYONE (no login required).
+Purpose: explain what FlowCron is and convince visitors to sign up.
+
+Layout from top to bottom:
+
+NAVBAR (fixed at top, glass effect):
+- Left: FlowCron logo (a simple icon + "FlowCron" text in bold)
+- Center: nav links — "Features", "How It Works" (these are anchor links that scroll to sections on this page)
+- Right: "Login" button (ghost/text style) + "Get Started" button (primary blue gradient)
+
+HERO SECTION (centered, large):
+- Main heading (48px, weight 800): "Automate Everything." on line 1, "Code Nothing." on line 2
+  The words "Everything" and "Nothing" should have a gradient text effect (blue to purple)
+- Subheading (18px, weight 400, secondary text color):
+  "Build powerful automated workflows with a visual drag-and-drop editor. Connect APIs, schedule tasks, and let FlowCron handle the rest."
+- Two buttons side by side:
+  - "Start Building — Free" (primary button with arrow icon)
+  - "Watch Demo" (secondary button with play icon)
+- Below buttons: small text "No credit card required • Free forever for personal use"
+- Below text: a large glass card showing a STATIC mockup/screenshot of the workflow editor
+  (this can be an image or a styled div showing a simplified workflow with 3-4 connected nodes)
+- The entire hero section should have a fade-in + slide-up animation on page load
+
+FEATURES SECTION:
+- Section heading: "Why FlowCron?" centered
+- 4 feature cards in a 2x2 grid (each card is a glass card):
+  Card 1: Icon: Workflow, Title: "Visual Workflow Builder", Description: "Drag, drop, and connect nodes to create complex automation flows — no coding required."
+  Card 2: Icon: Clock, Title: "Smart Scheduling", Description: "Run workflows every minute, hourly, daily, or trigger them via webhooks from any service."
+  Card 3: Icon: Zap, Title: "Real-time Execution", Description: "Watch your workflows execute live with step-by-step progress and detailed logs."
+  Card 4: Icon: Plug, Title: "Connect Anything", Description: "HTTP APIs, Email, Slack, Discord — connect to any service with built-in action nodes."
+- Cards should stagger in with animation when scrolled into view
+
+HOW IT WORKS SECTION:
+- Section heading: "How It Works" centered
+- 3 steps in a horizontal row with connecting dotted line between them:
+  Step 1: Number "1" in blue circle, Title: "Design Your Flow", Description: "Drag trigger and action nodes onto the canvas and connect them visually."
+  Step 2: Number "2" in blue circle, Title: "Configure Nodes", Description: "Click any node to set its URL, conditions, email, or schedule."
+  Step 3: Number "3" in blue circle, Title: "Activate & Relax", Description: "Hit execute or set a schedule. FlowCron runs it automatically."
+
+FOOTER:
+- Glass card spanning full width
+- Left: FlowCron logo + "Built with ❤️ by Shivanand Verma"
+- Right: links to GitHub, LinkedIn
+
+--- PAGE 2: LOGIN (route: /login) ---
+
+If user is already logged in (has valid JWT), redirect to /dashboard.
+
+Layout:
+- AnimatedBackground behind everything
+- Centered glass-strong card, max-width 420px, padding 40px
+- Top: FlowCron logo centered
+- Heading: "Welcome back" (24px, weight 700, centered)
+- Subheading: "Sign in to your account" (secondary text, centered)
+- 20px gap
+- Email input with Mail icon (glass input style)
+- 12px gap
+- Password input with Lock icon (glass input style, type="password", with eye icon toggle to show/hide)
+- 12px gap
+- Row: "Remember me" checkbox on left, "Forgot password?" link on right (secondary text)
+- 20px gap
+- "Sign In" button (primary, full width)
+- 20px gap
+- Divider line with "or" text in center
+- "Continue with GitHub" button (secondary, full width, with GitHub icon) — this can be non-functional for now, just UI
+- 30px gap
+- Bottom text: "Don't have an account?" + "Sign up" link (blue text, navigates to /signup)
+
+Form validation:
+- Email: required, must be valid email format
+- Password: required, minimum 6 characters
+- Show error messages below each field in red if validation fails
+- Show toast notification on successful login or error
+
+On submit:
+- Show loading spinner on button
+- Call POST /api/auth/login
+- On success: store JWT token in localStorage as "flowcron_token", store user data in Zustand auth store, redirect to /dashboard
+- On error: show error toast with message from API
+
+--- PAGE 3: SIGNUP (route: /signup) ---
+
+If user is already logged in, redirect to /dashboard.
+
+Same glass card layout as login, with these fields:
+- Username input (User icon)
+- Email input (Mail icon)
+- Password input (Lock icon) with strength indicator below:
+  - A small bar that fills: red (weak: <8 chars), yellow (medium: 8+ chars), green (strong: 8+ chars + number + special char)
+  - Text below bar: "Weak" / "Medium" / "Strong" matching the color
+- Confirm Password input (Lock icon)
+- "I agree to the Terms & Conditions" checkbox
+- "Create Account" button (primary, full width)
+- "Already have an account?" + "Sign in" link
+
+Validation:
+- Username: required, min 3 characters
+- Email: required, valid format
+- Password: required, min 8 characters
+- Confirm password: must match password
+- Terms checkbox: must be checked
+- Show all errors inline below fields
+
+On submit:
+- Call POST /api/auth/signup
+- On success: store token, redirect to /dashboard
+- On error: show toast
+
+--- PAGE 4: DASHBOARD (route: /dashboard) [Protected] ---
+
+Protected means: if no valid JWT token is stored, redirect to /login.
+
+Layout:
+
+LEFT: GLASS SIDEBAR (width 260px, full height, glass-strong, position fixed)
+- Top: FlowCron logo + "FlowCron" text (font-weight 800, 20px)
+- 30px gap
+- Navigation items (each is a row with icon + label):
+  1. LayoutDashboard icon + "Dashboard" — active state: left 3px blue border, blue text, blue bg glow
+  2. GitBranch icon + "Workflows"
+  3. Play icon + "Executions"
+  4. Activity icon + "Activity"
+  5. Settings icon + "Settings"
+  Each item: padding 12px 16px, border-radius 12px, font-weight 500
+  Inactive: text rgba(255,255,255,0.6), on hover: text rgba(255,255,255,0.8) and subtle bg
+  Active: text #007AFF, bg rgba(0,122,255,0.12), left border 3px solid #007AFF
+  Clicking navigates to the respective route
+- Bottom of sidebar: User section
+  - Small avatar circle (first letter of username, blue bg)
+  - Username text
+  - Logout button (icon only, on click: clear token, redirect to /login)
+
+RIGHT: MAIN CONTENT (margin-left 260px, padding 32px)
+
+Top row:
+- "Welcome back, {username}! 👋" heading (24px, weight 700)
+- Right side: "New Workflow" button (primary, with Plus icon, navigates to /workflows/new or creates new workflow and redirects to editor)
+
+Stats row (4 glass cards in a grid, gap 16px):
+- Card 1: "Total Workflows" — icon Workflow in blue, large number animated from 0 to actual value
+- Card 2: "Active" — icon CheckCircle in green, number (workflows with status "active"), green glow
+- Card 3: "Executions Today" — icon Play in teal, number
+- Card 4: "Success Rate" — icon TrendingUp in purple, percentage (success_count / total_executions * 100)
+Each stat card: glass effect, padding 24px, the number is 36px font-weight 800, label is 13px secondary text below
+
+Chart section (glass card, full width):
+- Title: "Executions This Week" (inside the card, top left)
+- Recharts AreaChart showing executions per day for the last 7 days
+- Two areas: "Success" (green, gradient fill from green to transparent) and "Failed" (red, gradient fill)
+- X-axis: day names (Mon, Tue, Wed...)
+- Y-axis: count
+- Glass-styled tooltip on hover (glass background, white text)
+- The chart area fills itself in with an animation on mount
+
+Bottom section (two columns, gap 16px):
+- LEFT column (60%): "Recent Workflows" glass card
+  - List of top 5 workflows by last_updated
+  - Each row: glass-subtle card with workflow name (bold), status badge, trigger type badge, "X executions", last run time
+  - Clicking a workflow navigates to /workflows/{id}/edit
+  - "View All Workflows →" link at bottom navigates to /workflows
+  
+- RIGHT column (40%): "Recent Activity" glass card
+  - Scrollable list of recent activity items
+  - Each item: colored icon (based on action type), description text, relative time
+  - Examples:
+    "✅ YouTube Bot executed successfully — 2 min ago"
+    "📝 Daily Report workflow created — 1 hour ago"
+    "❌ Slack Alert execution failed — 3 hours ago"
+
+--- PAGE 5: WORKFLOWS LIST (route: /workflows) [Protected] ---
+
+Top:
+- "Workflows" heading (left)
+- Search input (glass input, Search icon, placeholder "Search workflows...") — filters workflows by name
+- "New Workflow" primary button with Plus icon (right)
+
+Filter tabs (below heading):
+- Horizontal tabs: "All" | "Active" | "Paused" | "Draft"
+- Active tab has blue underline indicator that SLIDES smoothly between tabs using Framer Motion
+- Clicking a tab filters the list
+
+Workflow grid (responsive: 3 columns on desktop, 2 on tablet, 1 on mobile, gap 16px):
+Each workflow card (glass effect):
+- Top: Workflow name (18px, weight 600) + three-dot menu icon on right
+  Three-dot menu dropdown (glass dropdown): "Edit", "Duplicate", "Export JSON", "Delete" (red text)
+- Description text (14px, secondary, max 2 lines with ellipsis overflow)
+- Row of badges:
+  - Status badge: "Active" (green bg pill), "Paused" (yellow), "Draft" (gray)
+  - Trigger badge: "Manual" (blue), "Cron" (purple), "Webhook" (teal)
+- Stats row: "{total_executions} runs" + "{success_rate}% success" (small text)
+- Bottom: "Last run: 5 min ago" or "Never executed" (tertiary text)
+- CLICK anywhere on card → navigate to /workflows/{id}/edit (the editor)
+
+Empty state (when user has zero workflows):
+- Centered on page
+- Large icon (Workflow or Plus)
+- Heading: "No workflows yet"
+- Text: "Create your first automated workflow to get started"
+- "Create Workflow" primary button
+
+When "New Workflow" is clicked:
+- Call POST /api/workflows to create a new blank workflow
+- On success: navigate to /workflows/{new_id}/edit
+
+--- PAGE 6: WORKFLOW EDITOR (route: /workflows/{id}/edit) [Protected] ★★★ MOST IMPORTANT PAGE ★★★ ---
+
+This is the CORE of the application. It must be built carefully.
+
+The layout is FULL SCREEN with 4 panels:
+
+╔══════════════════════════════════════════════════════════════╗
+║ TOP TOOLBAR (glass bar, height 56px)                        ║
+╠════════════╦══════════════════════════════╦══════════════════╣
+║ LEFT PANEL ║                              ║ RIGHT PANEL     ║
+║ Node       ║     CENTER: REACT FLOW       ║ Node Config     ║
+║ Palette    ║     CANVAS                   ║ (appears when   ║
+║            ║                              ║  a node is      ║
+║ width:240px║   (takes all remaining       ║  selected)      ║
+║            ║    space)                    ║                 ║
+║ Draggable  ║                              ║ width: 320px    ║
+║ nodes      ║   User drags nodes here      ║                 ║
+║ listed     ║   and connects them          ║ Shows config    ║
+║ here       ║   with lines                 ║ form for the    ║
+║            ║                              ║ selected node   ║
+╠════════════╩══════════════════════════════╩══════════════════╣
+║ BOTTOM PANEL: Execution Logs (collapsible, height 200px)     ║
+║ Real-time log stream during workflow execution                ║
+╚══════════════════════════════════════════════════════════════╝
+
+TOP TOOLBAR:
+- Left: "← Back" button (navigates to /workflows) + Workflow name (click to edit inline — clicking shows a text input, pressing Enter or clicking away saves)
+- Center: Status badge showing "Draft" / "Active" / "Paused"
+- Right side buttons:
+  - "Save" secondary button (saves current nodes_data and edges_data to backend via PUT /api/workflows/{id})
+  - "▶ Execute" success button (green gradient, Play icon — triggers POST /api/workflows/{id}/execute, then opens bottom execution panel)
+  - Settings gear icon button (opens workflow settings modal)
+- If workflow is currently executing: show "Running..." text with animated spinner next to Execute button
+
+LEFT PANEL — NODE PALETTE (glass-strong, width 240px, scrollable):
+- Top: search input to filter nodes by name
+- Nodes organized by category with collapsible section headers:
+
+  TRIGGERS section (header has blue left border):
+  - 🔵 Manual Trigger — icon: Play
+  - 🔵 Schedule (Cron) — icon: Clock
+  - 🔵 Webhook — icon: Webhook
+
+  ACTIONS section (header has green left border):
+  - 🟢 HTTP Request — icon: Globe
+  - 🟢 Send Email — icon: Mail
+  - 🟢 Slack Message — icon: MessageSquare
+  - 🟢 Discord Message — icon: MessageCircle
+
+  CONDITIONS section (header has yellow left border):
+  - 🟡 If / Else — icon: GitBranch
+  - 🟡 Switch — icon: GitMerge
+
+  LOGIC section (header has purple left border):
+  - 🟣 Delay — icon: Timer
+  - 🟣 Transform Data — icon: Wand2
+  - 🟣 Run Code — icon: Code
+  - 🟣 Filter — icon: Filter
+
+Each palette item:
+- Glass-subtle card with colored icon (matching category color) + node name
+- Must be DRAGGABLE — user can drag it from the palette and DROP onto the React Flow canvas
+- When dropped on canvas: a new node of that type is created at the drop position
+- Use React Flow's onDrop and onDragOver events to handle this
+
+CENTER — REACT FLOW CANVAS:
+This uses the @xyflow/react library. Set it up with:
+- Background: transparent with a subtle dot grid pattern (BackgroundVariant.Dots, color rgba(255,255,255,0.08), size 1, gap 20)
+- MiniMap: positioned bottom-right, glass styled, shows overview of all nodes
+- Controls: zoom in, zoom out, fit view buttons — glass styled, bottom-right above minimap
+
+CUSTOM NODE COMPONENT (every node on the canvas uses this component):
+Each node is a glass card with these visual elements:
+- Width: approximately 220px
+- Top accent bar: 3px height, colored by category (blue for triggers, green for actions, yellow for conditions, purple for logic)
+- Header row: category-colored icon (16px) + node type name (14px, font-weight 600, white)
+- Body: brief summary of configuration in secondary text (13px, max 2 lines)
+  - For HTTP Request: "GET https://api.exam..." (truncated URL)
+  - For Cron: "Every 5 minutes"
+  - For If/Else: "status_code == 200"
+  - For unconfigured node: "Click to configure" in tertiary text
+- Input handle: small circle on the LEFT side of the node (this is where incoming connections attach)
+- Output handle: small circle on the RIGHT side of the node
+- For CONDITION nodes (If/Else):
+  - TWO output handles: one on the RIGHT labeled "True" (green), one on the BOTTOM labeled "False" (red)
+- Glass background, subtle border, rounded corners (16px)
+- When SELECTED (clicked): brighter border, blue glow shadow
+- During EXECUTION:
+  - RUNNING: animated blue border glow that pulses
+  - COMPLETED: green border with small ✅ checkmark badge in top-right corner
+  - FAILED: red border with small ❌ badge in top-right corner
+  - SKIPPED: dimmed opacity (0.5)
+  - PENDING: normal appearance
+
+Connections between nodes:
+- Use smooth bezier curves (default React Flow edge type: "smoothstep" or "bezier")
+- Color: rgba(255,255,255,0.3) normally
+- During execution: completed connections turn green and animate with dashed pattern
+- Selected connection: brighter white
+
+User interactions on canvas:
+- Drag node from palette → drop on canvas = add new node
+- Click on a node = select it (opens RIGHT PANEL with config)
+- Drag from one node's output handle to another node's input handle = create connection
+- Right-click on node = context menu (Delete, Duplicate)
+- Drag on empty canvas = pan
+- Scroll = zoom
+- Can select multiple nodes with drag-select box
+- Delete key = remove selected node/connection
+- Node positions auto-save to nodes_data
+
+RIGHT PANEL — NODE CONFIGURATION (glass-strong, width 320px, appears with slide-in animation when a node is selected, hidden when no node is selected):
+- Header: node type icon (colored) + node type name + "×" close button
+- Divider line
+- Dynamic form that changes based on the selected node's type:
+
+  For manual_trigger:
+  - Text: "This workflow will run when you click the Execute button."
+  - No config fields needed.
+
+  For cron_trigger:
+  - "Schedule" section:
+    - "Run Every" row: number input (default 5) + dropdown select ("minutes", "hours", "days")
+    - If "days" is selected: show additional "At Time" time input (HH:MM)
+  - "Preview" section: show text like "Next runs: 10:35 AM, 10:40 AM, 10:45 AM, ..." (calculate next 5 run times)
+  - Generated cron expression shown in monospace text (e.g., "*/5 * * * *")
+
+  For webhook_trigger:
+  - "Webhook URL" section:
+    - Show the unique webhook URL in a read-only glass input with a COPY button
+    - URL format: {BACKEND_URL}/api/webhooks/{webhook_token}
+    - When copied: show toast "URL copied to clipboard!"
+  - Text: "Send a POST request to this URL to trigger the workflow."
+
+  For http_request:
+  - "URL" text input (required, placeholder "https://api.example.com/data")
+  - "Method" dropdown: GET, POST, PUT, DELETE, PATCH (default GET)
+  - "Headers" section: dynamic key-value pair list
+    - Each row: key input + value input + delete button
+    - "+ Add Header" button at bottom
+  - "Body" section (only shown when method is POST/PUT/PATCH):
+    - Textarea with monospace font for JSON body
+    - Placeholder: '{ "key": "value" }'
+  - "Timeout" number input (default 30, suffix "seconds")
+
+  For send_email:
+  - "To" email input (required)
+  - "Subject" text input (required)
+  - "Body" textarea (required)
+  - Note text: "Supports variables like {{node_1.output.data}}"
+
+  For send_slack:
+  - "Webhook URL" text input (required, placeholder "https://hooks.slack.com/...")
+  - "Message" textarea (required)
+  - Note: "Supports variables"
+
+  For send_discord:
+  - "Webhook URL" text input (required)
+  - "Content" textarea (required)
+
+  For if_condition:
+  - "Field to Check" text input (placeholder "{{node_1.output.status_code}}")
+  - "Operator" dropdown: equals, not_equals, greater_than, less_than, contains, not_contains, is_empty, is_not_empty
+  - "Value" text input (placeholder "200") — hidden when operator is is_empty or is_not_empty
+  - Visual preview: shows "If {field} {operator} {value} → True branch, else → False branch"
+
+  For switch_condition:
+  - "Field to Check" text input
+  - "Cases" dynamic list:
+    - Each case: "Value" input + "Label" input + delete button
+    - "+ Add Case" button
+
+  For delay_node:
+  - "Delay Duration" number input + "seconds" suffix (default 5, min 1, max 300)
+
+  For transform_node:
+  - "Output Template" textarea (monospace, JSON format)
+  - Placeholder: '{ "fullName": "{{node_1.output.first}} {{node_1.output.last}}" }'
+  - Note: "Use {{node_id.output.path}} to reference data from other nodes"

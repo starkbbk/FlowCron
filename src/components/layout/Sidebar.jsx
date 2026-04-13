@@ -38,8 +38,8 @@ const Sidebar = () => {
     >
       {/* Brand Section */}
       <div 
-        className="py-8 flex items-center justify-center gap-6 shrink-0 overflow-hidden"
-        style={{ marginLeft: '24px', marginRight: '24px' }}
+        className="py-8 flex items-center justify-center shrink-0 overflow-hidden"
+        style={{ marginLeft: '24px', marginRight: '24px', gap: '20px' }}
       >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />
@@ -68,9 +68,10 @@ const Sidebar = () => {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 group relative font-medium
+              flex items-center px-4 py-3 rounded-2xl transition-all duration-200 group relative font-medium
               ${isActive ? 'bg-[#007aff] text-white shadow-md' : 'text-[#86868b] hover:bg-white/10 hover:text-white'}
             `}
+            style={{ gap: '16px' }}
           >
             <item.icon size={22} className="shrink-0" />
             <AnimatePresence>

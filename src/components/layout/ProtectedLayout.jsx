@@ -45,13 +45,17 @@ const ProtectedLayout = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            className="pb-32 px-8 md:px-12 lg:px-16 gpu-accel"
+            className="pb-32 gpu-accel"
+            style={{ paddingLeft: '5%', paddingRight: '5%' }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <div className="max-w-[1600px] mx-auto overflow-visible">
+            <div 
+              className="mx-auto overflow-visible"
+              style={{ maxWidth: '1400px' }}
+            >
               <Outlet />
             </div>
           </motion.div>

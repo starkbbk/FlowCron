@@ -55,7 +55,10 @@ export default function DashboardPage() {
   if (isLoading) return <StatSkeleton />;
 
   return (
-    <div className="flex flex-col gap-16 pb-20 max-w-[1400px] mx-auto pt-6">
+    <div 
+      className="flex flex-col gap-16 pb-20 mx-auto pt-6"
+      style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px' }}
+    >
       {/* Header Area */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div>

@@ -160,7 +160,7 @@ const LandingPage = () => {
 
         {/* BENTO GRID FEATURES SECTION */}
         <section id="features" className="w-full max-w-5xl px-6 flex flex-col">
-          <div className="text-center mb-24">
+          <div className="text-center" style={{ marginBottom: '120px' }}>
             <h2 className="text-[44px] md:text-[56px] font-extrabold text-white tracking-tight mb-6">
               Designed for Professionals.
             </h2>
@@ -169,14 +169,14 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 rounded-3xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 rounded-3xl" style={{ gap: '40px' }}>
             {/* Box 1 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card p-12 flex flex-col min-h-[340px]">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center mb-auto shadow-lg">
+            <div className="md:col-span-2 mac-bento-card flex flex-col min-h-[380px] justify-between">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center mb-8 shadow-lg">
                 <Workflow size={32} className="text-white" />
               </div>
-              <div className="mt-12">
-                <h3 className="text-[28px] font-bold text-white mb-4">Visual Logic Builder</h3>
+              <div className="mt-auto">
+                <h3 className="text-[28px] font-bold text-white mb-6">Visual Logic Builder</h3>
                 <p className="text-[17px] text-[#86868b] leading-relaxed max-w-md">
                   Drag and connect logical nodes freely on a limitless canvas. No syntax errors, just pure logic flow with massive breathing room.
                 </p>
@@ -184,12 +184,12 @@ const LandingPage = () => {
             </div>
 
             {/* Box 2 */}
-            <div className="md:col-span-1 mac-bento-card p-12 flex flex-col min-h-[340px]">
-              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-auto shadow-inner">
+            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[380px] justify-between">
+              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-8 shadow-inner">
                 <Clock size={28} className="text-[#ffcc00]" />
               </div>
-              <div className="mt-12">
-                <h3 className="text-[24px] font-bold text-white mb-4">Smart Schedulers</h3>
+              <div className="mt-auto">
+                <h3 className="text-[24px] font-bold text-white mb-6">Smart Schedulers</h3>
                 <p className="text-[16px] text-[#86868b] leading-relaxed">
                   Precision background crons down to the minute.
                 </p>
@@ -197,12 +197,12 @@ const LandingPage = () => {
             </div>
 
             {/* Box 3 */}
-            <div className="md:col-span-1 mac-bento-card p-12 flex flex-col min-h-[340px]">
-              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-auto shadow-inner">
+            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[380px] justify-between">
+              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-8 shadow-inner">
                 <Zap size={28} className="text-[#ff2d55]" />
               </div>
-              <div className="mt-12">
-                <h3 className="text-[24px] font-bold text-white mb-4">Real-time Data</h3>
+              <div className="mt-auto">
+                <h3 className="text-[24px] font-bold text-white mb-6">Real-time Data</h3>
                 <p className="text-[16px] text-[#86868b] leading-relaxed">
                   Watch execution step-by-step live.
                 </p>
@@ -210,14 +210,14 @@ const LandingPage = () => {
             </div>
 
             {/* Box 4 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card p-12 flex flex-col relative overflow-hidden min-h-[340px]">
+            <div className="md:col-span-2 mac-bento-card flex flex-col relative overflow-hidden min-h-[380px] justify-between">
                <div className="absolute right-0 top-0 w-80 h-80 bg-gradient-to-br from-[#5856d6]/30 to-transparent blur-3xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
               
-              <div className="w-16 h-16 rounded-2xl bg-[#5856d6] flex items-center justify-center mb-auto relative z-10 shadow-lg">
+              <div className="w-16 h-16 rounded-2xl bg-[#5856d6] flex items-center justify-center mb-8 relative z-10 shadow-lg">
                 <Plug size={32} className="text-white" />
               </div>
-              <div className="mt-12 relative z-10">
-                <h3 className="text-[28px] font-bold text-white mb-4">Connect Anything</h3>
+              <div className="mt-auto relative z-10">
+                <h3 className="text-[28px] font-bold text-white mb-6">Connect Anything</h3>
                 <p className="text-[17px] text-[#86868b] leading-relaxed max-w-md">
                   Integrates effortlessly with REST APIs, Webhooks, Slack, Discord, and Email providers.
                 </p>
@@ -227,8 +227,8 @@ const LandingPage = () => {
         </section>
 
         {/* HOW IT WORKS */}
-        <section id="how-it-works" className="w-full max-w-5xl px-6 flex flex-col relative z-20">
-           <div className="mac-bento-card p-16 md:p-20 flex flex-col md:flex-row items-center gap-20 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl">
+        <section id="how-it-works" className="w-full max-w-6xl px-6 flex flex-col relative z-20">
+           <div className="mac-bento-card flex flex-col md:flex-row items-center gap-20 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-24 px-16">
               <div className="flex-1 text-center md:text-left">
                 <h2 className="text-[40px] md:text-[50px] font-extrabold text-white tracking-tight mb-8 leading-tight">
                   Three Steps to Automation.

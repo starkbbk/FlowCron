@@ -110,8 +110,8 @@ const ExecutionDetailPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
          {/* Left: Summary */}
          <div className="lg:col-span-4" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px' }}>
-               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b]" style={{ fontSize: '13px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '16px' }}>Activity Summary</h3>
+            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '40px 36px' }}>
+               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b]" style={{ fontSize: '13px', marginBottom: '28px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '20px' }}>Activity Summary</h3>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div className="flex justify-between items-center">
                      <span className="font-semibold text-[#86868b]" style={{ fontSize: '14px' }}>Trigger Type</span>
@@ -149,13 +149,13 @@ const ExecutionDetailPage = () => {
                </div>
             </div>
             
-            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px' }}>
-               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b] flex items-center justify-between" style={{ fontSize: '13px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '16px' }}>
+            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '40px 36px' }}>
+               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b] flex items-center justify-between" style={{ fontSize: '13px', marginBottom: '28px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '20px' }}>
                   Input Context
                   <Code size={16} className="opacity-40" />
                </h3>
                <div className="relative">
-                  <pre className="font-mono text-[#86868b] leading-relaxed max-h-64 overflow-x-auto custom-scrollbar" style={{ fontSize: '13px', padding: '24px', borderRadius: '16px', backgroundColor: '#000000', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <pre className="font-mono text-[#86868b] leading-relaxed max-h-64 overflow-x-auto custom-scrollbar" style={{ fontSize: '13px', padding: '24px 28px', borderRadius: '16px', backgroundColor: '#09090b', border: '1px solid rgba(255,255,255,0.06)' }}>
                      {JSON.stringify(execution?.trigger_data || { protocol: "ENCRYPTED_PATCH" }, null, 2)}
                   </pre>
                </div>
@@ -202,7 +202,7 @@ const ExecutionDetailPage = () => {
                      transition={{ duration: 0.15 }}
                      className="flex-1 flex flex-col"
                    >
-                      <div className="flex items-center justify-between" style={{ padding: '20px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)', backgroundColor: '#202022' }}>
+                      <div className="flex items-center justify-between" style={{ padding: '32px 36px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', backgroundColor: '#1c1c1e' }}>
                          <div className="flex items-center gap-3">
                             <Terminal size={18} className="text-[#86868b]" />
                             <span className="font-extrabold uppercase tracking-widest text-[#86868b]" style={{ fontSize: '13px' }}>System Out</span>
@@ -212,7 +212,7 @@ const ExecutionDetailPage = () => {
                             <span className="font-bold uppercase tracking-widest text-[#86868b]" style={{ fontSize: '12px' }}>Live</span>
                          </div>
                       </div>
-                      <div className="p-8 space-y-4 font-mono text-[12px] overflow-y-auto max-h-[600px] custom-scrollbar text-[#71717a] leading-relaxed">
+                      <div className="space-y-4 font-mono text-[13px] overflow-y-auto max-h-[600px] custom-scrollbar text-[#71717a] leading-relaxed" style={{ padding: '36px' }}>
                          <div className="flex gap-3">
                             <span className="text-[#3f3f46] shrink-0">[{new Date(execution?.created_at).toLocaleTimeString()}]</span>
                             <span className="text-[#52525b]">Runtime kernel initialized successfully.</span>

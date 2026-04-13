@@ -28,21 +28,20 @@ const GlassModal = ({ isOpen, onClose, title, children, maxWidth = '480px' }) =>
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 pb-2">
-              <h3 className="text-[18px] font-semibold text-[#fafafa] tracking-tight">{title}</h3>
+            <div className="flex items-center justify-between" style={{ padding: '32px 40px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '22px' }}>{title}</h3>
               <button
                 onClick={onClose}
-                className="p-2 text-[#52525b] hover:text-[#fafafa] hover:bg-[#1f1f23] rounded-lg transition-all"
+                className="text-[#86868b] hover:text-white hover:bg-white/10 transition-all flex items-center justify-center cursor-pointer"
+                style={{ width: '36px', height: '36px', borderRadius: '12px' }}
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Scrollable Content */}
-            <div className="p-6 max-h-[80vh] overflow-y-auto">
-              <div className="space-y-6">
-                {children}
-              </div>
+            <div className="max-h-[80vh] overflow-y-auto" style={{ padding: '32px 40px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              {children}
             </div>
           </motion.div>
         </div>

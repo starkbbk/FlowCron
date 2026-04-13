@@ -291,9 +291,10 @@ export default function WorkflowsListPage() {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
         title="Create New Workflow"
+        maxWidth="540px"
       >
-        <form onSubmit={handleSubmit(onCreateWorkflow)} className="space-y-8">
-          <div className="space-y-6">
+        <form onSubmit={handleSubmit(onCreateWorkflow)} style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <GlassInput 
               label="Workflow Name"
               placeholder="e.g., Data Sync Automation"
@@ -315,13 +316,28 @@ export default function WorkflowsListPage() {
               ]}
             />
           </div>
-          <div className="pt-6 flex gap-3 border-t border-[#27272a]">
-             <GlassButton variant="secondary" onClick={() => setIsModalOpen(false)} fullWidth className="!py-2.5">
+          <div style={{ display: 'flex', gap: '16px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+             <button 
+               type="button" 
+               onClick={() => setIsModalOpen(false)} 
+               className="font-bold cursor-pointer transition-all hover:bg-white/5 active:scale-95"
+               style={{ flex: 1, padding: '16px', borderRadius: '16px', color: '#86868b', backgroundColor: '#2c2c2e', border: '1px solid rgba(255,255,255,0.08)' }}
+             >
                Cancel
-             </GlassButton>
-             <GlassButton type="submit" fullWidth className="!py-2.5">
-               Create Workflow
-             </GlassButton>
+             </button>
+             <button 
+               type="submit"
+               disabled={isSubmitting}
+               className="font-bold cursor-pointer transition-all hover:opacity-90 active:scale-95 flex justify-center items-center"
+               style={{ 
+                 flex: 1, padding: '16px', borderRadius: '16px', color: '#ffffff', 
+                 background: 'linear-gradient(135deg, #007aff, #5856d6)',
+                 boxShadow: '0 4px 20px rgba(0,122,255,0.3)',
+                 border: 'none',
+               }}
+             >
+               {isSubmitting ? <Loader2 className="animate-spin text-white" size={20} /> : 'Create Workflow'}
+             </button>
           </div>
         </form>
       </GlassModal>

@@ -38,12 +38,19 @@ async def get_dashboard_overview(
     recent_exec_res = await db.execute(select(models.Execution).filter(models.Execution.user_id == current_user.id).order_by(desc(models.Execution.created_at)).limit(5))
     recent_executions = recent_exec_res.scalars().all()
 
-    # 6. Chart Data (Last 7 days)
+    # 6. Chart Data (Last 7 days) — real counts per day
     chart_data = []
     for i in range(6, -1, -1):
-        day = (datetime.utcnow() - timedelta(days=i)).strftime("%Y-%m-%d")
-        # In a real app, you'd group by date in SQL. For this build, we'll return a simulation or real data if possible.
-        chart_data.append({"name": day, "executions": 0 if i > 0 else total_executions_today})
+        day_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=i)
+        day_end = day_start + timedelta(days=1)
+        day_count_res = await db.execute(
+            select(func.count(models.Execution.id)).filter(
+                models.Execution.user_id == current_user.id,
+                models.Execution.created_at >= day_start,
+                models.Execution.created_at < day_end
+            )
+        )
+        chart_data.append({"name": day_start.strftime("%Y-%m-%d"), "executions": day_count_res.scalar() or 0})
 
     return {
         "total_workflows": total_workflows,

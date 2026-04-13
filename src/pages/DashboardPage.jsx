@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Zap, Activity, Plus, GitBranch, Clock, Play
 } from 'lucide-react';
@@ -12,27 +13,34 @@ import useWorkflowStore from '../stores/workflowStore';
 import { StatSkeleton } from '../components/common/LoadingSkeleton';
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   
-  const { workflows } = useWorkflowStore(state => ({
-    workflows: state.workflows
+  const { workflows, setWorkflows } = useWorkflowStore(state => ({
+    workflows: state.workflows,
+    setWorkflows: state.setWorkflows
   }));
 
   const [dashboardData, setDashboardData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOverview = async () => {
+    const fetchData = async () => {
       try {
-        const res = await api.get('/dashboard/overview');
-        setDashboardData(res.data);
+        // Fetch both in parallel for efficiency
+        const [dashRes, wfRes] = await Promise.all([
+          api.get('/dashboard/overview'),
+          api.get('/workflows/'),
+        ]);
+        setDashboardData(dashRes.data);
+        setWorkflows(wfRes.data);
       } catch (err) {
-        console.error('Failed to fetch dashboard overview');
+        console.error('Failed to fetch dashboard data');
       } finally {
         setIsLoading(false);
       }
     };
-    fetchOverview();
+    fetchData();
   }, []);
 
   const activeWorkflowsCount = useMemo(() => 
@@ -60,7 +68,10 @@ export default function DashboardPage() {
             Everything is running smoothly. Your automation infrastructure is currently at 99.8% uptime.
           </p>
         </div>
-        <button className="flex items-center gap-2 px-8 py-4 bg-[#007aff] text-white text-[15px] font-bold rounded-2xl shadow-xl hover:bg-[#006ce6] active:scale-95 transition-all mt-4 md:mt-0">
+        <button 
+          onClick={() => navigate('/workflows')}
+          className="flex items-center gap-2 px-8 py-4 bg-[#007aff] text-white text-[15px] font-bold rounded-2xl shadow-xl hover:bg-[#006ce6] active:scale-95 transition-all mt-4 md:mt-0"
+        >
           <Plus size={20} strokeWidth={2.5} />
           New Workflow
         </button>

@@ -49,12 +49,11 @@ const nodeTypes = {
 
 const getWsUrl = (path) => {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const host = import.meta.env.VITE_API_BASE_URL 
-    ? import.meta.env.VITE_API_BASE_URL.replace('http', 'ws')
-    : window.location.host.replace('5173', '8000');
-    
-  return `${protocol}//${host}/${path}`;
+  // In dev: proxy from vite to backend. WS goes through vite's proxy too.
+  // So we just use the current host (vite dev server) which proxies /ws to :8000
+  return `${protocol}//${window.location.host}/${path}`;
 };
+
 
 function FlowEditor() {
   const { id } = useParams();

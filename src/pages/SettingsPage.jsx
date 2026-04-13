@@ -162,16 +162,21 @@ const SettingsPage = () => {
                          )}
                       </div>
                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                          <label className="text-[#86868b] font-bold tracking-wider uppercase" style={{ fontSize: '12px' }}>Profile Image</label>
+                          <span className="text-[#86868b] font-bold tracking-wider uppercase" style={{ fontSize: '12px' }}>Profile Image</span>
                           <input 
                             type="file" 
                             ref={fileInputRef} 
                             onChange={handleImageChange} 
-                            accept="image/*" 
+                            accept="image/png,image/jpeg,image/gif,image/webp" 
                             style={{ display: 'none' }} 
                           />
                           <button
-                            onClick={() => fileInputRef.current?.click()}
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              fileInputRef.current.click();
+                            }}
                             className="flex items-center font-bold text-white cursor-pointer transition-all hover:opacity-90 active:scale-95"
                             style={{ 
                               gap: '10px', 

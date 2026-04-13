@@ -163,10 +163,10 @@ const LandingPage = () => {
         {/* BENTO GRID FEATURES SECTION */}
         <section id="features" className="w-full max-w-5xl px-6 flex flex-col">
           <div className="text-center" style={{ marginBottom: '120px' }}>
-            <h2 className="text-[44px] md:text-[56px] font-extrabold text-white tracking-tight mb-6">
+            <h2 className="text-[44px] md:text-[56px] font-extrabold text-white tracking-tight" style={{ marginBottom: '24px' }}>
               Designed for Professionals.
             </h2>
-            <p className="text-[21px] text-[#86868b] max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-[21px] text-[#86868b] max-w-2xl font-medium leading-relaxed" style={{ textAlign: 'center', margin: '0 auto' }}>
               Everything you need in a unified, Apple-like experience. Increased gaps and perfect padding.
             </p>
           </div>
@@ -266,17 +266,17 @@ const LandingPage = () => {
                   <div className="w-[600px] h-[600px] bg-gradient-to-tr from-[#007aff] via-[#5856d6] to-[#ff2d55] opacity-[0.15] blur-[100px] rounded-full" />
                </div>
                
-               <div className="relative z-10 flex flex-col items-center">
-                 <h2 className="text-[48px] md:text-[64px] font-extrabold text-white tracking-tight mb-10 leading-tight">
+               <div className="relative z-10 flex flex-col items-center" style={{ gap: '32px' }}>
+                 <h2 className="text-[48px] md:text-[64px] font-extrabold text-white tracking-tight leading-tight" style={{ textAlign: 'center' }}>
                    Ready to automate?
                  </h2>
-                 <p className="text-[22px] text-[#c1c1c6] max-w-2xl mx-auto font-medium mb-16 leading-relaxed">
+                 <p className="text-[22px] text-[#c1c1c6] max-w-2xl font-medium leading-relaxed" style={{ textAlign: 'center' }}>
                    Join thousands of modern developers who save hours every week. Built for speed, designed for Mac.
                  </p>
                  <button onClick={() => navigate('/signup')} className="h-16 bg-white text-black text-[18px] font-bold rounded-full hover:bg-gray-100 active:scale-95 transition-all shadow-xl hover:shadow-2xl" style={{ padding: '0 48px' }}>
                    Download Free
                  </button>
-                 <p className="text-[14px] text-[#86868b] font-bold uppercase tracking-[0.2em] mt-10">
+                 <p className="text-[14px] text-[#86868b] font-bold uppercase tracking-[0.2em]">
                    Web App • Instant Setup
                  </p>
                </div>

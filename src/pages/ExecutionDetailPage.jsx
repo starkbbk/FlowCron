@@ -64,34 +64,34 @@ const ExecutionDetailPage = () => {
   if (isLoading) return <div className="max-w-7xl mx-auto p-8"><CardSkeleton /></div>;
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-20">
+    <div className="mx-auto pb-20" style={{ display: 'flex', flexDirection: 'column', gap: '48px', padding: '100px 32px 40px', maxWidth: '1400px' }}>
       {/* Page Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-5">
            <button 
              onClick={() => navigate(-1)} 
-             className="p-2 bg-[#111113] hover:bg-[#18181b] rounded-lg border border-[#27272a] transition-all"
+             className="p-3 bg-[#1c1c1e] hover:bg-white/10 rounded-xl border border-white/10 transition-all cursor-pointer text-[#86868b] hover:text-white"
            >
-              <ArrowLeft size={18} className="text-[#a1a1aa]" />
+              <ArrowLeft size={20} />
            </button>
-           <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-3">
-                 <h1 className="text-2xl font-bold text-[#fafafa] tracking-tight">
+           <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-4">
+                 <h1 className="text-3xl font-extrabold text-white tracking-tight">
                     {execution?.workflow_name || 'Workflow Execution'}
                  </h1>
                  <StatusBadge status={execution?.status} size="default" />
               </div>
-              <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold text-[#52525b]">
-                 <span className="flex items-center gap-2 bg-[#111113] px-2.5 py-1 rounded-md border border-[#27272a]">
-                    <Calendar size={12} className="text-[#3b82f6]" /> 
+              <div className="flex flex-wrap items-center gap-3 font-bold text-[#86868b]" style={{ fontSize: '13px' }}>
+                 <span className="flex items-center gap-2 bg-[#1c1c1e] px-3 py-1.5 rounded-lg border border-white/5 shadow-sm">
+                    <Calendar size={14} className="text-[#3b82f6]" /> 
                     {new Date(execution?.created_at).toLocaleString()}
                  </span>
-                 <span className="flex items-center gap-2 bg-[#111113] px-2.5 py-1 rounded-md border border-[#27272a]">
-                    <Clock size={12} className="text-[#a855f7]" /> 
+                 <span className="flex items-center gap-2 bg-[#1c1c1e] px-3 py-1.5 rounded-lg border border-white/5 shadow-sm">
+                    <Clock size={14} className="text-[#a855f7]" /> 
                     {formatDuration(execution?.duration_ms)}
                  </span>
-                 <span className="flex items-center gap-2 bg-[#111113] px-2.5 py-1 rounded-md border border-[#27272a]">
-                    <Activity size={12} className="text-[#10b981]" /> 
+                 <span className="flex items-center gap-2 bg-[#1c1c1e] px-3 py-1.5 rounded-lg border border-white/5 shadow-sm">
+                    <Activity size={14} className="text-[#10b981]" /> 
                     ID: {id}
                  </span>
               </div>
@@ -99,15 +99,16 @@ const ExecutionDetailPage = () => {
         </div>
         <div className="flex gap-3">
            <Link to={`/workflows/${execution?.workflow_id}/edit`}>
-              <GlassButton variant="primary" icon={ExternalLink} className="!py-2 !px-4 !text-[12px]">
-                View Workflow
-              </GlassButton>
+              <button className="flex items-center gap-2 font-bold transition-all cursor-pointer hover:opacity-90 shadow-[0_4px_16px_rgba(0,122,255,0.3)]" style={{ backgroundColor: '#007aff', color: 'white', padding: '12px 24px', borderRadius: '12px', fontSize: '14px' }}>
+                 <ExternalLink size={16} />
+                 View Workflow
+              </button>
            </Link>
         </div>
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 items-start" style={{ gap: '32px' }}>
          {/* Left: Summary */}
          <div className="lg:col-span-4" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '40px 36px' }}>

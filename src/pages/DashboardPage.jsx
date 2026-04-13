@@ -248,7 +248,10 @@ export default function DashboardPage() {
               </div>
               
               <div className="mt-8 pt-10 border-t border-white/10 relative z-10 w-full">
-                 <div className="p-8 rounded-[28px] bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl">
+                 <div 
+                   className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
+                   style={{ padding: '32px 36px', borderRadius: '20px' }}
+                 >
                     <div className="flex items-center gap-3 text-[#007aff] mb-4">
                        <Zap size={24} fill="currentColor" />
                        <span className="text-[15px] font-bold uppercase tracking-[0.25em]">Pro Tip</span>

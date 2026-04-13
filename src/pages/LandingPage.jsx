@@ -32,7 +32,7 @@ const LandingPage = () => {
       <div className="mac-os-wallpaper" />
 
       {/* NAVBAR */}
-      <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between px-8 shadow-xl border border-white/10">
+      <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>
         {/* LEFT: Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#007aff] to-[#34c759] flex items-center justify-center shadow-lg">
@@ -56,7 +56,7 @@ const LandingPage = () => {
           <button type="button" onClick={() => navigate('/login')} className="hidden sm:block text-[15px] font-medium text-[#c1c1c6] hover:text-white transition-colors">
             Sign In
           </button>
-          <button type="button" onClick={() => navigate('/signup')} className="h-10 btn-mac-primary text-[14px] px-6">
+          <button type="button" onClick={() => navigate('/signup')} className="h-10 btn-mac-primary text-[14px]" style={{ padding: '0 24px' }}>
             Get Started
           </button>
         </div>
@@ -260,7 +260,7 @@ const LandingPage = () => {
 
         {/* CALL TO ACTION */}
         <section className="w-full px-6 flex items-center justify-center">
-            <div className="relative w-full max-w-4xl mac-bento-card overflow-hidden text-center py-32 px-12 border-t border-[rgba(255,255,255,0.2)] shadow-2xl">
+            <div className="relative w-full max-w-4xl mac-bento-card overflow-hidden text-center border-t border-[rgba(255,255,255,0.2)] shadow-2xl" style={{ padding: '100px 48px' }}>
                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-[600px] h-[600px] bg-gradient-to-tr from-[#007aff] via-[#5856d6] to-[#ff2d55] opacity-[0.15] blur-[100px] rounded-full" />
                </div>
@@ -272,7 +272,7 @@ const LandingPage = () => {
                  <p className="text-[22px] text-[#c1c1c6] max-w-2xl mx-auto font-medium mb-16 leading-relaxed">
                    Join thousands of modern developers who save hours every week. Built for speed, designed for Mac.
                  </p>
-                 <button onClick={() => navigate('/signup')} className="h-16 bg-white text-black text-[18px] font-bold px-12 rounded-full hover:bg-gray-100 active:scale-95 transition-all shadow-xl hover:shadow-2xl">
+                 <button onClick={() => navigate('/signup')} className="h-16 bg-white text-black text-[18px] font-bold rounded-full hover:bg-gray-100 active:scale-95 transition-all shadow-xl hover:shadow-2xl" style={{ padding: '0 48px' }}>
                    Download Free
                  </button>
                  <p className="text-[14px] text-[#86868b] font-bold uppercase tracking-[0.2em] mt-10">
@@ -283,7 +283,7 @@ const LandingPage = () => {
         </section>
 
         {/* FOOTER */}
-        <footer className="w-full max-w-6xl px-6 pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10">
+        <footer className="w-full max-w-6xl pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10" style={{ paddingLeft: '32px', paddingRight: '32px' }}>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#f5f5f7] flex items-center justify-center">
               <Zap size={16} className="text-[#1c1c1e] fill-current" />

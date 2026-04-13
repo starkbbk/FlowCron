@@ -56,8 +56,13 @@ export default function DashboardPage() {
 
   return (
     <div 
-      className="flex flex-col gap-16 pb-20 mx-auto pt-6"
-      style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px' }}
+      className="flex flex-col gap-16 pb-20 mx-auto"
+      style={{ 
+        maxWidth: '1400px', 
+        paddingLeft: '24px', 
+        paddingRight: '24px',
+        paddingTop: '80px' 
+      }}
     >
       {/* Header Area */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">

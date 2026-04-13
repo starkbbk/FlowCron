@@ -43,7 +43,12 @@ async def signup(user_in: schemas.UserCreate, db: AsyncSession = Depends(deps.ge
 @router.post("/login", response_model=schemas.Token)
 async def login(user_in: schemas.UserLogin, db: AsyncSession = Depends(deps.get_db)):
     # Note: For production use OAuth2PasswordRequestForm
-    result = await db.execute(select(models.User).filter(models.User.email == user_in.email))
+    result = await db.execute(
+        select(models.User).filter(
+            (models.User.email == user_in.email) | 
+            (models.User.username == user_in.email)
+        )
+    )
     user = result.scalars().first()
     if not user or not security.verify_password(user_in.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Incorrect email or password")

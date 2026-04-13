@@ -29,7 +29,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const res = await api.post('/auth/login', data);
-      setAuth({ email: data.email }, res.data.access_token);
+      setAuth(res.data.user, res.data.access_token);
       toast.success('Logged in successfully');
       navigate('/dashboard');
     } catch (err) {
@@ -63,13 +63,12 @@ export default function LoginPage() {
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
                 <div className="flex flex-col gap-8">
                   <GlassInput
-                    label="Email Address"
-                    placeholder="name@example.com"
+                    label="Username or Email"
+                    placeholder="name@example.com or username"
                     startIcon={Mail}
                     error={errors.email?.message}
                     {...register('email', {
-                      required: 'Email is required',
-                      pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' },
+                      required: 'Username or Email is required',
                     })}
                   />
 

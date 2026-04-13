@@ -45,7 +45,7 @@ export default function SignupPage() {
     setIsLoading(true);
     try {
       const res = await api.post('/auth/signup', data);
-      setAuth({ username: data.username, email: data.email }, res.data.access_token);
+      setAuth(res.data.user, res.data.access_token);
       toast.success('Account created successfully');
       navigate('/dashboard');
     } catch (err) {

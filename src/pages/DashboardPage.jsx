@@ -247,14 +247,14 @@ export default function DashboardPage() {
                  )}
               </div>
               
-              <div className="mt-8 pt-8 border-t border-white/10 relative z-10">
-                 <div className="p-6 rounded-2xl bg-[#007aff]/10 border border-[#007aff]/30 shadow-inner">
-                    <div className="flex items-center gap-2 text-[#007aff] mb-3">
-                       <Zap size={18} fill="currentColor" />
-                       <span className="text-[13px] font-bold uppercase tracking-widest">Pro Tip</span>
+              <div className="mt-8 pt-10 border-t border-white/10 relative z-10 w-full">
+                 <div className="p-8 rounded-[28px] bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl">
+                    <div className="flex items-center gap-3 text-[#007aff] mb-4">
+                       <Zap size={24} fill="currentColor" />
+                       <span className="text-[15px] font-bold uppercase tracking-[0.25em]">Pro Tip</span>
                     </div>
-                    <p className="text-[14px] text-white/80 leading-relaxed font-medium">
-                       Scale your work by setting a <strong className="text-white">Schedule Node</strong> for automatic execution.
+                    <p className="text-[16px] text-white/90 leading-relaxed font-medium">
+                       Scale your work by setting a <strong className="text-white font-extrabold text-[17px]">Schedule Node</strong> for automatic execution.
                     </p>
                  </div>
               </div>

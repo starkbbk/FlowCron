@@ -33,14 +33,11 @@ const Sidebar = () => {
 
   return (
     <aside
-      className="hidden md:flex flex-col fixed inset-y-0 left-0 h-screen bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-[100] transition-[width] duration-300 ease-in-out overflow-hidden gpu-accel shadow-2xl"
+      className="hidden md:flex flex-col fixed inset-y-0 left-0 h-screen bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-[100] transition-all duration-300 ease-in-out overflow-hidden shadow-2xl pl-4"
       style={{ width: 'var(--sidebar-width, 260px)' }}
     >
       {/* Brand Section */}
-      <div 
-        className="p-6 py-8 flex items-center gap-6 shrink-0 overflow-hidden"
-        style={{ paddingLeft: '32px' }}
-      >
+      <div className="p-6 py-8 flex items-center gap-6 shrink-0 overflow-hidden">
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />
         </div>
@@ -59,10 +56,7 @@ const Sidebar = () => {
       </div>
 
       {/* Primary Navigation */}
-      <nav 
-        className="flex-1 space-y-2 overflow-y-auto no-scrollbar scroll-smooth"
-        style={{ paddingLeft: '24px', paddingRight: '24px' }}
-      >
+      <nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar scroll-smooth pr-4">
         {navItems.map((item) => (
           <NavLink
             key={item.path}

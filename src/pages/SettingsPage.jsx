@@ -85,32 +85,36 @@ const SettingsPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-8">
+      <div className="flex flex-col xl:flex-row" style={{ gap: '32px', marginTop: '16px' }}>
         {/* Navigation Sidebar */}
-        <div className="w-full xl:w-64 flex flex-col gap-1">
+        <div className="w-full xl:w-72 flex flex-col" style={{ gap: '6px' }}>
            {tabs.map((tab) => (
              <button
                key={tab.id}
                onClick={() => setActiveTab(tab.id)}
-               className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg transition-all duration-200 group relative ${
+               className={`w-full flex items-center justify-between transition-all duration-200 group relative cursor-pointer ${
                  activeTab === tab.id 
-                  ? 'bg-[#18181b] text-[#fafafa] border border-[#27272a]' 
-                  : 'text-[#71717a] hover:text-[#a1a1aa] hover:bg-[#18181b]'
+                  ? 'bg-[#1c1c1e] text-white border border-white/10' 
+                  : 'text-[#86868b] hover:text-white hover:bg-white/5'
                }`}
+               style={{ padding: '16px 20px', borderRadius: '16px' }}
              >
-               <div className="flex items-center gap-3">
-                  <tab.icon size={16} className={activeTab === tab.id ? 'text-[#3b82f6]' : 'text-[#52525b] group-hover:text-[#71717a]'} />
-                  <span className="text-[13px] font-semibold">{tab.label}</span>
+               <div className="flex items-center" style={{ gap: '14px' }}>
+                  <tab.icon size={20} className={activeTab === tab.id ? 'text-[#007aff]' : 'text-[#52525b] group-hover:text-[#86868b]'} />
+                  <span style={{ fontSize: '15px' }} className="font-bold">{tab.label}</span>
                </div>
                {activeTab === tab.id && (
-                 <div className="w-1 h-3 rounded-full bg-[#3b82f6]" />
+                 <div className="rounded-full bg-[#007aff]" style={{ width: '6px', height: '16px' }} />
                )}
              </button>
            ))}
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-[#111113] border border-[#27272a] rounded-xl overflow-hidden min-h-[500px]">
+        <div 
+          className="flex-1 overflow-hidden"
+          style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', minHeight: '600px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -118,37 +122,37 @@ const SettingsPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="p-6 sm:p-8"
+              style={{ padding: '40px' }}
             >
               {activeTab === 'profile' && (
-                <div className="space-y-8">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                    <div className="flex justify-between items-start">
                        <div>
-                          <h3 className="text-xl font-bold text-[#fafafa] mb-1">Profile Details</h3>
-                          <p className="text-[14px] font-medium text-[#71717a]">Update your account information and how you appear to others.</p>
+                          <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Profile Details</h3>
+                          <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Update your account information and how you appear to others.</p>
                        </div>
-                      <div className="p-2 bg-[#18181b] rounded-lg border border-[#27272a]">
-                         <User size={20} className="text-[#3b82f6]" />
+                      <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}>
+                         <User size={24} className="text-[#007aff]" />
                       </div>
                    </div>
 
-                   <div className="flex items-center gap-8 p-6 rounded-lg bg-[#09090b] border border-[#27272a]">
-                      <div className="w-16 h-16 rounded-lg bg-[#18181b] border border-[#27272a] flex items-center justify-center text-2xl font-bold text-[#3b82f6]">
+                   <div className="flex items-center border border-white/10" style={{ gap: '24px', padding: '24px', borderRadius: '20px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+                      <div className="flex items-center justify-center font-extrabold text-[#007aff] border border-white/10" style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#2c2c2e', fontSize: '28px' }}>
                          {user?.username?.[0].toUpperCase()}
                       </div>
-                       <div className="space-y-3">
-                          <label className="text-[11px] text-[#52525b] font-bold tracking-wider uppercase">Profile Image</label>
-                          <GlassButton variant="secondary" className="!py-1.5 !px-4 !text-[12px]">Change Image</GlassButton>
+                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                          <label className="text-[#52525b] font-bold tracking-wider uppercase" style={{ fontSize: '12px' }}>Profile Image</label>
+                          <GlassButton variant="secondary" style={{ padding: '10px 20px', fontSize: '13px' }}>Change Image</GlassButton>
                        </div>
                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '24px' }}>
                        <GlassInput label="Username" defaultValue={user?.username} />
                        <GlassInput label="Email Address" defaultValue={user?.email} />
                     </div>
 
-                   <div className="pt-6 border-t border-[#27272a] flex justify-end">
-                       <GlassButton icon={Save} onClick={onSave} className="!px-8 !py-2.5 !text-[13px]">Save Changes</GlassButton>
+                   <div className="flex justify-end" style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                       <GlassButton icon={Save} onClick={onSave} style={{ padding: '14px 32px', fontSize: '14px' }}>Save Changes</GlassButton>
                    </div>
                 </div>
               )}

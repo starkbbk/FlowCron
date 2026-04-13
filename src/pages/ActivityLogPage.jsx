@@ -60,8 +60,11 @@ const ActivityLogPage = () => {
             <p className="text-[#86868b] font-medium" style={{ maxWidth: '420px', fontSize: '16px', lineHeight: 1.6 }}>Your automated activity will manifest here once workflows begin execution.</p>
         </GlassCard>
       ) : (
-        <div className="bg-[#111113] border border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="divide-y divide-[#27272a]">
+        <div 
+          className="overflow-hidden"
+          style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
+        >
+          <div>
             <AnimatePresence initial={false}>
               {logs.map((log, idx) => (
                 <motion.div 
@@ -69,36 +72,43 @@ const ActivityLogPage = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
-                  className="p-6 flex items-center gap-8 hover:bg-[#18181b] transition-colors group cursor-pointer"
+                  className="flex items-center hover:bg-white/5 transition-colors group cursor-pointer"
+                  style={{ padding: '28px 32px', gap: '24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
                   onClick={() => navigate(`/executions/${log.id}`)}
                 >
                   {/* Status Indicator */}
-                  <div className={`p-2.5 rounded-lg bg-[#09090b] border border-[#27272a] transition-all group-hover:border-[#3b82f640] ${log.status === 'completed' ? 'text-[#10b981]' : log.status === 'failed' ? 'text-[#ef4444]' : 'text-[#3b82f6]'}`}>
-                     {log.status === 'completed' ? <CheckCircle2 size={18} /> : log.status === 'failed' ? <XCircle size={18} /> : <Zap size={18} />}
+                  <div 
+                    className={`flex items-center justify-center border border-white/10 transition-all group-hover:border-white/20 ${log.status === 'completed' ? 'text-[#34c759]' : log.status === 'failed' ? 'text-[#ff3b30]' : 'text-[#007aff]'}`}
+                    style={{ width: '52px', height: '52px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}
+                  >
+                     {log.status === 'completed' ? <CheckCircle2 size={24} /> : log.status === 'failed' ? <XCircle size={24} /> : <Zap size={24} />}
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="text-[15px] tracking-tight">
-                      <span className="text-[#71717a] font-semibold">Workflow </span>
-                      <span className="font-bold text-[#fafafa] group-hover:text-[#3b82f6] transition-colors">
+                    <div style={{ fontSize: '16px', marginBottom: '8px' }}>
+                      <span className="text-[#86868b] font-semibold">Workflow </span>
+                      <span className="font-bold text-white group-hover:text-[#007aff] transition-colors">
                         {log.workflow_name || 'UNNAMED_PROCESS'}
                       </span>
                       <span className="text-[#52525b] font-semibold"> updated to </span>
-                      <span className={`font-bold uppercase tracking-wider text-[11px] px-2 py-0.5 rounded-md bg-[#18181b] border border-[#27272a] ml-1.5 ${log.status === 'completed' ? 'text-[#10b981]' : log.status === 'failed' ? 'text-[#ef4444]' : 'text-[#3b82f6]'}`}>
+                      <span 
+                        className={`font-extrabold uppercase tracking-wider border border-white/10 ${log.status === 'completed' ? 'text-[#34c759]' : log.status === 'failed' ? 'text-[#ff3b30]' : 'text-[#007aff]'}`}
+                        style={{ fontSize: '11px', padding: '4px 10px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.05)', marginLeft: '8px' }}
+                      >
                         {log.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 mt-2">
-                       <div className="text-[11px] text-[#3f3f46] font-mono font-bold tracking-tight">ID: {log.id.slice(0, 12)}</div>
-                       <div className="h-3 w-px bg-[#27272a]" />
-                       <div className="flex items-center gap-1.5 text-[11px] text-[#52525b] font-bold uppercase tracking-wider">
-                          <ShieldCheck size={12} className="opacity-50" />
+                    <div className="flex items-center" style={{ gap: '16px', marginTop: '4px' }}>
+                       <div className="text-[#52525b] font-mono font-bold" style={{ fontSize: '12px' }}>ID: {log.id.slice(0, 12)}</div>
+                       <div style={{ height: '14px', width: '1px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
+                       <div className="flex items-center text-[#52525b] font-bold uppercase tracking-wider" style={{ gap: '8px', fontSize: '12px' }}>
+                          <ShieldCheck size={14} className="opacity-50" />
                           {log.trigger_type} source
                        </div>
                     </div>
                   </div>
 
-                  <div className="text-[12px] text-[#52525b] font-semibold tabular-nums group-hover:text-[#a1a1aa] transition-colors">
+                  <div className="text-[#86868b] font-semibold tabular-nums group-hover:text-white transition-colors" style={{ fontSize: '14px' }}>
                     {timeAgo(log.created_at)}
                   </div>
                 </motion.div>

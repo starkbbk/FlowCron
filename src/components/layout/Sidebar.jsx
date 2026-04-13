@@ -59,6 +59,29 @@ const Sidebar = () => {
         </AnimatePresence>
       </div>
 
+      {/* Floating Collapse Toggle */}
+      <button
+        onClick={toggleCollapse}
+        className="text-[#86868b] hover:text-white hover:bg-white/10 transition-all shadow-md group"
+        style={{ 
+          position: 'absolute', 
+          right: '-16px', 
+          top: '48px', 
+          width: '32px', 
+          height: '32px', 
+          borderRadius: '50%', 
+          backgroundColor: '#2c2c2e', 
+          border: '1px solid rgba(255,255,255,0.1)', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          zIndex: 100,
+          cursor: 'pointer'
+        }}
+      >
+        {collapsed ? <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" /> : <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />}
+      </button>
+
       {/* Primary Navigation */}
       <nav 
         className="flex-1 overflow-y-auto no-scrollbar scroll-smooth"
@@ -149,13 +172,6 @@ const Sidebar = () => {
             <LogOut size={24} />
           </button>
         </div>
-
-        <button
-          onClick={toggleCollapse}
-          className="w-full flex items-center justify-center p-3 rounded-2xl bg-white/5 border border-white/10 text-[#86868b] hover:text-white transition-all hover:bg-white/10"
-        >
-          {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-        </button>
       </div>
     </aside>
   );

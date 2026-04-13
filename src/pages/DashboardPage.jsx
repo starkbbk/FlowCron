@@ -96,7 +96,10 @@ export default function DashboardPage() {
               style={{ backgroundColor: stat.color }}
             />
             
-            <div className="flex justify-between items-start mb-10 relative z-10">
+            <div 
+              className="flex justify-between items-start relative z-10"
+              style={{ marginBottom: '64px' }}
+            >
               <div 
                 className="flex items-center justify-center rounded-2xl border border-white/10 shadow-inner"
                 style={{ 

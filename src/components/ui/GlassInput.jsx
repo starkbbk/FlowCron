@@ -37,7 +37,10 @@ export const GlassInput = forwardRef(
             ref={ref}
             style={{
               ...baseStyles,
-              padding: `20px ${padRight + 8}px 20px ${padLeft + 12}px`,
+              paddingTop: '24px',
+              paddingBottom: '24px',
+              paddingLeft: `${padLeft + 32}px`,
+              paddingRight: `${padRight + 32}px`,
               borderColor: error ? '#ef4444' : '#3a3a3c',
               fontSize: '16px'
             }}

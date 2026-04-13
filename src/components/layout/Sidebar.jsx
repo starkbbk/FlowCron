@@ -39,7 +39,7 @@ const Sidebar = () => {
       {/* Brand Section */}
       <div 
         className="py-8 flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ marginLeft: '24px', marginRight: '24px', gap: '20px' }}
+        style={{ marginLeft: '24px', marginRight: '24px' }}
       >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />
@@ -51,6 +51,7 @@ const Sidebar = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
               className="text-[24px] font-extrabold text-white tracking-tight whitespace-nowrap mt-1"
+              style={{ marginLeft: '20px' }}
             >
               FlowCron
             </motion.span>
@@ -71,7 +72,6 @@ const Sidebar = () => {
               flex items-center px-4 py-3 rounded-2xl transition-all duration-200 group relative font-medium
               ${isActive ? 'bg-[#007aff] text-white shadow-md' : 'text-[#86868b] hover:bg-white/10 hover:text-white'}
             `}
-            style={{ gap: '16px' }}
           >
             <item.icon size={22} className="shrink-0" />
             <AnimatePresence>
@@ -81,6 +81,7 @@ const Sidebar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -8 }}
                   className="text-[17px] font-semibold whitespace-nowrap"
+                  style={{ marginLeft: '16px' }}
                 >
                   {item.label}
                 </motion.span>
@@ -95,7 +96,7 @@ const Sidebar = () => {
         className="py-6 bg-transparent border-t border-white/10 space-y-3"
         style={{ marginLeft: '24px', marginRight: '24px' }}
       >
-        <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md">
+        <div className="flex items-center p-3 rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md">
           <div className="w-10 h-10 rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center text-white font-bold text-[14px] shrink-0 shadow-inner">
             {user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
@@ -107,6 +108,7 @@ const Sidebar = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
                 className="flex-1 min-w-0"
+                style={{ marginLeft: '16px' }}
               >
                 <div className="text-[14px] font-bold text-white truncate">
                   {user?.username || user?.email?.split('@')[0]}

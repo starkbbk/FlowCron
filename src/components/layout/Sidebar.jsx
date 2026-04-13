@@ -38,8 +38,8 @@ const Sidebar = () => {
     >
       {/* Brand Section */}
       <div 
-        className="py-8 flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ marginLeft: '24px', marginRight: '24px' }}
+        className="flex items-center justify-center shrink-0 overflow-hidden"
+        style={{ marginLeft: '24px', marginRight: '24px', marginTop: '40px', marginBottom: '32px' }}
       >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
           <Zap size={20} className="text-white fill-white translate-y-[1px]" />

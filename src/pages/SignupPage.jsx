@@ -64,7 +64,7 @@ export default function SignupPage() {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-[460px] relative z-10 py-12"
       >
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <Link to="/" className="inline-flex items-center gap-4 no-underline mb-10 group">
             <div className="bg-gradient-to-br from-[#007aff] to-[#34c759] rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg transition-transform hover:scale-105">
               <Zap size={28} className="text-white fill-white" />
@@ -78,7 +78,8 @@ export default function SignupPage() {
           </p>
         </div>
 
-        <GlassCard variant="strong" padding="large" hover={false} className="shadow-2xl border-white/10 rounded-3xl p-10 bg-[#1e1e1e]">
+        <GlassCard variant="strong" padding="none" hover={false} className="shadow-2xl border-white/10 rounded-[40px] overflow-hidden bg-[#1e1e1e]">
+          <div className="p-16">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
             <div className="flex flex-col gap-8">
               <GlassInput
@@ -190,7 +191,8 @@ export default function SignupPage() {
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}
             </button>
-          </form>
+            </form>
+          </div>
         </GlassCard>
 
         <p className="text-center mt-12 text-[15px] font-medium text-[#86868b]">

@@ -44,10 +44,10 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-gradient-to-tr from-[#007aff]/10 to-[#5856d6]/10 pointer-events-none" />
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20">
         <div className="w-full max-w-[460px]">
-          <GlassCard variant="strong" padding="none" hover={false} className="overflow-hidden rounded-3xl border border-white/10 bg-[#1e1e1e] shadow-2xl">
-            <div className="p-10">
+          <GlassCard variant="strong" padding="none" hover={false} className="overflow-hidden rounded-[40px] border border-white/10 bg-[#1e1e1e] shadow-2xl">
+            <div className="p-16">
               {/* Logo Group */}
-              <div className="flex flex-col items-center mb-12">
+              <div className="flex flex-col items-center mb-16">
                 <Link to="/" className="mb-6 group">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-105">
                     <Zap size={28} className="text-white fill-white" />

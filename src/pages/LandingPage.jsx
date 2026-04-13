@@ -92,7 +92,8 @@ const LandingPage = () => {
 
           <motion.div 
              initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
-             className="flex flex-wrap items-center justify-center gap-6 mb-32"
+             className="flex flex-wrap items-center justify-center gap-6"
+             style={{ marginBottom: '120px' }}
           >
             <button onClick={() => navigate('/signup')} className="h-16 flex items-center gap-3 btn-mac-primary text-[17px] px-10 group shadow-xl">
               Start Building Free

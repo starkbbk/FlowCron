@@ -286,3 +286,58 @@ input:focus-visible {
   box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.5);
   border-color: #007aff !important;
 }
+
+/* ─────────────────────────────────────────────────
+   ReactFlow Controls – Dark Theme Override
+   ───────────────────────────────────────────────── */
+.react-flow__controls {
+  background: rgba(30, 30, 32, 0.85) !important;
+  backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px -10px rgba(0, 122, 255, 0.1) !important;
+  padding: 6px !important;
+  gap: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.react-flow__controls button {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.react-flow__controls button:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.05);
+}
+
+.react-flow__controls button:active {
+  transform: scale(0.95);
+}
+
+.react-flow__controls button svg {
+  fill: rgba(255, 255, 255, 0.7) !important;
+}
+
+.react-flow__controls button:hover svg {
+  fill: #ffffff !important;
+}
+
+/* ReactFlow MiniMap dark theme */
+.react-flow__minimap {
+  background: rgba(30, 30, 32, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5) !important;
+}

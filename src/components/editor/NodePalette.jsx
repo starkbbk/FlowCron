@@ -20,13 +20,14 @@ export default function NodePalette() {
   return (
     <div className="w-[320px] h-full flex flex-col bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-30 shadow-2xl font-['Inter']">
       {/* Search Header Area */}
-      <div className="p-6 border-b border-white/10">
+      <div style={{ padding: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#86868b] group-focus-within:text-[#007aff] transition-colors" size={16} />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#86868b] group-focus-within:text-[#007aff] transition-colors" size={18} />
           <input 
             type="text"
             placeholder="Search steps..."
-            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-[14px] focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#86868b] font-medium text-white shadow-inner"
+            className="w-full bg-white/5 border border-white/10 rounded-2xl focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#86868b] font-medium text-white shadow-inner"
+            style={{ paddingLeft: '52px', paddingRight: '20px', paddingTop: '16px', paddingBottom: '16px', fontSize: '15px' }}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -34,7 +35,7 @@ export default function NodePalette() {
       </div>
 
       {/* Categories Scroller */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto custom-scrollbar" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
         {Object.entries(NODE_CATEGORIES).map(([key, cat]) => {
           const nodes = getNodesByCategory(key).filter(n => 
             n.name.toLowerCase().includes(search.toLowerCase())
@@ -44,14 +45,15 @@ export default function NodePalette() {
           const isCollapsed = collapsed[key];
 
           return (
-            <div key={key} className="space-y-2">
+            <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <button 
                 onClick={() => toggleCategory(key)}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/5 transition-all text-left group"
+                className="w-full flex items-center justify-between rounded-2xl hover:bg-white/5 transition-all text-left group"
+                style={{ padding: '14px 20px' }}
               >
-                <div className="flex items-center gap-3">
-                   <div className="w-1.5 h-4 rounded-full" style={{ backgroundColor: cat.color }} />
-                   <span className="text-[13px] font-bold uppercase tracking-widest text-[#86868b] group-hover:text-white transition-colors">
+                <div className="flex items-center" style={{ gap: '12px' }}>
+                   <div className="rounded-full" style={{ width: '6px', height: '20px', backgroundColor: cat.color }} />
+                   <span className="font-extrabold uppercase tracking-widest text-[#86868b] group-hover:text-white transition-colors" style={{ fontSize: '13px' }}>
                      {cat.label}
                    </span>
                 </div>
@@ -65,7 +67,8 @@ export default function NodePalette() {
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="overflow-hidden space-y-1 px-1"
+                    className="overflow-hidden"
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '4px', paddingRight: '4px' }}
                   >
                     {nodes.map(node => {
                       const Icon = Icons[node.icon] || Zap;
@@ -74,15 +77,16 @@ export default function NodePalette() {
                           key={node.type}
                           draggable
                           onDragStart={(e) => onDragStart(e, node.type)}
-                          className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-transparent hover:border-white/10 hover:bg-white/10 cursor-grab active:cursor-grabbing transition-all group shadow-sm"
+                          className="flex items-center rounded-2xl bg-white/5 border border-transparent hover:border-white/10 hover:bg-white/10 cursor-grab active:cursor-grabbing transition-all group shadow-sm"
+                          style={{ gap: '16px', padding: '16px 20px' }}
                         >
                           <div 
-                            className="p-2 rounded-lg bg-[#1a1a1c] border border-white/5 group-hover:border-white/20 transition-colors shadow-inner" 
-                            style={{ color: cat.color }}
+                            className="rounded-xl bg-[#1a1a1c] border border-white/5 group-hover:border-white/20 transition-colors shadow-inner flex items-center justify-center" 
+                            style={{ color: cat.color, width: '44px', height: '44px' }}
                           >
-                            <Icon size={18} strokeWidth={2.5} />
+                            <Icon size={22} strokeWidth={2.5} />
                           </div>
-                          <span className="text-[14px] font-bold text-[#86868b] group-hover:text-white transition-colors truncate">
+                          <span className="font-bold text-[#86868b] group-hover:text-white transition-colors truncate" style={{ fontSize: '15px' }}>
                             {node.name}
                           </span>
                         </div>

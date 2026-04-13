@@ -102,33 +102,55 @@ export default function WorkflowsListPage() {
             />
           </div>
 
-          <div className="flex gap-3">
-             <div className="flex p-1 rounded-lg bg-[#111113] border border-[#27272a]">
+          <div className="flex items-center" style={{ gap: '16px' }}>
+             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
                {['All', 'Active', 'Paused'].map(status => (
                  <button
                    key={status}
                    onClick={() => setFilterStatus(status)}
-                   className={`px-4 py-1.5 text-[12px] font-semibold rounded-md transition-all ${
-                     filterStatus === status ? 'bg-[#18181b] text-[#fafafa] border border-[#27272a] shadow-sm' : 'text-[#52525b] hover:text-[#a1a1aa]'
-                   }`}
+                   className="font-bold transition-all"
+                   style={{
+                     padding: '10px 20px',
+                     fontSize: '14px',
+                     borderRadius: '12px',
+                     backgroundColor: filterStatus === status ? 'rgba(255,255,255,0.1)' : 'transparent',
+                     color: filterStatus === status ? '#ffffff' : '#86868b',
+                     boxShadow: filterStatus === status ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                   }}
                  >
                    {status}
                  </button>
                ))}
              </div>
 
-             <div className="flex p-1 rounded-lg bg-[#111113] border border-[#27272a]">
+             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
                 <button 
                    onClick={() => setView('grid')}
-                   className={`p-1.5 rounded-md transition-all ${view === 'grid' ? 'bg-[#18181b] text-[#fafafa] border border-[#27272a]' : 'text-[#52525b] hover:text-[#a1a1aa]'}`}
+                   className="transition-all flex items-center justify-center cursor-pointer"
+                   style={{
+                     width: '40px',
+                     height: '40px',
+                     borderRadius: '12px',
+                     backgroundColor: view === 'grid' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                     color: view === 'grid' ? '#ffffff' : '#86868b',
+                     boxShadow: view === 'grid' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                   }}
                 >
-                   <LayoutGrid size={16} />
+                   <LayoutGrid size={20} />
                 </button>
                 <button 
                    onClick={() => setView('list')}
-                   className={`p-1.5 rounded-md transition-all ${view === 'list' ? 'bg-[#18181b] text-[#fafafa] border border-[#27272a]' : 'text-[#52525b] hover:text-[#a1a1aa]'}`}
+                   className="transition-all flex items-center justify-center cursor-pointer"
+                   style={{
+                     width: '40px',
+                     height: '40px',
+                     borderRadius: '12px',
+                     backgroundColor: view === 'list' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                     color: view === 'list' ? '#ffffff' : '#86868b',
+                     boxShadow: view === 'list' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                   }}
                 >
-                   <ListIcon size={16} />
+                   <ListIcon size={20} />
                 </button>
              </div>
           </div>

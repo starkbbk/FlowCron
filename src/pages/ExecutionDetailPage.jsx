@@ -109,26 +109,26 @@ const ExecutionDetailPage = () => {
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
          {/* Left: Summary */}
-         <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#111113] border border-[#27272a] rounded-xl p-6">
-               <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#52525b] mb-6 border-b border-[#27272a] pb-3">Activity Summary</h3>
-               <div className="space-y-6">
+         <div className="lg:col-span-4" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px' }}>
+               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b]" style={{ fontSize: '13px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '16px' }}>Activity Summary</h3>
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div className="flex justify-between items-center">
-                     <span className="text-[#71717a] text-[13px] font-medium">Trigger Type</span>
-                     <span className="text-[12px] font-semibold text-[#3b82f6] bg-[#3b82f610] px-2.5 py-1 rounded-md capitalize">
+                     <span className="font-semibold text-[#86868b]" style={{ fontSize: '14px' }}>Trigger Type</span>
+                     <span className="font-bold text-[#007aff] bg-[#007aff]/10 capitalize" style={{ fontSize: '13px', padding: '6px 12px', borderRadius: '8px' }}>
                        {execution?.trigger_type}
                      </span>
                   </div>
                   <div className="flex justify-between items-center">
-                     <span className="text-[#71717a] text-[13px] font-medium">Status</span>
-                     <span className="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-[#18181b]" style={{ color: statusColor }}>
-                       <span className="capitalize">{execution?.status}</span>
+                     <span className="font-semibold text-[#86868b]" style={{ fontSize: '14px' }}>Status</span>
+                     <span className="font-bold capitalize" style={{ color: statusColor, fontSize: '13px', padding: '6px 12px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                       <span>{execution?.status}</span>
                      </span>
                   </div>
                   <div className="flex justify-between items-center">
-                     <span className="text-[#71717a] text-[13px] font-medium">Progress</span>
-                     <span className="text-[14px] font-bold text-[#fafafa] tabular-nums">
-                       {execution?.nodes_completed} <span className="text-[#27272a]">/</span> {execution?.nodes_total}
+                     <span className="font-semibold text-[#86868b]" style={{ fontSize: '14px' }}>Progress</span>
+                     <span className="font-bold text-white tabular-nums" style={{ fontSize: '15px' }}>
+                       {execution?.nodes_completed} <span className="text-[#3a3a3c]">/</span> {execution?.nodes_total}
                      </span>
                   </div>
 
@@ -136,12 +136,12 @@ const ExecutionDetailPage = () => {
                     <motion.div 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="pt-6 mt-6 border-t border-[#27272a]"
+                      style={{ paddingTop: '24px', marginTop: '8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}
                     >
-                       <div className="text-[#ef4444] text-[12px] font-bold mb-3 uppercase tracking-wider flex items-center gap-2">
-                          <XCircle size={14} /> Critical Error
+                       <div className="flex items-center gap-2 font-extrabold uppercase tracking-wider text-[#ff3b30]" style={{ fontSize: '13px', marginBottom: '16px' }}>
+                          <XCircle size={18} /> Critical Error
                        </div>
-                       <div className="text-[13px] font-medium text-[#ef4444] bg-[#ef444405] p-4 rounded-lg border border-[#ef444420] leading-relaxed">
+                       <div className="font-semibold text-[#ff3b30] bg-[#ff3b30]/10 border border-[#ff3b30]/20 leading-relaxed" style={{ padding: '20px', borderRadius: '16px', fontSize: '14px' }}>
                           {execution.error_message}
                        </div>
                     </motion.div>
@@ -149,13 +149,13 @@ const ExecutionDetailPage = () => {
                </div>
             </div>
             
-            <div className="bg-[#111113] border border-[#27272a] rounded-xl p-6">
-               <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#52525b] mb-6 border-b border-[#27272a] pb-3 flex items-center justify-between">
+            <div style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '32px' }}>
+               <h3 className="font-extrabold uppercase tracking-[0.2em] text-[#86868b] flex items-center justify-between" style={{ fontSize: '13px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '16px' }}>
                   Input Context
-                  <Code size={14} className="opacity-40" />
+                  <Code size={16} className="opacity-40" />
                </h3>
                <div className="relative">
-                  <pre className="text-[11px] font-mono p-4 rounded-lg bg-[#09090b] border border-[#27272a] overflow-x-auto text-[#71717a] leading-relaxed max-h-64 custom-scrollbar">
+                  <pre className="font-mono text-[#86868b] leading-relaxed max-h-64 overflow-x-auto custom-scrollbar" style={{ fontSize: '13px', padding: '24px', borderRadius: '16px', backgroundColor: '#000000', border: '1px solid rgba(255,255,255,0.06)' }}>
                      {JSON.stringify(execution?.trigger_data || { protocol: "ENCRYPTED_PATCH" }, null, 2)}
                   </pre>
                </div>
@@ -163,31 +163,35 @@ const ExecutionDetailPage = () => {
          </div>
 
          {/* Center/Right: Execution Sequence */}
-         <div className="lg:col-span-8 space-y-6">
-            <div className="flex p-1 rounded-lg bg-[#111113] border border-[#27272a] w-fit">
+         <div className="lg:col-span-8" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '16px', width: 'fit-content' }}>
                <button 
                   onClick={() => setActiveTab('logs')}
-                  className={`px-6 py-1.5 text-[12px] font-semibold rounded-md transition-all ${
-                    activeTab === 'logs' 
-                      ? 'bg-[#3b82f6] text-[#fafafa]' 
-                      : 'text-[#71717a] hover:text-[#a1a1aa] hover:bg-[#18181b]'
-                  }`}
+                  className="font-bold transition-all cursor-pointer"
+                  style={{
+                    padding: '10px 24px', fontSize: '14px', borderRadius: '12px',
+                    backgroundColor: activeTab === 'logs' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                    color: activeTab === 'logs' ? '#ffffff' : '#86868b',
+                    boxShadow: activeTab === 'logs' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                  }}
                >
                   Console
                </button>
                <button 
                   onClick={() => setActiveTab('nodes')}
-                  className={`px-6 py-1.5 text-[12px] font-semibold rounded-md transition-all ${
-                    activeTab === 'nodes' 
-                      ? 'bg-[#3b82f6] text-[#fafafa]' 
-                      : 'text-[#71717a] hover:text-[#a1a1aa] hover:bg-[#18181b]'
-                  }`}
+                  className="font-bold transition-all cursor-pointer"
+                  style={{
+                    padding: '10px 24px', fontSize: '14px', borderRadius: '12px',
+                    backgroundColor: activeTab === 'nodes' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                    color: activeTab === 'nodes' ? '#ffffff' : '#86868b',
+                    boxShadow: activeTab === 'nodes' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                  }}
                >
                   Step Activity
                </button>
             </div>
 
-            <div className="bg-[#111113] border border-[#27272a] rounded-xl min-h-[500px] relative overflow-hidden flex flex-col shadow-sm">
+            <div className="relative overflow-hidden flex flex-col" style={{ minHeight: '600px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', boxShadow: '0 4px 24px rgba(0,0,0,0.2)' }}>
                <AnimatePresence mode="wait">
                  {activeTab === 'logs' ? (
                    <motion.div 
@@ -198,14 +202,14 @@ const ExecutionDetailPage = () => {
                      transition={{ duration: 0.15 }}
                      className="flex-1 flex flex-col"
                    >
-                      <div className="px-6 py-3 border-b border-[#27272a] flex items-center justify-between bg-[#18181b]">
-                         <div className="flex items-center gap-2">
-                            <Terminal size={14} className="text-[#a1a1aa]" />
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-[#52525b]">System Out</span>
+                      <div className="flex items-center justify-between" style={{ padding: '20px 32px', borderBottom: '1px solid rgba(255,255,255,0.06)', backgroundColor: '#202022' }}>
+                         <div className="flex items-center gap-3">
+                            <Terminal size={18} className="text-[#86868b]" />
+                            <span className="font-extrabold uppercase tracking-widest text-[#86868b]" style={{ fontSize: '13px' }}>System Out</span>
                          </div>
                          <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#52525b]">Live</span>
+                            <div className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+                            <span className="font-bold uppercase tracking-widest text-[#86868b]" style={{ fontSize: '12px' }}>Live</span>
                          </div>
                       </div>
                       <div className="p-8 space-y-4 font-mono text-[12px] overflow-y-auto max-h-[600px] custom-scrollbar text-[#71717a] leading-relaxed">

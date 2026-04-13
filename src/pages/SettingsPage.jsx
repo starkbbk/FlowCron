@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
+import React, { useState, useEffect, useMemo, memo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   User, Shield, Key, Bell, 
   Trash2, Save, Palette, Globe, Database,
-  Cpu, Lock, Zap, History, Plus
+  Cpu, Lock, Zap, History, Plus, Upload, Camera
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
@@ -18,6 +18,20 @@ const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [apiKeys, setApiKeys] = useState([]);
   const [isLoadingKeys, setIsLoadingKeys] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+        toast.success('Profile image updated!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     if (activeTab === 'api_keys') {
@@ -137,12 +151,41 @@ const SettingsPage = () => {
                    </div>
 
                    <div className="flex items-center border border-white/10" style={{ gap: '24px', padding: '24px', borderRadius: '20px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
-                      <div className="flex items-center justify-center font-extrabold text-[#007aff] border border-white/10" style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#2c2c2e', fontSize: '28px' }}>
-                         {user?.username?.[0].toUpperCase()}
+                      <div 
+                        className="flex items-center justify-center font-extrabold border border-white/10 overflow-hidden" 
+                        style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#2c2c2e', fontSize: '28px' }}
+                      >
+                         {profileImage ? (
+                           <img src={profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                         ) : (
+                           <span className="text-[#007aff]">{user?.username?.[0].toUpperCase()}</span>
+                         )}
                       </div>
                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                          <label className="text-[#52525b] font-bold tracking-wider uppercase" style={{ fontSize: '12px' }}>Profile Image</label>
-                          <GlassButton variant="secondary" style={{ padding: '10px 20px', fontSize: '13px' }}>Change Image</GlassButton>
+                          <label className="text-[#86868b] font-bold tracking-wider uppercase" style={{ fontSize: '12px' }}>Profile Image</label>
+                          <input 
+                            type="file" 
+                            ref={fileInputRef} 
+                            onChange={handleImageChange} 
+                            accept="image/*" 
+                            style={{ display: 'none' }} 
+                          />
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="flex items-center font-bold text-white cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                            style={{ 
+                              gap: '10px', 
+                              padding: '12px 24px', 
+                              fontSize: '14px', 
+                              borderRadius: '14px', 
+                              background: 'linear-gradient(135deg, #007aff, #5856d6)', 
+                              boxShadow: '0 4px 20px rgba(0, 122, 255, 0.4)',
+                              border: 'none',
+                            }}
+                          >
+                            <Camera size={18} />
+                            Change Image
+                          </button>
                        </div>
                    </div>
 

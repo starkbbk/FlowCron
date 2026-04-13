@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Zap, Eye, EyeOff, ArrowRight, Mail, Lock, User } from 'lucide-react';
+import { Zap, Eye, EyeOff, ArrowRight, Mail, Lock, User, Shield, Workflow, Clock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import GlassCard from '../components/ui/GlassCard';
-import GlassButton from '../components/ui/GlassButton';
 import { GlassInput } from '../components/ui/GlassInput';
 import useAuthStore from '../stores/authStore';
 import api from '../services/api';
@@ -56,32 +54,184 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden bg-[#161618]">
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#007aff]/5 to-[#34c759]/5 pointer-events-none" />
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[460px] relative z-10 py-12"
-      >
-        <div className="text-center mb-16">
-          <Link to="/" className="inline-flex items-center gap-4 no-underline mb-10 group">
-            <div className="bg-gradient-to-br from-[#007aff] to-[#34c759] rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg transition-transform hover:scale-105">
-              <Zap size={28} className="text-white fill-white" />
+    <div 
+      className="relative min-h-screen overflow-hidden font-['Inter']"
+      style={{ 
+        background: 'linear-gradient(135deg, #0f0f12 0%, #1a1a2e 50%, #16213e 100%)',
+      }}
+    >
+      {/* Animated background orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div 
+          className="absolute rounded-full blur-[120px] opacity-20 animate-pulse"
+          style={{ width: '600px', height: '600px', top: '-10%', right: '-5%', background: 'radial-gradient(circle, #34c759, transparent)' }}
+        />
+        <div 
+          className="absolute rounded-full blur-[100px] opacity-15"
+          style={{ width: '500px', height: '500px', bottom: '-15%', left: '-5%', background: 'radial-gradient(circle, #007aff, transparent)', animation: 'float 20s infinite alternate ease-in-out' }}
+        />
+      </div>
+
+      {/* Main Split Container */}
+      <div className="relative z-10 flex min-h-screen" style={{ padding: '32px' }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex w-full overflow-hidden"
+          style={{ 
+            borderRadius: '40px',
+            background: 'rgba(30, 30, 32, 0.6)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5), 0 0 80px -20px rgba(0,122,255,0.15)',
+          }}
+        >
+          {/* LEFT — Hero Visual Side */}
+          <div 
+            className="hidden lg:flex flex-col justify-between relative overflow-hidden w-1/2"
+            style={{ 
+              borderRadius: '40px 0 0 40px',
+              background: 'linear-gradient(135deg, #0a1628, #0d2137)',
+            }}
+          >
+            {/* Hero Image */}
+            <img 
+              src="/login-hero.png" 
+              alt="FlowCron Team" 
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ opacity: 0.4, mixBlendMode: 'luminosity' }}
+            />
+            
+            {/* Gradient Overlays */}
+            <div 
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(135deg, rgba(52,199,89,0.12) 0%, rgba(0,122,255,0.15) 50%, rgba(88,86,214,0.1) 100%)' }}
+            />
+            <div 
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to top, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.3) 50%, rgba(10,22,40,0.6) 100%)' }}
+            />
+
+            {/* Content Over Image */}
+            <div className="relative z-10 flex flex-col justify-between h-full" style={{ padding: '56px' }}>
+              {/* Top floating card */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                style={{ 
+                  background: 'rgba(255,255,255,0.08)', 
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: '20px',
+                  padding: '20px 28px',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  maxWidth: '300px',
+                }}
+              >
+                <div className="flex items-center" style={{ gap: '12px', marginBottom: '8px' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#007aff', boxShadow: '0 0 8px #007aff' }} />
+                  <span className="text-white font-bold" style={{ fontSize: '14px' }}>30-Day Free Trial</span>
+                </div>
+                <span className="text-[#86868b] font-medium" style={{ fontSize: '13px' }}>No credit card required. Full access to all features.</span>
+              </motion.div>
+
+              {/* Bottom content */}
+              <div>
+                {/* Feature pills */}
+                <div className="flex flex-wrap" style={{ gap: '12px', marginBottom: '40px' }}>
+                  {[
+                    { icon: Shield, label: 'Enterprise Security' },
+                    { icon: Workflow, label: 'Visual Builder' },
+                    { icon: Clock, label: 'Cron Scheduling' },
+                  ].map((feat) => (
+                    <motion.div
+                      key={feat.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
+                      className="flex items-center text-white/80 font-medium"
+                      style={{ 
+                        gap: '8px', fontSize: '13px',
+                        background: 'rgba(255,255,255,0.06)', 
+                        backdropFilter: 'blur(10px)',
+                        borderRadius: '12px',
+                        padding: '10px 18px',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                      }}
+                    >
+                      <feat.icon size={16} className="text-[#34c759]" />
+                      {feat.label}
+                    </motion.div>
+                  ))}
+                </div>
+
+                <h2 
+                  className="text-white font-extrabold tracking-tight"
+                  style={{ fontSize: '34px', lineHeight: 1.2, marginBottom: '16px' }}
+                >
+                  Start building<br />
+                  <span className="text-[#34c759]">in minutes.</span>
+                </h2>
+                <p className="text-white/60 font-medium" style={{ fontSize: '16px', lineHeight: 1.7, maxWidth: '400px' }}>
+                  Join thousands of teams who automate their workflows with FlowCron's powerful visual editor.
+                </p>
+
+                {/* Trust badges */}
+                <div className="flex items-center" style={{ gap: '24px', marginTop: '40px' }}>
+                  <div className="flex flex-col">
+                    <span className="text-white font-extrabold" style={{ fontSize: '28px' }}>10K+</span>
+                    <span className="text-white/40 font-medium" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>WORKFLOWS</span>
+                  </div>
+                  <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.1)' }} />
+                  <div className="flex flex-col">
+                    <span className="text-white font-extrabold" style={{ fontSize: '28px' }}>99.9%</span>
+                    <span className="text-white/40 font-medium" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>UPTIME</span>
+                  </div>
+                  <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.1)' }} />
+                  <div className="flex flex-col">
+                    <span className="text-white font-extrabold" style={{ fontSize: '28px' }}>500+</span>
+                    <span className="text-white/40 font-medium" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>TEAMS</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span className="text-3xl font-black text-white tracking-tighter">FlowCron</span>
-          </Link>
+          </div>
 
-          <h1 className="text-3xl font-bold text-white tracking-tight mb-4">Create Account</h1>
-          <p className="text-[#86868b] text-[16px] font-medium leading-relaxed">
-            Build powerful automated workflows in minutes.
-          </p>
-        </div>
+          {/* RIGHT — Form Side */}
+          <div 
+            className="flex flex-col justify-center w-full lg:w-1/2"
+            style={{ padding: '56px' }}
+          >
+            {/* Brand */}
+            <Link to="/" className="flex items-center gap-3 no-underline mb-10 group">
+              <div 
+                className="flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-105"
+                style={{ 
+                  width: '48px', height: '48px', borderRadius: '16px',
+                  background: 'linear-gradient(135deg, #007aff, #34c759)',
+                }}
+              >
+                <Zap size={24} className="text-white fill-white" />
+              </div>
+              <span className="text-2xl font-extrabold text-white tracking-tight">FlowCron</span>
+            </Link>
 
-        <GlassCard variant="strong" padding="none" hover={false} className="shadow-2xl border-white/10 rounded-[40px] overflow-hidden bg-[#1e1e1e]">
-          <div className="p-16">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
-            <div className="flex flex-col gap-8">
+            {/* Heading */}
+            <div style={{ marginBottom: '40px' }}>
+              <h1 
+                className="font-extrabold text-white tracking-tight"
+                style={{ fontSize: '34px', lineHeight: 1.15, marginBottom: '12px' }}
+              >
+                Create Account
+              </h1>
+              <p className="text-[#86868b] font-medium" style={{ fontSize: '16px', lineHeight: 1.6 }}>
+                Build powerful automated workflows in minutes
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col" style={{ gap: '24px' }}>
               <GlassInput
                 label="Username"
                 placeholder="Choose a username"
@@ -105,7 +255,7 @@ export default function SignupPage() {
                 })}
               />
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col" style={{ gap: '12px' }}>
                 <GlassInput
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
@@ -116,7 +266,8 @@ export default function SignupPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="text-[#86868b] hover:text-white transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg hover:bg-white/5"
+                      className="text-[#86868b] hover:text-white transition-colors flex items-center justify-center rounded-lg hover:bg-white/5"
+                      style={{ minWidth: '40px', minHeight: '40px' }}
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -134,15 +285,16 @@ export default function SignupPage() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="flex flex-col gap-2 px-1"
+                      className="flex flex-col px-1"
+                      style={{ gap: '8px' }}
                     >
-                      <div className="flex justify-between items-center text-[11px] uppercase font-bold tracking-widest mt-1">
-                        <span className="text-[#86868b]">Password Strength</span>
-                        <span style={{ color: strengthColor }} className="transition-colors duration-500">
+                      <div className="flex justify-between items-center" style={{ marginTop: '4px' }}>
+                        <span className="text-[#86868b] text-[11px] font-bold uppercase tracking-widest">Password Strength</span>
+                        <span style={{ color: strengthColor, fontSize: '11px' }} className="font-bold uppercase tracking-widest transition-colors duration-500">
                           {strengthLabel}
                         </span>
                       </div>
-                      <div className="flex gap-2 h-1.5 mt-1">
+                      <div className="flex h-1.5" style={{ gap: '8px', marginTop: '4px' }}>
                         {[1, 2, 3].map((s) => (
                           <div key={s} className="flex-1 rounded-full bg-white/10 overflow-hidden">
                             <motion.div
@@ -170,39 +322,54 @@ export default function SignupPage() {
                   validate: (val) => val === password || 'Passwords do not match',
                 })}
               />
-            </div>
 
-            <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-              <label className="flex items-start gap-4 cursor-pointer group">
-                <div className="relative w-6 h-6 rounded-md border border-[#3a3a3c] bg-[#1a1a1c] flex items-center justify-center group-hover:border-[#007aff] transition-all mt-0.5 shrink-0">
-                  <input type="checkbox" required className="peer absolute inset-0 opacity-0 cursor-pointer" />
-                  <div className="w-3 h-3 rounded-sm bg-[#007aff] opacity-0 peer-checked:opacity-100 transition-opacity shadow-[0_0_8px_#007aff]" />
-                </div>
-                <p className="text-[14px] font-medium text-[#86868b] leading-relaxed group-hover:text-white transition-colors text-left">
-                  {'I agree to the Terms & Conditions'}
-                </p>
-              </label>
-            </div>
+              <div 
+                className="rounded-2xl"
+                style={{ padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}
+              >
+                <label className="flex items-start cursor-pointer group" style={{ gap: '16px' }}>
+                  <div className="relative w-6 h-6 rounded-md border border-[#3a3a3c] bg-[#1a1a1c] flex items-center justify-center group-hover:border-[#007aff] transition-all mt-0.5 shrink-0">
+                    <input type="checkbox" required className="peer absolute inset-0 opacity-0 cursor-pointer" />
+                    <div className="w-3 h-3 rounded-sm bg-[#007aff] opacity-0 peer-checked:opacity-100 transition-opacity shadow-[0_0_8px_#007aff]" />
+                  </div>
+                  <p className="text-[14px] font-medium text-[#86868b] leading-relaxed group-hover:text-white transition-colors text-left">
+                    I agree to the Terms & Conditions
+                  </p>
+                </label>
+              </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-14 bg-[#007aff] text-white text-[16px] font-bold rounded-2xl shadow-lg hover:bg-[#006ce6] active:scale-95 transition-all mt-4 disabled:opacity-50"
-            >
-              {isLoading ? 'Creating Account...' : 'Create Account'}
-            </button>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full text-white font-bold transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+                style={{ 
+                  height: '56px', 
+                  fontSize: '16px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #007aff, #0066d6)',
+                  boxShadow: '0 8px 32px rgba(0,122,255,0.35)',
+                  marginTop: '8px',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                {isLoading ? 'Creating Account...' : 'Create Account'}
+              </button>
             </form>
-          </div>
-        </GlassCard>
 
-        <p className="text-center mt-12 text-[15px] font-medium text-[#86868b]">
-          Already have an account?{' '}
-          <Link to="/login" className="text-[#007aff] font-bold hover:text-[#34c759] no-underline transition-all inline-flex items-center gap-2 group ml-1">
-            Sign in
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </p>
-      </motion.div>
+            {/* Bottom Text */}
+            <div className="text-center" style={{ marginTop: '32px' }}>
+              <p className="text-[15px] font-medium text-[#86868b]">
+                Already have an account?{' '}
+                <Link to="/login" className="text-[#007aff] font-bold hover:text-white no-underline transition-all inline-flex items-center gap-2 group" style={{ marginLeft: '4px' }}>
+                  Sign in
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

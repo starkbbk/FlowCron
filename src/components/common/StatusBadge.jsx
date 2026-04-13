@@ -73,5 +73,3 @@ const StatusBadge = ({ status, size = 'default', className = '' }) => {
 };
 
 export default memo(StatusBadge);
-
-export default memo(StatusBadge);

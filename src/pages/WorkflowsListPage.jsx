@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Search, GitBranch, Play, Clock, Webhook,
-  MoreHorizontal, Edit2, LayoutGrid, List as ListIcon
+  MoreHorizontal, Edit2, LayoutGrid, List as ListIcon, Loader2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';

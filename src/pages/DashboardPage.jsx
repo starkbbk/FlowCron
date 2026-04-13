@@ -16,10 +16,8 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   
-  const { workflows, setWorkflows } = useWorkflowStore(state => ({
-    workflows: state.workflows,
-    setWorkflows: state.setWorkflows
-  }));
+  const workflows = useWorkflowStore(state => state.workflows);
+  const setWorkflows = useWorkflowStore(state => state.setWorkflows);
 
   const [dashboardData, setDashboardData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

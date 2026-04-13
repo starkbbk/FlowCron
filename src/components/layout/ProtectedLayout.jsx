@@ -39,7 +39,8 @@ const ProtectedLayout = () => {
           Rule: 260px sidebar width
       */}
       <main
-        className="min-h-screen relative z-10 pt-12 pl-0 transition-[padding-left] duration-300 ease-in-out md:pl-[var(--sidebar-width,260px)]"
+        className="min-h-screen relative z-10 pt-4 md:pt-12 transition-all duration-300 ease-in-out"
+        style={{ paddingLeft: 'calc(var(--sidebar-width) + var(--sidebar-gap))' }}
       >
         <AnimatePresence mode="wait">
           <motion.div

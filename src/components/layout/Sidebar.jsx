@@ -32,17 +32,14 @@ const Sidebar = () => {
   };
 
   return (
-    <motion.aside
-      initial={{ x: -260, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="hidden md:flex flex-col fixed left-0 top-0 h-screen bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-[100] transition-[width] duration-300 ease-in-out overflow-hidden gpu-accel shadow-2xl"
+    <aside
+      className="hidden md:flex flex-col fixed inset-y-0 left-0 h-screen bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-[100] transition-[width] duration-300 ease-in-out overflow-hidden gpu-accel shadow-2xl"
       style={{ width: 'var(--sidebar-width, 260px)' }}
     >
       {/* Brand Section */}
-      <div className="p-6 py-8 flex items-center gap-4 shrink-0 overflow-hidden">
-        <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg">
-          <Zap size={20} className="text-white fill-white" />
+      <div className="p-6 py-8 pl-8 flex items-center gap-6 shrink-0 overflow-hidden">
+        <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
+          <Zap size={20} className="text-white fill-white translate-y-[1px]" />
         </div>
         <AnimatePresence>
           {!collapsed && (
@@ -50,7 +47,7 @@ const Sidebar = () => {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
-              className="text-[20px] font-bold text-white tracking-tight whitespace-nowrap"
+              className="text-[24px] font-extrabold text-white tracking-tight whitespace-nowrap mt-1"
             >
               FlowCron
             </motion.span>
@@ -59,7 +56,7 @@ const Sidebar = () => {
       </div>
 
       {/* Primary Navigation */}
-      <nav className="flex-1 px-4 space-y-2 overflow-y-auto no-scrollbar scroll-smooth">
+      <nav className="flex-1 px-6 space-y-2 overflow-y-auto no-scrollbar scroll-smooth">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -76,7 +73,7 @@ const Sidebar = () => {
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -8 }}
-                  className="text-[15px] whitespace-nowrap"
+                  className="text-[17px] font-semibold whitespace-nowrap"
                 >
                   {item.label}
                 </motion.span>
@@ -127,7 +124,7 @@ const Sidebar = () => {
           {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
-    </motion.aside>
+    </aside>
   );
 };
 

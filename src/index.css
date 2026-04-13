@@ -24,6 +24,18 @@
   --color-text-secondary: #86868b;
 }
 
+:root {
+  --sidebar-width: 0px;
+  --sidebar-gap: 0px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sidebar-width: 260px;
+    --sidebar-gap: 3rem;
+  }
+}
+
 /* ==========================================
    BASE & TYPOGRAPHY
    ========================================== */

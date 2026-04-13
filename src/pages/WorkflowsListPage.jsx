@@ -27,10 +27,8 @@ export default function WorkflowsListPage() {
   const [filterStatus, setFilterStatus] = useState('All');
   
   const navigate = useNavigate();
-  const { workflows, setWorkflows } = useWorkflowStore(state => ({
-    workflows: state.workflows,
-    setWorkflows: state.setWorkflows
-  }));
+  const workflows = useWorkflowStore(state => state.workflows);
+  const setWorkflows = useWorkflowStore(state => state.setWorkflows);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 

@@ -61,7 +61,7 @@ export default function DashboardPage() {
         maxWidth: '1400px', 
         paddingLeft: '24px', 
         paddingRight: '24px',
-        paddingTop: '80px' 
+        paddingTop: '120px' 
       }}
     >
       {/* Header Area */}

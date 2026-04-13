@@ -99,11 +99,25 @@ const Sidebar = () => {
 
       {/* Sidebar Footer */}
       <div 
-        className="py-6 bg-transparent border-t border-white/10 space-y-3"
-        style={{ marginLeft: '24px', marginRight: '24px' }}
+        className="bg-transparent border-t border-white/10"
+        style={{ 
+          marginLeft: '24px', 
+          marginRight: '24px', 
+          paddingTop: '32px', 
+          paddingBottom: '32px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
+        }}
       >
-        <div className="flex items-center p-3 rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md">
-          <div className="w-10 h-10 rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center text-white font-bold text-[14px] shrink-0 shadow-inner">
+        <div 
+          className="flex items-center rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
+          style={{ padding: '20px' }}
+        >
+          <div 
+            className="rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-inner"
+            style={{ width: '48px', height: '48px', fontSize: '18px' }}
+          >
             {user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
           
@@ -116,10 +130,10 @@ const Sidebar = () => {
                 className="flex-1 min-w-0"
                 style={{ marginLeft: '16px' }}
               >
-                <div className="text-[14px] font-bold text-white truncate">
+                <div className="text-[17px] font-bold text-white truncate">
                   {user?.username || user?.email?.split('@')[0]}
                 </div>
-                <div className="text-[12px] font-medium text-[#007aff] truncate mt-0.5">
+                <div className="text-[14px] font-medium text-[#007aff] truncate mt-1">
                    Free Plan
                 </div>
               </motion.div>
@@ -128,10 +142,11 @@ const Sidebar = () => {
 
           <button 
             onClick={handleLogout}
-            className="p-2 rounded-xl text-[#86868b] hover:text-[#ff2d55] hover:bg-[#ff2d55]/10 transition-all shrink-0"
+            className="rounded-xl text-[#86868b] hover:text-[#ff2d55] hover:bg-[#ff2d55]/10 transition-all shrink-0"
             title="Sign Out"
+            style={{ padding: '12px' }}
           >
-            <LogOut size={18} />
+            <LogOut size={24} />
           </button>
         </div>
 

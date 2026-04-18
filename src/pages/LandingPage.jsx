@@ -121,65 +121,123 @@ const LandingPage = () => {
                <div className="flex-1 text-center text-[14px] font-semibold text-[#86868b]">FlowCron Editor — Untitled Workflow</div>
             </div>
             {/* Editor Canvas Area */}
-            <div className="flex-1 min-h-[550px] bg-[#161618] relative overflow-hidden flex items-center justify-center p-8 lg:p-12">
+            <div className="flex-1 min-h-[650px] bg-[#161618] relative overflow-hidden flex flex-col">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#2c2c2e 1.5px, transparent 1.5px)', backgroundSize: '32px 32px', opacity: 0.6 }} />
               
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 items-center gap-6 lg:gap-10 w-full max-w-4xl py-12">
-                {/* Node 1: Webhook */}
-                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl animate-glow">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#00d1ff]/20 flex items-center justify-center">
-                       <Workflow size={20} className="text-[#007aff]" />
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-bold text-white">Webhook Trigger</div>
-                      <div className="text-[11px] text-[#86868b]">New Contact Form</div>
-                    </div>
-                  </div>
+              <div className="flex-1 flex overflow-hidden relative">
+                {/* Fake Left Sidebar (Palette) */}
+                <div className="w-60 border-r border-white/10 bg-black/40 backdrop-blur-md hidden lg:flex flex-col p-5 gap-6">
+                   <div className="h-6 w-24 bg-white/10 rounded-full animate-pulse" />
+                   {[1,2,3,4].map(i => (
+                     <div key={i} className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10" />
+                        <div className="h-4 flex-1 bg-white/5 rounded-md" />
+                     </div>
+                   ))}
                 </div>
 
-                {/* Connection */}
-                <div className="hidden md:flex flex-1 justify-center relative">
-                   <div className="w-full h-[2px] bg-gradient-to-r from-[#007aff] to-[#af52de]" />
-                </div>
-
-                {/* Node 2: OpenAI */}
-                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[#af52de]/30 rounded-2xl p-5 shadow-2xl relative">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#af52de]/20 flex items-center justify-center">
-                       <Sparkles size={20} className="text-[#af52de]" />
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-bold text-white">Analyze with GPT-4</div>
-                      <div className="text-[11px] text-[#86868b]">Classifying Intent...</div>
-                    </div>
-                  </div>
-                  <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#af52de] rounded-full blur-[4px] animate-pulse" />
-                </div>
-
-                {/* Branching Logic */}
-                <div className="md:col-span-1 flex flex-col gap-10 items-center justify-center h-full relative">
-                   {/* Connection Path */}
-                   <div className="absolute -left-10 top-1/2 w-10 h-[2px] bg-[#af52de] hidden md:block" />
-                   
-                   {/* Node 3: Slack */}
-                   <div className="w-full bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 shadow-xl translate-x-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#34c759]/10 flex items-center justify-center">
-                           <CheckCircle2 size={16} className="text-[#34c759]" />
+                {/* Canvas with Pro Workflow */}
+                <div className="flex-1 relative flex items-center justify-center p-12 overflow-visible">
+                   <div className="relative z-10 flex flex-col items-center gap-12 w-full">
+                      
+                      {/* Level 1: Cron Trigger */}
+                      <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-5 w-64 shadow-2xl animate-glow">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-[#007aff]/20 flex items-center justify-center">
+                             <Clock size={20} className="text-[#007aff]" />
+                          </div>
+                          <div>
+                            <div className="text-[14px] font-bold text-white">Daily Summary</div>
+                            <div className="text-[11px] text-[#86868b]">Triggered at 09:00</div>
+                          </div>
                         </div>
-                        <span className="text-[12px] font-bold text-white">Post to Slack</span>
+                      </div>
+
+                      <div className="h-10 w-[2px] bg-white/10" />
+
+                      {/* Level 2: DB Query */}
+                      <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[#ff9500]/30 rounded-2xl p-5 w-64 shadow-2xl">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-[#ff9500]/20 flex items-center justify-center">
+                             <Workflow size={20} className="text-[#ff9500]" />
+                          </div>
+                          <div>
+                            <div className="text-[14px] font-bold text-white">Get Active Users</div>
+                            <div className="text-[11px] text-[#86868b]">PostgreSQL Query</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Branching from DB */}
+                      <div className="w-full flex justify-center h-20">
+                         <div className="w-1/2 h-full border-t border-x border-dashed border-white/20 rounded-t-[40px] mt-10 relative">
+                            <div className="absolute left-1/2 -top-10 -translate-x-1/2 h-10 w-[2px] bg-white/10" />
+                         </div>
+                      </div>
+
+                      <div className="flex gap-12 md:gap-24">
+                        {/* Branch A: OpenAI */}
+                        <div className="flex flex-col items-center gap-6">
+                           <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[#af52de]/30 rounded-2xl p-5 w-56 shadow-2xl relative">
+                              <div className="flex items-center gap-4">
+                                <div className="w-9 h-9 rounded-lg bg-[#af52de]/20 flex items-center justify-center">
+                                   <Sparkles size={18} className="text-[#af52de]" />
+                                </div>
+                                <div>
+                                  <div className="text-[13px] font-bold text-white">Generate Reports</div>
+                                  <div className="text-[10px] text-[#86868b]">OpenAI GPT-4</div>
+                                </div>
+                              </div>
+                              <div className="absolute inset-0 bg-[#af52de]/5 animate-pulse rounded-2xl pointer-events-none" />
+                           </div>
+                           <div className="bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 w-48 shadow-lg opacity-80">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-[#34c759]/10 flex items-center justify-center">
+                                   <Share2 size={16} className="text-[#34c759]" />
+                                </div>
+                                <span className="text-[12px] font-bold text-white">Send Email</span>
+                              </div>
+                           </div>
+                        </div>
+
+                        {/* Branch B: Google Sheets */}
+                        <div className="flex flex-col items-center gap-6">
+                           <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[#34c759]/30 rounded-2xl p-5 w-56 shadow-2xl">
+                              <div className="flex items-center gap-4">
+                                <div className="w-9 h-9 rounded-lg bg-[#34c759]/20 flex items-center justify-center">
+                                   <GitBranch size={18} className="text-[#34c759]" />
+                                </div>
+                                <div>
+                                  <div className="text-[13px] font-bold text-white">Log to Sheets</div>
+                                  <div className="text-[10px] text-[#86868b]">Update Analytics</div>
+                                </div>
+                              </div>
+                           </div>
+                           <div className="bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 w-48 shadow-lg opacity-80">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-[#007aff]/10 flex items-center justify-center">
+                                   <Zap size={16} className="text-[#007aff]" />
+                                </div>
+                                <span className="text-[12px] font-bold text-white">Post to Slack</span>
+                              </div>
+                           </div>
+                        </div>
                       </div>
                    </div>
+                </div>
 
-                   {/* Node 4: Email */}
-                   <div className="w-full bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 shadow-xl translate-x-4 opacity-60 scale-95">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#86868b]/10 flex items-center justify-center">
-                           <Clock size={16} className="text-[#86868b]" />
-                        </div>
-                        <span className="text-[12px] font-bold text-[#86868b]">Draft Email</span>
-                      </div>
+                {/* Fake Right Sidebar (Config) */}
+                <div className="w-72 border-l border-white/10 bg-black/40 backdrop-blur-md hidden xl:flex flex-col p-6 gap-8">
+                   <div className="h-8 w-full bg-white/5 rounded-xl animate-pulse" />
+                   {[1,2,3].map(i => (
+                     <div key={i} className="space-y-3">
+                        <div className="h-3 w-16 bg-white/10 rounded-md" />
+                        <div className="h-10 w-full bg-white/5 rounded-xl border border-white/5" />
+                     </div>
+                   ))}
+                   <div className="mt-auto h-12 w-full bg-[#007aff]/20 border border-[#007aff]/40 rounded-xl flex items-center justify-center gap-2">
+                       <Zap size={16} className="text-[#007aff] fill-current" />
+                       <div className="h-4 w-20 bg-[#007aff] rounded-md" />
                    </div>
                 </div>
               </div>

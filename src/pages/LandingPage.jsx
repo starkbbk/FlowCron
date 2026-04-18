@@ -121,39 +121,66 @@ const LandingPage = () => {
                <div className="flex-1 text-center text-[14px] font-semibold text-[#86868b]">FlowCron Editor — Untitled Workflow</div>
             </div>
             {/* Editor Canvas Area */}
-            <div className="flex-1 min-h-[500px] bg-[#161618] relative overflow-hidden flex items-center justify-center p-12">
+            <div className="flex-1 min-h-[550px] bg-[#161618] relative overflow-hidden flex items-center justify-center p-8 lg:p-12">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#2c2c2e 1.5px, transparent 1.5px)', backgroundSize: '32px 32px', opacity: 0.6 }} />
               
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 p-10 w-full justify-center">
-                {/* Node 1 */}
-                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl w-72 shadow-2xl p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#ff2d55]/20 flex items-center justify-center">
-                      <Clock size={20} className="text-[#ff2d55]" />
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 items-center gap-6 lg:gap-10 w-full max-w-4xl py-12">
+                {/* Node 1: Webhook */}
+                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl animate-glow">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#00d1ff]/20 flex items-center justify-center">
+                       <Workflow size={20} className="text-[#007aff]" />
                     </div>
                     <div>
-                      <div className="text-[15px] font-bold text-white mb-1">Schedule Trigger</div>
-                      <div className="text-[12px] text-[#86868b]">Runs every 15 mins</div>
+                      <div className="text-[14px] font-bold text-white">Webhook Trigger</div>
+                      <div className="text-[11px] text-[#86868b]">New Contact Form</div>
                     </div>
                   </div>
-                </div>
-                
-                {/* Connection Line */}
-                <div className="hidden md:block w-20 h-1 bg-[#007aff] relative rounded-full">
-                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-[3px] border-[#007aff] bg-[#1a1a1c]"></div>
                 </div>
 
-                {/* Node 2 */}
-                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[rgba(0,122,255,0.4)] rounded-2xl w-72 shadow-[0_0_0_2px_rgba(0,122,255,0.2),_0_20px_40px_rgba(0,0,0,0.4)] p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#007aff]/20 flex items-center justify-center">
-                      <Globe size={20} className="text-[#007aff]" />
+                {/* Connection */}
+                <div className="hidden md:flex flex-1 justify-center relative">
+                   <div className="w-full h-[2px] bg-gradient-to-r from-[#007aff] to-[#af52de]" />
+                </div>
+
+                {/* Node 2: OpenAI */}
+                <div className="bg-[#2c2c2e]/95 backdrop-blur-xl border border-[#af52de]/30 rounded-2xl p-5 shadow-2xl relative">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#af52de]/20 flex items-center justify-center">
+                       <Sparkles size={20} className="text-[#af52de]" />
                     </div>
                     <div>
-                      <div className="text-[15px] font-bold text-white mb-1">HTTP Request</div>
-                      <div className="text-[12px] text-[#86868b]">POST /api/webhook</div>
+                      <div className="text-[14px] font-bold text-white">Analyze with GPT-4</div>
+                      <div className="text-[11px] text-[#86868b]">Classifying Intent...</div>
                     </div>
                   </div>
+                  <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#af52de] rounded-full blur-[4px] animate-pulse" />
+                </div>
+
+                {/* Branching Logic */}
+                <div className="md:col-span-1 flex flex-col gap-10 items-center justify-center h-full relative">
+                   {/* Connection Path */}
+                   <div className="absolute -left-10 top-1/2 w-10 h-[2px] bg-[#af52de] hidden md:block" />
+                   
+                   {/* Node 3: Slack */}
+                   <div className="w-full bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 shadow-xl translate-x-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#34c759]/10 flex items-center justify-center">
+                           <CheckCircle2 size={16} className="text-[#34c759]" />
+                        </div>
+                        <span className="text-[12px] font-bold text-white">Post to Slack</span>
+                      </div>
+                   </div>
+
+                   {/* Node 4: Email */}
+                   <div className="w-full bg-[#1c1c1e] border border-white/5 rounded-2xl p-4 shadow-xl translate-x-4 opacity-60 scale-95">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#86868b]/10 flex items-center justify-center">
+                           <Clock size={16} className="text-[#86868b]" />
+                        </div>
+                        <span className="text-[12px] font-bold text-[#86868b]">Draft Email</span>
+                      </div>
+                   </div>
                 </div>
               </div>
             </div>

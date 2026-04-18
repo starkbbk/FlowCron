@@ -98,7 +98,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card p-10 flex flex-col h-[280px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            className={`mac-bento-card p-12 flex flex-col h-[240px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)'
@@ -106,21 +106,21 @@ export default function DashboardPage() {
           >
             <div className="flex justify-between items-start mb-auto relative z-10">
               <div 
-                className="flex items-center justify-center rounded-[20px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
+                className="flex items-center justify-center rounded-[18px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
                 style={{ 
-                  width: '64px', 
-                  height: '64px', 
+                  width: '56px', 
+                  height: '56px', 
                   backgroundColor: `${stat.color}20`,
                   color: stat.color,
-                  boxShadow: `0 0 20px ${stat.color}30`
+                  boxShadow: `0 0 15px ${stat.color}30`
                 }}
               >
-                <stat.icon size={28} strokeWidth={2.5} />
+                <stat.icon size={24} strokeWidth={2.5} />
               </div>
               {stat.status && (
-                <div className="flex items-center gap-2.5 px-4 py-2 bg-[#34c759]/10 rounded-full border border-[#34c759]/20 backdrop-blur-md">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#34c759] shadow-[0_0_10px_#34c759] animate-pulse" />
-                  <span className="text-[12px] font-black text-[#34c759] uppercase tracking-[0.15em]">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#34c759]/10 rounded-full border border-[#34c759]/20 backdrop-blur-md">
+                  <div className="w-2 h-2 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759] animate-pulse" />
+                  <span className="text-[10px] font-black text-[#34c759] uppercase tracking-[0.15em]">
                     {stat.status}
                   </span>
                 </div>
@@ -128,10 +128,10 @@ export default function DashboardPage() {
             </div>
 
             <div className="relative z-10">
-              <div className="text-[44px] lg:text-[52px] font-black text-white leading-none tracking-tighter mb-2 tabular-nums">
+              <div className="text-[36px] lg:text-[44px] font-black text-white leading-none tracking-tighter mb-2 tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-[14px] lg:text-[16px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
+              <div className="text-[12px] lg:text-[13px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
                 {stat.label}
               </div>
             </div>
@@ -331,6 +331,7 @@ export default function DashboardPage() {
                     <p className="text-[14px] text-white/90 leading-relaxed font-medium">
                        Scale your work with the <strong className="text-white font-extrabold text-[15px]">Schedule Node</strong>.
                     </p>
+                    </div>
                </div>
             </motion.div>
          </div>

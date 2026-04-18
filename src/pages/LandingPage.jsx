@@ -258,54 +258,54 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 rounded-3xl" style={{ gap: '40px' }}>
             {/* Box 1 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card flex flex-col min-h-[480px] p-16 justify-between">
-              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center mb-10 shadow-xl">
-                <Workflow size={40} className="text-white" />
+            <div className="md:col-span-2 mac-bento-card flex flex-col min-h-[400px] p-20 justify-between">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center mb-10 shadow-xl group-hover:scale-110 transition-transform duration-500">
+                <Workflow size={32} className="text-white" />
               </div>
               <div className="mt-auto">
-                <h3 className="text-[32px] font-black text-white mb-8 tracking-tight">Visual Logic Builder</h3>
-                <p className="text-[19px] text-[#86868b] leading-relaxed max-w-lg font-medium">
+                <h3 className="text-[32px] font-black text-white mb-6 tracking-tight">Visual Logic Builder</h3>
+                <p className="text-[18px] text-[#86868b] leading-relaxed max-w-lg font-medium opacity-80">
                   Drag and connect logical nodes freely on a limitless canvas. No syntax errors, just pure logic flow with massive breathing room.
                 </p>
               </div>
             </div>
 
             {/* Box 2 */}
-            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[480px] p-14 justify-between">
-              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-10 shadow-inner">
-                <Clock size={32} className="text-[#ffcc00]" />
+            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[400px] p-16 justify-between">
+              <div className="w-14 h-14 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                <Clock size={28} className="text-[#ffcc00]" />
               </div>
               <div className="mt-auto">
-                <h3 className="text-[26px] font-black text-white mb-6 tracking-tight">Smart Schedulers</h3>
-                <p className="text-[17px] text-[#86868b] leading-relaxed font-medium">
+                <h3 className="text-[24px] font-black text-white mb-6 tracking-tight">Smart Schedulers</h3>
+                <p className="text-[16px] text-[#86868b] leading-relaxed font-medium opacity-80">
                   Precision background crons down to the minute.
                 </p>
               </div>
             </div>
 
             {/* Box 3 */}
-            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[480px] p-14 justify-between">
-              <div className="w-16 h-16 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-10 shadow-inner">
-                <Zap size={32} className="text-[#ff2d55]" />
+            <div className="md:col-span-1 mac-bento-card flex flex-col min-h-[400px] p-16 justify-between">
+              <div className="w-14 h-14 rounded-2xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                <Zap size={28} className="text-[#ff2d55]" />
               </div>
               <div className="mt-auto">
-                <h3 className="text-[26px] font-black text-white mb-6 tracking-tight">Real-time Data</h3>
-                <p className="text-[17px] text-[#86868b] leading-relaxed font-medium">
+                <h3 className="text-[24px] font-black text-white mb-6 tracking-tight">Real-time Data</h3>
+                <p className="text-[16px] text-[#86868b] leading-relaxed font-medium opacity-80">
                   Watch execution step-by-step live.
                 </p>
               </div>
             </div>
 
             {/* Box 4 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card flex flex-col relative overflow-hidden min-h-[480px] p-16 justify-between">
-               <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-gradient-to-br from-[#5856d6]/40 to-transparent blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+            <div className="md:col-span-2 mac-bento-card flex flex-col relative overflow-hidden min-h-[400px] p-20 justify-between">
+               <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-gradient-to-br from-[#5856d6]/40 to-transparent blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
               
-              <div className="w-20 h-20 rounded-3xl bg-[#5856d6] flex items-center justify-center mb-10 relative z-10 shadow-xl">
-                <Plug size={40} className="text-white" />
+              <div className="w-16 h-16 rounded-2xl bg-[#5856d6] flex items-center justify-center mb-10 relative z-10 shadow-xl group-hover:scale-110 transition-transform duration-500">
+                <Plug size={32} className="text-white" />
               </div>
               <div className="mt-auto relative z-10">
-                <h3 className="text-[32px] font-black text-white mb-8 tracking-tight">Connect Anything</h3>
-                <p className="text-[19px] text-[#86868b] leading-relaxed max-w-lg font-medium">
+                <h3 className="text-[32px] font-black text-white mb-6 tracking-tight">Connect Anything</h3>
+                <p className="text-[18px] text-[#86868b] leading-relaxed max-w-lg font-medium opacity-80">
                   Integrates effortlessly with REST APIs, Webhooks, Slack, Discord, and Email providers.
                 </p>
               </div>
@@ -315,12 +315,12 @@ const LandingPage = () => {
 
         {/* HOW IT WORKS */}
         <section id="how-it-works" className="w-full max-w-6xl px-6 flex flex-col relative z-20">
-           <div className="mac-bento-card flex flex-col md:flex-row items-center gap-20 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-24 px-16">
-              <div className="flex-1 text-center md:text-left">
+           <div className="mac-bento-card flex flex-col lg:flex-row items-center gap-24 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-32 px-24">
+              <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-[40px] md:text-[50px] font-extrabold text-white tracking-tight mb-8 leading-tight">
                   Three Steps to Automation.
                 </h2>
-                <p className="text-[20px] text-[#86868b] leading-relaxed">
+                <p className="text-[20px] text-[#86868b] leading-relaxed max-w-md">
                    You don't need to read manuals. The experience is native, intuitive, and blindingly fast.
                 </p>
               </div>
@@ -330,13 +330,13 @@ const LandingPage = () => {
                    { title: 'Configure Node Options', desc: 'Set URL, tokens, variables visually.' },
                    { title: 'Activate & Relax', desc: 'Hit execute. We handle the infrastructure.' },
                  ].map((item, idx) => (
-                   <div key={idx} className="flex items-center gap-10 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[32px] p-10 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
-                      <div className="w-20 h-20 rounded-full bg-[#007aff]/10 flex items-center justify-center shrink-0 border border-[#007aff]/20 group-hover:scale-110 transition-transform">
-                         <span className="text-[#007aff] font-black text-[28px]">{idx + 1}</span>
+                   <div key={idx} className="flex items-center gap-10 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[32px] p-12 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
+                      <div className="w-16 h-16 rounded-full bg-[#007aff]/10 flex items-center justify-center shrink-0 border border-[#007aff]/20 group-hover:scale-110 transition-transform">
+                         <span className="text-[#007aff] font-black text-[24px]">{idx + 1}</span>
                       </div>
-                      <div className="space-y-3">
-                        <div className="text-[22px] font-black text-white tracking-tight">{item.title}</div>
-                        <div className="text-[17px] text-[#86868b] font-medium leading-relaxed">{item.desc}</div>
+                      <div className="space-y-2">
+                        <div className="text-[20px] font-black text-white tracking-tight">{item.title}</div>
+                        <div className="text-[16px] text-[#86868b] font-medium leading-relaxed opacity-80">{item.desc}</div>
                       </div>
                    </div>
                  ))}

@@ -20,7 +20,7 @@ const GenericNode = ({ id, data, selected }) => {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
         className={`
-          w-[320px] mac-bento-card overflow-hidden transition-all duration-500 relative
+          w-[260px] mac-bento-card overflow-hidden transition-all duration-500 relative
           ${selected 
             ? 'shadow-[0_0_0_2px_#007aff,_0_30px_60px_rgba(0,0,0,0.6)]' 
             : 'shadow-2xl hover:border-white/20'
@@ -40,26 +40,26 @@ const GenericNode = ({ id, data, selected }) => {
           }} 
         />
 
-        <div className="p-10 space-y-8 relative z-10">
+        <div className="p-12 space-y-10 relative z-10">
           <div className="flex items-center justify-between">
              <div 
-                className="flex items-center justify-center rounded-2xl w-14 h-14 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
+                className="flex items-center justify-center rounded-2xl w-12 h-12 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
                 style={{ 
                   color: category.color,
-                  boxShadow: `inset 0 0 20px ${category.color}20, 0 0 15px ${category.color}30`
+                  boxShadow: `inset 0 0 15px ${category.color}20, 0 0 12px ${category.color}30`
                 }}
              >
-                <Icon size={26} strokeWidth={2.2} />
+                <Icon size={24} strokeWidth={2.4} />
              </div>
              {execution && (
                 <div className="flex flex-col items-end gap-2">
                   <StatusBadge 
                     status={execution.status} 
                     size="small" 
-                    className="scale-110 origin-right shadow-lg" 
+                    className="scale-100 origin-right shadow-lg" 
                   />
                   {execution.started_at && (
-                    <span className="text-[10px] text-[#52525b] font-bold uppercase tracking-widest">
+                    <span className="text-[9px] text-[#52525b] font-bold uppercase tracking-widest">
                       {new Date(execution.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   )}

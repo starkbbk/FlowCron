@@ -3,6 +3,8 @@ export const NODE_CATEGORIES = {
   action: { label: 'Actions', color: '#34C759', accent: 'border-t-[#34C759]' },
   condition: { label: 'Conditions', color: '#FFCC00', accent: 'border-t-[#FFCC00]' },
   logic: { label: 'Logic', color: '#AF52DE', accent: 'border-t-[#AF52DE]' },
+  storage: { label: 'Storage', color: '#FF9500', accent: 'border-t-[#FF9500]' },
+  ai: { label: 'AI & Data', color: '#00D1FF', accent: 'border-t-[#00D1FF]' },
 }
 
 export const NODE_TYPES = [
@@ -137,6 +139,54 @@ export const NODE_TYPES = [
     description: 'Execute JavaScript code',
     configFields: [
       { name: 'code', label: 'Code (JS)', type: 'code', placeholder: 'return { result: input.value * 2 }' },
+    ],
+  },
+  {
+    type: 'openai_node',
+    name: 'OpenAI GPT',
+    category: 'ai',
+    icon: 'Brain',
+    description: 'Generate text or analyze data',
+    configFields: [
+      { name: 'api_key', label: 'API Key', type: 'text', placeholder: 'sk-...' },
+      { name: 'model', label: 'Model', type: 'select', options: ['gpt-4o', 'gpt-4-turbo', 'gpt-3.5-turbo'], default: 'gpt-4o' },
+      { name: 'prompt', label: 'Prompt', type: 'textarea', placeholder: 'Summarize this: {{node_1.output}}' },
+      { name: 'max_tokens', label: 'Max Tokens', type: 'number', default: 500 },
+    ],
+  },
+  {
+    type: 'google_sheets',
+    name: 'Google Sheets',
+    category: 'storage',
+    icon: 'Table',
+    description: 'Update or read spreadsheet rows',
+    configFields: [
+      { name: 'spreadsheet_id', label: 'Spreadsheet ID', type: 'text' },
+      { name: 'range', label: 'Range', type: 'text', placeholder: 'Sheet1!A1:Z100' },
+      { name: 'action', label: 'Action', type: 'select', options: ['Read Rows', 'Append Row', 'Update Row'], default: 'Append Row' },
+    ],
+  },
+  {
+    type: 'database_query',
+    name: 'Database Query',
+    category: 'storage',
+    icon: 'Database',
+    description: 'Run SQL or NoSQL queries',
+    configFields: [
+      { name: 'connection_string', label: 'Connection URI', type: 'text', placeholder: 'postgresql://...' },
+      { name: 'query', label: 'Query / Command', type: 'code', placeholder: 'SELECT * FROM users WHERE active = true' },
+    ],
+  },
+  {
+    type: 'twilio_sms',
+    name: 'Send SMS (Twilio)',
+    category: 'action',
+    icon: 'Smartphone',
+    description: 'Send a text message via Twilio',
+    configFields: [
+      { name: 'account_sid', label: 'Account SID', type: 'text' },
+      { name: 'to', label: 'To Number', type: 'text', placeholder: '+1234567890' },
+      { name: 'message', label: 'Message', type: 'textarea' },
     ],
   },
 ]

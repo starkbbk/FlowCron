@@ -119,6 +119,6 @@ export default function NodePalette({ isOpen, setIsOpen }) {
             Drag items to canvas
           </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -29,12 +29,20 @@ const templates = [
     category: 'Monitor'
   },
   {
-    id: 4,
-    name: 'Data Sync Pipe',
-    description: 'Read data from one source and transform it for another storage.',
+    id: 5,
+    name: 'AI Content Drafter',
+    description: 'Use GPT-4 to analyze incoming webhooks and draft email replies automatically.',
+    icon: Zap,
+    color: '#00d1ff',
+    category: 'AI & Data'
+  },
+  {
+    id: 6,
+    name: 'SQL to Google Sheets',
+    description: 'Run a weekly SQL query and export the results to a shared Google Sheet.',
     icon: Database,
-    color: '#ffcc00',
-    category: 'Data'
+    color: '#ff9500',
+    category: 'Storage'
   }
 ];
 

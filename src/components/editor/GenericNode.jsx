@@ -40,7 +40,7 @@ const GenericNode = ({ id, data, selected }) => {
           }} 
         />
 
-        <div className="p-6 space-y-6 relative z-10">
+        <div className="p-10 space-y-8 relative z-10">
           <div className="flex items-center justify-between">
              <div 
                 className="flex items-center justify-center rounded-2xl w-14 h-14 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
@@ -52,11 +52,18 @@ const GenericNode = ({ id, data, selected }) => {
                 <Icon size={26} strokeWidth={2.2} />
              </div>
              {execution && (
-                <StatusBadge 
-                  status={execution.status} 
-                  size="small" 
-                  className="scale-90 origin-right shadow-lg" 
-                />
+                <div className="flex flex-col items-end gap-2">
+                  <StatusBadge 
+                    status={execution.status} 
+                    size="small" 
+                    className="scale-110 origin-right shadow-lg" 
+                  />
+                  {execution.started_at && (
+                    <span className="text-[10px] text-[#52525b] font-bold uppercase tracking-widest">
+                      {new Date(execution.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  )}
+                </div>
              )}
           </div>
           

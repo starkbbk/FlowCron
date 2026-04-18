@@ -128,9 +128,9 @@ input, textarea, pre, code {
   backdrop-filter: var(--blur-pro);
   -webkit-backdrop-filter: var(--blur-pro);
   border: 1px solid var(--color-border-dim);
-  border-radius: 28px;
+  border-radius: 32px;
   box-shadow: 
-    0 15px 50px -15px rgba(0, 0, 0, 0.5),
+    0 25px 80px -20px rgba(0, 0, 0, 0.6),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   position: relative;

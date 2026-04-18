@@ -42,12 +42,20 @@ export default function SignupPage() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const res = await api.post('/auth/signup', data);
+      // Remove confirm_password and other non-schema fields before sending
+      const { confirm_password, ...signupData } = data;
+      const res = await api.post('/auth/signup', signupData);
       setAuth(res.data.user, res.data.access_token);
       toast.success('Account created successfully');
       navigate('/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Signup failed');
+      // Improved error reporting: handle FastAPI validation errors (array) or custom detail (string)
+      const detail = err.response?.data?.detail;
+      const errorMessage = Array.isArray(detail) 
+        ? detail[0]?.msg 
+        : (typeof detail === 'string' ? detail : 'Signup failed');
+        
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

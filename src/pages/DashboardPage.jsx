@@ -210,7 +210,7 @@ export default function DashboardPage() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </motion.div>
 
           {/* New Feature: Node Performance */}
           <motion.div 
@@ -331,10 +331,9 @@ export default function DashboardPage() {
                     <p className="text-[14px] text-white/90 leading-relaxed font-medium">
                        Scale your work with the <strong className="text-white font-extrabold text-[15px]">Schedule Node</strong>.
                     </p>
-                 </div>
-              </div>
-           </div>
-        </div>
+               </div>
+            </motion.div>
+         </div>
       </div>
     </div>
   );

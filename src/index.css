@@ -27,12 +27,20 @@
 :root {
   --sidebar-width: 0px;
   --sidebar-gap: 0px;
+  --panel-width: 320px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   :root {
     --sidebar-width: 260px;
     --sidebar-gap: 3rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --sidebar-width: 0px;
+    --sidebar-gap: 0px;
   }
 }
 
@@ -152,6 +160,29 @@ input, textarea, pre, code {
     0 0 40px -8px rgba(0, 122, 255, 0.3),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   transition: all 0.1s ease;
+}
+
+/* Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px -5px rgba(0, 122, 255, 0.5);
+}
+
+.glow-success {
+  box-shadow: 0 0 20px -5px rgba(52, 199, 89, 0.5);
+}
+
+.glow-error {
+  box-shadow: 0 0 20px -5px rgba(255, 45, 85, 0.5);
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 10px rgba(0, 122, 255, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(0, 122, 255, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(0, 122, 255, 0.2); }
+}
+
+.animate-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
 }
 
 /* App Window Container */
@@ -341,10 +372,43 @@ input:focus-visible {
   fill: #ffffff !important;
 }
 
-/* ReactFlow MiniMap dark theme */
 .react-flow__minimap {
   background: rgba(30, 30, 32, 0.85) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px !important;
   box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Custom Scrollbar for Bento Cards */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Utility for responsive padding */
+.responsive-container {
+  padding-left: 5%;
+  padding-right: 5%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1023px) {
+  .responsive-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

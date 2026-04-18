@@ -177,12 +177,15 @@ export default function ConfigPanel() {
     }
   };
 
+  const isMobile = window.innerWidth < 1024;
+
   return (
     <motion.div
-      initial={{ x: 440 }}
-      animate={{ x: 0 }}
-      exit={{ x: 440 }}
-      className="w-[440px] h-full flex flex-col bg-[#1e1e1e]/80 backdrop-blur-3xl border-l border-white/10 z-40 shadow-2xl font-['Inter']"
+      initial={{ x: isMobile ? 0 : 440, y: isMobile ? 800 : 0 }}
+      animate={{ x: 0, y: 0 }}
+      exit={{ x: isMobile ? 0 : 440, y: isMobile ? 800 : 0 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed lg:relative bottom-0 lg:bottom-auto right-0 lg:right-auto h-[80vh] lg:h-full w-full lg:w-[440px] flex flex-col bg-[#1e1e1e]/90 backdrop-blur-3xl border-t lg:border-t-0 lg:border-l border-white/10 z-[110] lg:z-40 shadow-2xl font-['Inter'] rounded-t-[32px] lg:rounded-none overflow-hidden`}
     >
       {/* Header */}
       <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">

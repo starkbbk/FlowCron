@@ -4,7 +4,7 @@ import { Search, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { NODE_CATEGORIES, getNodesByCategory } from '../../utils/nodeTypes';
 
-export default function NodePalette() {
+export default function NodePalette({ isOpen, setIsOpen }) {
   const [search, setSearch] = useState('');
   const [collapsed, setCollapsed] = useState({});
 
@@ -18,7 +18,21 @@ export default function NodePalette() {
   };
 
   return (
-    <div className="w-[320px] h-full flex flex-col bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-30 shadow-2xl font-['Inter']">
+    <motion.div 
+      initial={false}
+      animate={{ 
+        width: isOpen ? (window.innerWidth < 1024 ? '100%' : '320px') : '0px',
+        opacity: isOpen ? 1 : 0
+      }}
+      className="h-full flex flex-col bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-30 shadow-2xl font-['Inter'] relative overflow-hidden"
+    >
+      <button 
+        onClick={() => setIsOpen(false)}
+        className="absolute right-4 top-4 p-2 hover:bg-white/10 rounded-xl text-[#86868b] lg:hidden z-50"
+      >
+        <Icons.X size={20} />
+      </button>
+
       {/* Search Header Area */}
       <div style={{ padding: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="relative group">

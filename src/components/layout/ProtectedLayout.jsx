@@ -43,13 +43,12 @@ const ProtectedLayout = () => {
       */}
       <main
         className={`min-h-screen relative z-10 transition-all duration-300 ease-in-out ${isEditorRoute ? '' : 'pt-4 md:pt-12'}`}
-        style={{ paddingLeft: isEditorRoute ? 'var(--sidebar-width)' : 'calc(var(--sidebar-width) + var(--sidebar-gap))' }}
+        style={{ paddingLeft: isEditorRoute ? '0' : 'var(--sidebar-width)' }}
       >
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            className={isEditorRoute ? 'gpu-accel' : 'pb-32 gpu-accel'}
-            style={isEditorRoute ? {} : { paddingLeft: '5%', paddingRight: '5%' }}
+            className={`gpu-accel ${isEditorRoute ? 'h-screen' : 'pb-32'}`}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -58,10 +57,7 @@ const ProtectedLayout = () => {
             {isEditorRoute ? (
               <Outlet />
             ) : (
-              <div 
-                className="mx-auto overflow-visible"
-                style={{ maxWidth: '1400px' }}
-              >
+              <div className="responsive-container">
                 <Outlet />
               </div>
             )}

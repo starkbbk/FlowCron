@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   return (
     <aside 
-      className="fixed top-0 bottom-0 left-0 bg-[#1c1c1e]/80 backdrop-blur-2xl border-r border-white/5 z-50 transition-all duration-300 ease-in-out shrink-0 flex flex-col shadow-2xl overflow-visible"
+      className="fixed top-0 bottom-0 left-0 bg-[#1c1c1e]/80 backdrop-blur-2xl border-r border-white/5 z-50 transition-all duration-300 ease-in-out shrink-0 hidden lg:flex flex-col shadow-2xl overflow-visible"
       style={{ 
         width: 'var(--sidebar-width, 260px)',
         overflow: 'visible'

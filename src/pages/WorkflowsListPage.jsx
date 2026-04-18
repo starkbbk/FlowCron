@@ -14,6 +14,7 @@ import { GlassInput, GlassSelect } from '../components/ui/GlassInput';
 import StatusBadge from '../components/common/StatusBadge';
 import GlassModal from '../components/ui/GlassModal';
 import { TableSkeleton } from '../components/common/LoadingSkeleton';
+import TemplatesDialog from '../components/common/TemplatesDialog';
 
 import api from '../services/api';
 import useWorkflowStore from '../stores/workflowStore';
@@ -23,6 +24,7 @@ export default function WorkflowsListPage() {
   const [view, setView] = useState('grid');
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   
@@ -61,6 +63,18 @@ export default function WorkflowsListPage() {
     }
   };
 
+  const onSelectTemplate = (template) => {
+    // In a real app, this would pre-fill the workflow creation or use a specific API
+    toast.success(`Starting with ${template.name} template`);
+    setIsTemplateModalOpen(false);
+    setIsModalOpen(true);
+    reset({
+      name: `My ${template.name}`,
+      description: template.description,
+      trigger_type: 'manual'
+    });
+  };
+
   const filteredWorkflows = useMemo(() => {
     return workflows.filter(wf => {
       const matchesSearch = wf.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -79,14 +93,14 @@ export default function WorkflowsListPage() {
 
   return (
     <div 
-      className="space-y-12 pb-16 mx-auto"
-      style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
+      className="space-y-8 lg:space-y-12 pb-20 mx-auto w-full px-6 lg:px-8 pt-12 lg:pt-24"
+      style={{ maxWidth: '1400px' }}
     >
       {/* Header & Controls */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center" style={{ gap: '32px', marginBottom: '16px' }}>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 lg:gap-8">
         <div>
-          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>Workflows</h1>
-          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>Manage and monitor your automated workflows.</p>
+          <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2 lg:mb-3">Workflows</h1>
+          <p className="text-[15px] lg:text-[17px] text-[#86868b] font-medium">Manage and monitor your automated pipelines.</p>
         </div>
         
         <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto">
@@ -155,9 +169,19 @@ export default function WorkflowsListPage() {
              </div>
           </div>
 
-          <GlassButton icon={Plus} onClick={() => setIsModalOpen(true)} className="!py-2.5 !px-6">
-            New Workflow
-          </GlassButton>
+           <div className="flex items-center gap-3">
+              <GlassButton 
+                variant="secondary" 
+                icon={Zap} 
+                onClick={() => setIsTemplateModalOpen(true)}
+                className="!py-2.5 !px-5 bg-white/5 border-white/10 hidden md:flex"
+              >
+                Templates
+              </GlassButton>
+              <GlassButton icon={Plus} onClick={() => setIsModalOpen(true)} className="!py-2.5 !px-6">
+                New
+              </GlassButton>
+           </div>
         </div>
       </div>
 
@@ -341,6 +365,13 @@ export default function WorkflowsListPage() {
           </div>
         </form>
       </GlassModal>
+
+      {/* Templates Gallery */}
+      <TemplatesDialog 
+        isOpen={isTemplateModalOpen}
+        onClose={() => setIsTemplateModalOpen(false)}
+        onSelect={onSelectTemplate}
+      />
     </div>
   );
 }

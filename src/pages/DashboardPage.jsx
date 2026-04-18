@@ -49,20 +49,15 @@ export default function DashboardPage() {
     { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff' },
     { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active' },
     { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55' },
-    { label: 'Success Rate', value: `${dashboardData?.success_rate || 0}%`, icon: Zap, color: '#ffcc00' },
+    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ffcc00' },
   ], [dashboardData, activeWorkflowsCount]);
 
   if (isLoading) return <StatSkeleton />;
 
   return (
     <div 
-      className="flex flex-col gap-16 pb-20 mx-auto"
-      style={{ 
-        maxWidth: '1400px', 
-        paddingLeft: '24px', 
-        paddingRight: '24px',
-        paddingTop: '120px' 
-      }}
+      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full px-6 lg:px-8 pt-12 lg:pt-24"
+      style={{ maxWidth: '1400px' }}
     >
       {/* Header Area */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
@@ -93,7 +88,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
         {stats.map((stat, idx) => (
           <div 
             key={idx} 
@@ -131,10 +126,10 @@ export default function DashboardPage() {
             </div>
 
             <div className="mt-auto relative z-10">
-              <div className="text-[40px] font-bold text-white leading-none tracking-tight">
+              <div className="text-[32px] lg:text-[40px] font-bold text-white leading-none tracking-tight">
                 {stat.value}
               </div>
-              <div className="text-[15px] font-bold text-[#86868b] mt-3 uppercase tracking-widest">
+              <div className="text-[13px] lg:text-[15px] font-bold text-[#86868b] mt-3 uppercase tracking-widest">
                 {stat.label}
               </div>
             </div>
@@ -143,20 +138,20 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+      <div className="flex flex-col xl:grid xl:grid-cols-3 gap-10">
         {/* Chart Card */}
-        <div className="xl:col-span-2">
-          <div className="mac-bento-card p-12 min-h-[500px] flex flex-col shadow-2xl relative z-10">
-            <div className="flex justify-between items-center mb-12">
-              <h3 className="text-[24px] font-bold text-white tracking-tight">Activity Stats</h3>
-              <div className="text-[12px] font-bold text-[#86868b] uppercase tracking-widest px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+        <div className="xl:col-span-2 space-y-10">
+          <div className="mac-bento-card p-8 lg:p-12 min-h-[400px] lg:min-h-[500px] flex flex-col shadow-2xl relative z-10">
+            <div className="flex justify-between items-center mb-8 lg:mb-12">
+              <h3 className="text-[20px] lg:text-[24px] font-bold text-white tracking-tight">Activity Stats</h3>
+              <div className="text-[10px] lg:text-[12px] font-bold text-[#86868b] uppercase tracking-widest px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
                 Last 7 Days
               </div>
             </div>
             
-            <div className="flex-1 w-full min-h-[360px]">
+            <div className="flex-1 w-full min-h-[300px] lg:min-h-[360px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={dashboardData?.execution_chart_data || []} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                <AreaChart data={dashboardData?.execution_chart_data || []}>
                   <defs>
                     <linearGradient id="colorExec" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#007aff" stopOpacity={0.25}/>
@@ -168,14 +163,14 @@ export default function DashboardPage() {
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#86868b', fontSize: 13, fontWeight: 600 }}
+                    tick={{ fill: '#86868b', fontSize: 11, fontWeight: 600 }}
                     dy={16}
                     tickFormatter={(val) => val.split('-').slice(-2).join('/')}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#86868b', fontSize: 13, fontWeight: 600 }} 
+                    tick={{ fill: '#86868b', fontSize: 11, fontWeight: 600 }} 
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -195,69 +190,106 @@ export default function DashboardPage() {
                     dataKey="executions" 
                     stroke="#007aff" 
                     fill="url(#colorExec)" 
-                    strokeWidth={4}
-                    activeDot={{ r: 8, fill: '#007aff', stroke: '#fff', strokeWidth: 3 }}
+                    strokeWidth={3}
+                    activeDot={{ r: 6, fill: '#007aff', stroke: '#fff', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </div>
+
+          {/* New Feature: Node Performance */}
+          <div className="mac-bento-card p-8 lg:p-12 min-h-[300px] flex flex-col shadow-2xl relative z-10 overflow-hidden">
+             <div className="absolute left-0 bottom-0 w-full h-full bg-gradient-to-t from-[#ffcc00]/5 to-transparent pointer-events-none" />
+             <div className="flex justify-between items-center mb-10 relative z-10">
+                <div>
+                   <h3 className="text-[20px] font-bold text-white tracking-tight">Node Reliability</h3>
+                   <p className="text-[13px] text-[#86868b] mt-1 font-medium">Success vs Failure by node type</p>
+                </div>
+                <div className="bg-[#ffcc00]/10 p-3 rounded-xl border border-[#ffcc00]/20">
+                   <Zap size={20} className="text-[#ffcc00]" />
+                </div>
+             </div>
+             
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+                {[
+                  { label: 'Triggers', rate: '100%', color: '#007aff' },
+                  { label: 'HTTP', rate: '98.2%', color: '#34c759' },
+                  { label: 'Email', rate: '99.5%', color: '#5856d6' },
+                  { label: 'Code', rate: '85.1%', color: '#ff2d55' }
+                ].map((item, i) => (
+                  <div key={i} className="flex flex-col gap-2">
+                     <span className="text-[11px] font-bold uppercase tracking-widest text-[#86868b]">{item.label}</span>
+                     <span className="text-[24px] font-bold text-white tabular-nums">{item.rate}</span>
+                     <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: item.rate }}
+                          transition={{ duration: 1, delay: i * 0.1 }}
+                          className="h-full rounded-full"
+                          style={{ backgroundColor: item.color }}
+                        />
+                     </div>
+                  </div>
+                ))}
+             </div>
+          </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="h-full">
-           <div className="mac-bento-card p-12 min-h-[500px] flex flex-col shadow-2xl relative overflow-hidden">
+        <div className="space-y-10">
+           <div className="mac-bento-card p-8 lg:p-12 min-h-[500px] flex flex-col shadow-2xl relative overflow-hidden">
               <div className="absolute right-0 top-0 w-64 h-64 bg-gradient-to-bl from-[#34c759]/10 to-transparent blur-[50px] rounded-full translate-x-1/4 -translate-y-1/4 pointer-events-none" />
 
-              <div className="flex justify-between items-center mb-12 relative z-10">
-                 <h3 className="text-[24px] font-bold text-white tracking-tight">Recent Activity</h3>
+              <div className="flex justify-between items-center mb-10 relative z-10">
+                 <h3 className="text-[20px] lg:text-[24px] font-bold text-white tracking-tight">Live Feed</h3>
                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                     <Activity size={20} className="text-[#86868b]" />
                  </div>
               </div>
               
-              <div className="flex-1 flex flex-col gap-8 overflow-y-auto no-scrollbar pr-2 relative z-10">
+              <div className="flex-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pr-2 relative z-10">
                  {dashboardData?.recent_executions?.length > 0 ? (
-                   dashboardData.recent_executions.map((exec) => (
-                    <div key={exec.id} className="flex gap-5 group items-start">
+                   dashboardData.recent_executions.slice(0, 6).map((exec) => (
+                    <div key={exec.id} className="flex gap-4 group items-start p-3 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/5 cursor-pointer">
                         <div 
-                          className={`mt-1.5 h-3 w-3 rounded-full flex-shrink-0 shadow-md ${
+                          className={`mt-1 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
                             exec.status === 'completed' ? 'bg-[#34c759] shadow-[0_0_8px_#34c759]' : 
                             exec.status === 'failed' ? 'bg-[#ff2d55] shadow-[0_0_8px_#ff2d55]' : 
                             'bg-[#007aff] shadow-[0_0_8px_#007aff] animate-pulse'
                           }`}
                         />
                         <div className="flex-1 min-w-0">
-                           <div className="text-[15px] font-bold text-white truncate group-hover:text-[#007aff] transition-colors">
-                             Workflow Run <span className="text-[#86868b] font-mono text-[13px] ml-1 uppercase">{exec.id.slice(0, 8)}</span>
+                           <div className="text-[14px] font-bold text-white truncate group-hover:text-[#007aff] transition-colors">
+                             Workflow {exec.status} <span className="text-[#86868b] font-mono text-[11px] ml-1 uppercase">{exec.id.slice(0, 8)}</span>
                            </div>
-                           <div className="flex items-center gap-3 mt-2">
-                              <div className="text-[13px] font-bold text-[#86868b] uppercase tracking-widest">{exec.status}</div>
-                              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                              <div className="text-[13px] text-[#86868b] font-bold tabular-nums">12:34 PM</div>
+                           <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-widest">{exec.status}</span>
+                              <div className="w-1 h-1 rounded-full bg-white/20" />
+                              <span className="text-[12px] text-[#86868b] font-medium tabular-nums">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                            </div>
                         </div>
                     </div>
                    ))
                  ) : (
-                   <div className="flex flex-col items-center justify-center h-full text-center py-24 opacity-40">
-                      <Clock size={48} className="mb-6 text-white" />
-                      <div className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#86868b]">No signals detected</div>
+                   <div className="flex flex-col items-center justify-center h-full text-center py-12 opacity-40">
+                      <Clock size={40} className="mb-4 text-white" />
+                      <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#86868b]">No signals detected</div>
                    </div>
                  )}
               </div>
               
-              <div className="mt-8 pt-10 border-t border-white/10 relative z-10 w-full">
+              <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
                  <div 
                    className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '32px 36px', borderRadius: '20px' }}
+                   style={{ padding: '24px', borderRadius: '20px' }}
                  >
-                    <div className="flex items-center gap-3 text-[#007aff] mb-4">
-                       <Zap size={24} fill="currentColor" />
-                       <span className="text-[15px] font-bold uppercase tracking-[0.25em]">Pro Tip</span>
+                    <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
+                       <Zap size={18} fill="currentColor" />
+                       <span className="text-[12px] font-bold uppercase tracking-[0.2em]">Scale Fast</span>
                     </div>
-                    <p className="text-[16px] text-white/90 leading-relaxed font-medium">
-                       Scale your work by setting a <strong className="text-white font-extrabold text-[17px]">Schedule Node</strong> for automatic execution.
+                    <p className="text-[14px] text-white/90 leading-relaxed font-medium">
+                       Scale your work with the <strong className="text-white font-extrabold text-[15px]">Schedule Node</strong>.
                     </p>
                  </div>
               </div>

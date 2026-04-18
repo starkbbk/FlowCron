@@ -73,4 +73,3 @@ FlowCron follows Apple's new **Liquid Glass** design language:
 
 ---
 
-Built with ❤️ by Antigravity

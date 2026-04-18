@@ -97,20 +97,28 @@ export default function WorkflowsListPage() {
       style={{ maxWidth: '1400px' }}
     >
       {/* Header & Controls */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 lg:gap-8">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
         <div>
-          <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2 lg:mb-3">Workflows</h1>
-          <p className="text-[15px] lg:text-[17px] text-[#86868b] font-medium">Manage and monitor your automated pipelines.</p>
+          <motion.h1 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-[40px] lg:text-[52px] font-black text-white tracking-tighter mb-4"
+          >
+            Workflows
+          </motion.h1>
+          <p className="text-[18px] text-[#86868b] font-semibold max-w-xl leading-relaxed opacity-80">
+            Design, deploy and scale your automated pipelines with precision.
+          </p>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto">
-          <div className="relative group flex-1 md:w-80">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#52525b] group-focus-within:text-[#007aff] transition-colors" size={18} />
+        <div className="flex flex-col md:flex-row gap-6 w-full xl:w-auto">
+          <div className="relative group flex-1 md:w-96">
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[#52525b] group-focus-within:text-[#007aff] transition-all duration-300" size={20} />
             <input 
               type="text"
-              placeholder="Search workflows..."
-              className="w-full bg-[#1c1c1e] border border-white/10 rounded-2xl focus:border-[#007aff]/50 outline-none transition-all placeholder:text-[#52525b] font-medium text-white"
-              style={{ paddingLeft: '52px', paddingRight: '20px', paddingTop: '16px', paddingBottom: '16px', fontSize: '15px' }}
+              placeholder="Search flows..."
+              className="w-full bg-white/5 border border-white/10 rounded-2xl focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#52525b] font-bold text-white shadow-inner backdrop-blur-xl"
+              style={{ paddingLeft: '56px', paddingRight: '20px', height: '60px', fontSize: '16px' }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -204,53 +212,64 @@ export default function WorkflowsListPage() {
       ) : view === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
           <AnimatePresence mode="popLayout">
-            {filteredWorkflows.map((wf) => (
-              <div 
+            {filteredWorkflows.map((wf, idx) => (
+              <motion.div 
                 key={wf.id} 
-                className="flex flex-col group cursor-pointer hover:bg-white/5 transition-all"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
                 style={{ 
-                  height: '340px', 
-                  padding: '28px', 
-                  backgroundColor: '#1c1c1e', 
-                  border: '1px solid rgba(255,255,255,0.1)', 
-                  borderRadius: '24px',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
+                  height: '380px', 
+                  padding: '32px', 
+                  backgroundColor: 'rgba(255,255,255,0.03)', 
+                  backdropFilter: 'blur(40px)',
+                  border: '1px solid rgba(255,255,255,0.06)', 
+                  borderRadius: '32px',
+                  boxShadow: '0 30px 60px -12px rgba(0,0,0,0.4)',
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
-                 <div className="flex justify-between items-start" style={{ marginBottom: '24px' }}>
+                 <div className="flex justify-between items-start mb-10">
                       <div 
-                        className={`flex items-center justify-center border border-white/10 transition-colors group-hover:border-[#007aff]/30 ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
-                        style={{ width: '52px', height: '52px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}
+                        className={`flex items-center justify-center border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-2xl ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
+                        style={{ 
+                          width: '64px', 
+                          height: '64px', 
+                          borderRadius: '20px', 
+                          backgroundColor: 'rgba(255,255,255,0.05)',
+                          boxShadow: wf.status === 'active' ? '0 0 20px rgba(0,122,255,0.2)' : 'none'
+                        }}
                       >
-                         <GitBranch size={24} />
+                         <GitBranch size={28} strokeWidth={2.5} />
                       </div>
-                    <StatusBadge status={wf.status} size="small" />
+                    <StatusBadge status={wf.status} size="small" className="scale-110 translate-x-2" />
                  </div>
                  
-                 <h3 className="font-extrabold text-white group-hover:text-[#007aff] transition-colors truncate" style={{ fontSize: '20px', marginBottom: '10px' }}>
+                 <h3 className="font-black text-white group-hover:text-[#007aff] transition-all duration-500 truncate tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>
                    {wf.name}
                  </h3>
-                 <p className="text-[#86868b] font-medium line-clamp-2" style={{ fontSize: '15px', lineHeight: 1.6, minHeight: '48px', marginBottom: '20px' }}>
-                   {wf.description || "No description provided for this workflow."}
+                 <p className="text-[#86868b] font-semibold line-clamp-2 opacity-60" style={{ fontSize: '16px', lineHeight: 1.6, minHeight: '52px', marginBottom: '32px' }}>
+                   {wf.description || "Design intelligent automation for this workflow pipeline."}
                  </p>
 
-                 <div className="mt-auto flex items-center justify-between" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div className="flex items-center" style={{ gap: '12px' }}>
-                       <div className="flex items-center font-bold uppercase tracking-wider text-[#86868b]" style={{ gap: '8px', fontSize: '12px' }}>
-                          <span className="text-[#007aff]">{getTriggerIcon(wf.trigger_type)}</span>
-                          <span>{wf.trigger_type}</span>
+                 <div className="mt-auto flex items-center justify-between pt-8 border-t border-white/5">
+                    <div className="flex items-center gap-6">
+                       <div className="flex items-center font-bold uppercase tracking-[0.15em] text-[#86868b]" style={{ gap: '10px', fontSize: '11px' }}>
+                          <span className="text-[#007aff] shadow-[0_0_10px_rgba(0,122,255,0.4)]">{getTriggerIcon(wf.trigger_type)}</span>
+                          <span className="opacity-80">{wf.trigger_type}</span>
                        </div>
-                       <div style={{ width: '4px', height: '4px', borderRadius: '2px', backgroundColor: 'rgba(255,255,255,0.15)' }} />
-                       <div className="font-medium text-[#52525b]" style={{ fontSize: '13px' }}>
+                       <div className="font-bold text-[#52525b] uppercase tracking-widest" style={{ fontSize: '11px' }}>
                          {timeAgo(wf.last_executed_at)}
                        </div>
                     </div>
-                    <button className="text-[#52525b] hover:text-white transition-all hover:bg-white/10" style={{ padding: '8px', borderRadius: '10px' }}>
-                       <MoreHorizontal size={20} />
-                    </button>
+                    <div className="flex gap-2">
+                       <button className="text-[#86868b] hover:text-white transition-all p-2.5 rounded-xl hover:bg-white/10">
+                          <Edit2 size={20} />
+                       </button>
+                    </div>
                  </div>
-              </div>
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>

@@ -20,6 +20,7 @@ import { toast } from 'react-hot-toast';
 import NodePalette from '../components/editor/NodePalette';
 import ConfigPanel from '../components/editor/ConfigPanel';
 import GenericNode from '../components/editor/GenericNode';
+import GlowEdge from '../components/editor/GlowEdge';
 import GlassButton from '../components/ui/GlassButton';
 import StatusBadge from '../components/common/StatusBadge';
 
@@ -45,6 +46,10 @@ const nodeTypes = {
   transform_node: GenericNode,
   code_node: GenericNode,
   filter_node: GenericNode,
+};
+
+const edgeTypes = {
+  glow: GlowEdge,
 };
 
 const getWsUrl = (path) => {
@@ -271,12 +276,13 @@ function FlowEditor() {
             onNodeClick={(_, node) => selectNode(node)}
             onPaneClick={deselectNode}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             fitView
             style={{ background: 'transparent' }}
             defaultEdgeOptions={{
-              type: 'smoothstep',
+              type: 'glow',
               animated: true,
-              style: { stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 }
+              style: { strokeWidth: 2 }
             }}
           >
             <Background color="rgba(255,255,255,0.1)" variant="dots" gap={24} size={1.5} />

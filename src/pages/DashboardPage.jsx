@@ -46,94 +46,95 @@ export default function DashboardPage() {
   , [workflows]);
 
   const stats = useMemo(() => [
-    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff' },
-    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active' },
-    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55' },
-    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ffcc00' },
+    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff', glow: 'shadow-[0_0_30px_rgba(0,122,255,0.2)]' },
+    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active', glow: 'shadow-[0_0_30px_rgba(52,199,89,0.2)]' },
+    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55', glow: 'shadow-[0_0_30px_rgba(255,45,85,0.2)]' },
+    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ff9500', glow: 'shadow-[0_0_30px_rgba(255,149,0,0.2)]' },
   ], [dashboardData, activeWorkflowsCount]);
 
   if (isLoading) return <StatSkeleton />;
 
   return (
     <div 
-      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full px-6 lg:px-8 pt-12 lg:pt-24"
-      style={{ maxWidth: '1400px' }}
+      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full px-6 lg:px-12 pt-12 lg:pt-24 relative z-10"
+      style={{ maxWidth: '1600px' }}
     >
       {/* Header Area */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
         <div>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <motion.h1 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-[40px] lg:text-[52px] font-black text-white tracking-tighter mb-4"
+          >
             Welcome back, {user?.username || user?.email?.split('@')[0]}
-          </h1>
-          <p className="text-[17px] text-[#86868b] font-medium max-w-xl leading-relaxed">
-            Everything is running smoothly. Your automation infrastructure is currently at 99.8% uptime.
+          </motion.h1>
+          <p className="text-[18px] text-[#86868b] font-semibold max-w-xl leading-relaxed opacity-80">
+            Everything is running smoothly. Your automation infrastructure is currently at <span className="text-[#34c759]">99.8% uptime</span>.
           </p>
         </div>
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => navigate('/workflows')}
-          className="flex items-center gap-3 bg-[#007aff] text-white font-extrabold rounded-2xl hover:bg-[#006ce6] active:scale-95 transition-all mt-4 md:mt-0 cursor-pointer"
+          className="flex items-center gap-3 bg-[#007aff] text-white font-black rounded-3xl hover:bg-[#006ce6] shadow-[0_15px_40px_rgba(0,122,255,0.4),0_0_80px_rgba(0,122,255,0.2)] transition-all cursor-pointer border border-white/20"
           style={{
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            paddingLeft: '40px',
-            paddingRight: '40px',
+            padding: '20px 48px',
             fontSize: '18px',
-            boxShadow: '0 8px 32px rgba(0,122,255,0.4), 0 0 60px -10px rgba(0,122,255,0.3)',
-            letterSpacing: '-0.01em'
+            letterSpacing: '-0.02em'
           }}
         >
-          <Plus size={24} strokeWidth={3} />
+          <Plus size={24} strokeWidth={4} />
           New Workflow
-        </button>
+        </motion.button>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
         {stats.map((stat, idx) => (
-          <div 
+          <motion.div 
             key={idx} 
-            className="mac-bento-card p-10 flex flex-col h-full shadow-2xl relative overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.1 }}
+            className={`mac-bento-card p-10 flex flex-col h-[280px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            style={{
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+              backdropFilter: 'blur(40px)'
+            }}
           >
-            {/* Soft glow behind the icon */}
-            <div 
-              className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-[50px] opacity-20 pointer-events-none"
-              style={{ backgroundColor: stat.color }}
-            />
-            
-            <div 
-              className="flex justify-between items-start relative z-10"
-              style={{ marginBottom: '64px' }}
-            >
+            <div className="flex justify-between items-start mb-auto relative z-10">
               <div 
-                className="flex items-center justify-center rounded-2xl border border-white/10 shadow-inner"
+                className="flex items-center justify-center rounded-[20px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
                 style={{ 
-                  width: '56px', 
-                  height: '56px', 
-                  backgroundColor: `${stat.color}15`,
-                  color: stat.color 
+                  width: '64px', 
+                  height: '64px', 
+                  backgroundColor: `${stat.color}20`,
+                  color: stat.color,
+                  boxShadow: `0 0 20px ${stat.color}30`
                 }}
               >
-                <stat.icon size={26} strokeWidth={2.5} />
+                <stat.icon size={28} strokeWidth={2.5} />
               </div>
               {stat.status && (
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#34c759]/10 rounded-full border border-[#34c759]/20 shadow-sm transition-transform hover:scale-105">
-                  <div className="w-2 h-2 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759]" />
-                  <span className="text-[11px] font-bold text-[#34c759] uppercase tracking-wider">
+                <div className="flex items-center gap-2.5 px-4 py-2 bg-[#34c759]/10 rounded-full border border-[#34c759]/20 backdrop-blur-md">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#34c759] shadow-[0_0_10px_#34c759] animate-pulse" />
+                  <span className="text-[12px] font-black text-[#34c759] uppercase tracking-[0.15em]">
                     {stat.status}
                   </span>
                 </div>
               )}
             </div>
 
-            <div className="mt-auto relative z-10">
-              <div className="text-[32px] lg:text-[40px] font-bold text-white leading-none tracking-tight">
+            <div className="relative z-10">
+              <div className="text-[44px] lg:text-[52px] font-black text-white leading-none tracking-tighter mb-2 tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-[13px] lg:text-[15px] font-bold text-[#86868b] mt-3 uppercase tracking-widest">
+              <div className="text-[14px] lg:text-[16px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
                 {stat.label}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -141,11 +142,23 @@ export default function DashboardPage() {
       <div className="flex flex-col xl:grid xl:grid-cols-3 gap-10">
         {/* Chart Card */}
         <div className="xl:col-span-2 space-y-10">
-          <div className="mac-bento-card p-8 lg:p-12 min-h-[400px] lg:min-h-[500px] flex flex-col shadow-2xl relative z-10">
-            <div className="flex justify-between items-center mb-8 lg:mb-12">
-              <h3 className="text-[20px] lg:text-[24px] font-bold text-white tracking-tight">Activity Stats</h3>
-              <div className="text-[10px] lg:text-[12px] font-bold text-[#86868b] uppercase tracking-widest px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
-                Last 7 Days
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mac-bento-card p-8 lg:p-12 min-h-[500px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+              backdropFilter: 'blur(40px)'
+            }}
+          >
+            <div className="flex justify-between items-center mb-10 lg:mb-14">
+              <div>
+                <h3 className="text-[24px] lg:text-[28px] font-black text-white tracking-tighter">Activity Overview</h3>
+                <p className="text-[15px] text-[#86868b] mt-1 font-semibold opacity-60">System-wide traffic monitoring</p>
+              </div>
+              <div className="text-[11px] lg:text-[12px] font-black text-[#86868b] uppercase tracking-[0.2em] px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">
+                Real-time Data
               </div>
             </div>
             
@@ -199,52 +212,78 @@ export default function DashboardPage() {
           </div>
 
           {/* New Feature: Node Performance */}
-          <div className="mac-bento-card p-8 lg:p-12 min-h-[300px] flex flex-col shadow-2xl relative z-10 overflow-hidden">
-             <div className="absolute left-0 bottom-0 w-full h-full bg-gradient-to-t from-[#ffcc00]/5 to-transparent pointer-events-none" />
-             <div className="flex justify-between items-center mb-10 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mac-bento-card p-8 lg:p-12 space-y-10 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+              backdropFilter: 'blur(40px)'
+            }}
+          >
+             <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+             <div className="flex justify-between items-center relative z-10">
                 <div>
-                   <h3 className="text-[20px] font-bold text-white tracking-tight">Node Reliability</h3>
-                   <p className="text-[13px] text-[#86868b] mt-1 font-medium">Success vs Failure by node type</p>
+                   <h3 className="text-[24px] font-black text-white tracking-tighter">Node Reliability</h3>
+                   <p className="text-[14px] text-[#86868b] mt-1 font-semibold opacity-60">Uptime distribution and signal strength</p>
                 </div>
-                <div className="bg-[#ffcc00]/10 p-3 rounded-xl border border-[#ffcc00]/20">
-                   <Zap size={20} className="text-[#ffcc00]" />
+                <div className="bg-[#ff9500]/10 p-4 rounded-2xl border border-[#ff9500]/20 shadow-[0_0_20px_rgba(255,149,0,0.2)]">
+                   <Zap size={24} className="text-[#ff9500] fill-[#ff9500]/20" />
                 </div>
              </div>
              
-             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
                 {[
-                  { label: 'Triggers', rate: '100%', color: '#007aff' },
-                  { label: 'HTTP', rate: '98.2%', color: '#34c759' },
-                  { label: 'Email', rate: '99.5%', color: '#5856d6' },
-                  { label: 'Code', rate: '85.1%', color: '#ff2d55' }
+                  { label: 'Triggers', rate: '100%', color: '#007aff', glow: 'shadow-[0_0_15px_rgba(0,122,255,0.4)]' },
+                  { label: 'HTTP Req', rate: '98.2%', color: '#32ade6', glow: 'shadow-[0_0_15px_rgba(50,173,230,0.4)]' },
+                  { label: 'AI Gen', rate: '99.5%', color: '#af52de', glow: 'shadow-[0_0_15px_rgba(175,82,222,0.4)]' },
+                  { label: 'Storage', rate: '85.1%', color: '#ff9500', glow: 'shadow-[0_0_15px_rgba(255,149,0,0.4)]' }
                 ].map((item, i) => (
-                  <div key={i} className="flex flex-col gap-2">
-                     <span className="text-[11px] font-bold uppercase tracking-widest text-[#86868b]">{item.label}</span>
-                     <span className="text-[24px] font-bold text-white tabular-nums">{item.rate}</span>
-                     <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          animate={{ width: item.rate }}
-                          transition={{ duration: 1, delay: i * 0.1 }}
-                          className="h-full rounded-full"
-                          style={{ backgroundColor: item.color }}
-                        />
+                  <div key={i} className="space-y-4">
+                     <span className="text-[12px] font-black uppercase tracking-[0.2em] text-[#86868b] opacity-60">{item.label}</span>
+                     <div className="flex flex-col gap-3">
+                        <span className="text-[32px] font-black text-white tabular-nums tracking-tighter">{item.rate}</span>
+                        <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                           <motion.div 
+                             initial={{ width: 0 }}
+                             animate={{ width: item.rate }}
+                             transition={{ duration: 1.5, type: 'spring' }}
+                             className={`h-full rounded-full ${item.glow}`}
+                             style={{ backgroundColor: item.color }}
+                           />
+                        </div>
                      </div>
                   </div>
                 ))}
              </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Recent Activity */}
         <div className="space-y-10">
-           <div className="mac-bento-card p-8 lg:p-12 min-h-[500px] flex flex-col shadow-2xl relative overflow-hidden">
-              <div className="absolute right-0 top-0 w-64 h-64 bg-gradient-to-bl from-[#34c759]/10 to-transparent blur-[50px] rounded-full translate-x-1/4 -translate-y-1/4 pointer-events-none" />
+           <motion.div 
+             initial={{ opacity: 0, x: 20 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ delay: 0.6 }}
+             className="mac-bento-card p-8 lg:p-10 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             style={{
+               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+               backdropFilter: 'blur(40px)'
+             }}
+           >
+              <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
               <div className="flex justify-between items-center mb-10 relative z-10">
-                 <h3 className="text-[20px] lg:text-[24px] font-bold text-white tracking-tight">Live Feed</h3>
-                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <Activity size={20} className="text-[#86868b]" />
+                 <div>
+                   <h3 className="text-[22px] font-black text-white tracking-tighter">Live Monitor</h3>
+                   <div className="flex items-center gap-2 mt-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759] animate-pulse" />
+                      <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#34c759]">Incoming Signals</span>
+                   </div>
+                 </div>
+                 <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
+                    <Activity size={22} className="text-[#86868b]" />
                  </div>
               </div>
               

@@ -32,8 +32,14 @@ const ProtectedLayout = () => {
   const isEditorRoute = location.pathname.includes('/edit');
 
   return (
-    <div className="min-h-screen relative bg-[#161618] selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
-      <div className="mac-os-wallpaper" />
+    <div className="min-h-screen relative bg-[#09090b] selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
+      <div className="mac-os-wallpaper">
+        <div className="floating-orb orb-1" />
+        <div className="floating-orb orb-2" />
+        <div className="floating-orb orb-3" />
+        <div className="floating-orb orb-4" />
+        <div className="floating-orb orb-5" />
+      </div>
       <Sidebar />
       <MobileNav />
       {/* 

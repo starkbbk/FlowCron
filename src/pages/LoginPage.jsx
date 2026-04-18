@@ -40,39 +40,34 @@ export default function LoginPage() {
 
   return (
     <div 
-      className="relative min-h-screen overflow-hidden font-['Inter']"
-      style={{ 
-        background: 'linear-gradient(135deg, #0f0f12 0%, #1a1a2e 50%, #16213e 100%)',
-      }}
+      className="relative min-h-screen overflow-hidden font-['Inter'] bg-[#09090b]"
     >
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div 
-          className="absolute rounded-full blur-[120px] opacity-20 animate-pulse"
-          style={{ width: '600px', height: '600px', top: '-10%', left: '-5%', background: 'radial-gradient(circle, #007aff, transparent)' }}
-        />
-        <div 
-          className="absolute rounded-full blur-[100px] opacity-15"
-          style={{ width: '500px', height: '500px', bottom: '-15%', right: '-5%', background: 'radial-gradient(circle, #5856d6, transparent)', animation: 'float 20s infinite alternate ease-in-out' }}
-        />
+      {/* Global animated background orbs */}
+      <div className="mac-os-wallpaper">
+        <div className="floating-orb orb-1" />
+        <div className="floating-orb orb-2" />
+        <div className="floating-orb orb-3" />
+        <div className="floating-orb orb-4" />
+        <div className="floating-orb orb-5" />
       </div>
 
       {/* Main Split Container */}
       <div 
-        className="relative z-10 flex min-h-screen"
-        style={{ padding: '32px' }}
+        className="relative z-10 flex min-h-screen items-center justify-center p-6 lg:p-12"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex w-full overflow-hidden"
+          initial={{ opacity: 0, scale: 0.9, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          className="flex w-full overflow-hidden max-w-[1240px]"
           style={{ 
+            minHeight: '800px',
             borderRadius: '40px',
-            background: 'rgba(30, 30, 32, 0.6)',
-            backdropFilter: 'blur(40px)',
+            background: 'rgba(255, 255, 255, 0.03)',
+            backdropFilter: 'blur(80px)',
+            WebkitBackdropFilter: 'blur(80px)',
             border: '1px solid rgba(255,255,255,0.08)',
-            boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5), 0 0 80px -20px rgba(0,122,255,0.15)',
+            boxShadow: '0 40px 120px -20px rgba(0,0,0,0.8), 0 0 80px rgba(0,122,255,0.1)',
           }}
         >
           {/* LEFT — Form Side */}

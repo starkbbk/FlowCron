@@ -16,60 +16,74 @@ const GenericNode = ({ id, data, selected }) => {
   return (
     <div className={`relative group ${selected ? 'z-20' : 'z-10'} gpu-accel font-['Inter']`}>
       <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
+        initial={{ scale: 0.9, opacity: 0, y: 10 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
         className={`
-          w-[320px] mac-bento-card overflow-hidden transition-all duration-200 relative
+          w-[320px] mac-bento-card overflow-hidden transition-all duration-500 relative
           ${selected 
-            ? 'shadow-[0_0_0_2px_#007aff,_0_20px_40px_rgba(0,0,0,0.5)]' 
-            : 'shadow-xl hover:shadow-2xl hover:border-white/20'
+            ? 'shadow-[0_0_0_2px_#007aff,_0_30px_60px_rgba(0,0,0,0.6)]' 
+            : 'shadow-2xl hover:border-white/20'
           }
         `}
+        style={{
+          background: `linear-gradient(135deg, rgba(44, 44, 48, 0.4) 0%, rgba(28, 28, 30, 0.2) 100%)`,
+          backdropFilter: 'blur(40px)',
+          WebkitBackdropFilter: 'blur(40px)',
+        }}
       >
-        {/* Category Visual Signature */}
+        {/* Category Inner Glow Signature */}
         <div 
-          className="absolute top-0 left-0 right-0 h-1.5" 
-          style={{ background: category.color }} 
+          className="absolute inset-x-0 top-0 h-[100px] pointer-events-none opacity-20" 
+          style={{ 
+            background: `linear-gradient(to bottom, ${category.color} 0%, transparent 100%)`,
+          }} 
         />
 
-        <div className="p-6 space-y-5">
+        <div className="p-6 space-y-6 relative z-10">
           <div className="flex items-center justify-between">
              <div 
-                className="flex items-center justify-center rounded-xl w-12 h-12 bg-white/5 border border-white/10 shadow-inner" 
-                style={{ color: category.color }}
+                className="flex items-center justify-center rounded-2xl w-14 h-14 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
+                style={{ 
+                  color: category.color,
+                  boxShadow: `inset 0 0 20px ${category.color}20, 0 0 15px ${category.color}30`
+                }}
              >
-                <Icon size={22} strokeWidth={2.5} />
+                <Icon size={26} strokeWidth={2.2} />
              </div>
              {execution && (
                 <StatusBadge 
                   status={execution.status} 
                   size="small" 
-                  className="scale-90 origin-right" 
+                  className="scale-90 origin-right shadow-lg" 
                 />
              )}
           </div>
           
-          <div className="space-y-1.5">
-            <div className="font-bold text-[16px] text-white tracking-tight truncate">
+          <div className="space-y-2">
+            <div className="font-extrabold text-[18px] text-white tracking-tight truncate">
               {nodeType?.name || data.label}
             </div>
-             <div className="text-[13px] text-[#86868b] font-medium truncate">
+             <div className="text-[14px] text-[#86868b] font-medium truncate leading-relaxed">
                 {data.config?.url || data.config?.topic || nodeType?.description || 'Workflow Step'}
              </div>
           </div>
         </div>
         
         {execution?.status === 'running' && (
-          <div className="absolute inset-0 bg-[#007aff]/5 pointer-events-none animate-pulse" />
+          <div 
+            className="absolute inset-0 pointer-events-none animate-pulse" 
+            style={{ background: `radial-gradient(circle at center, ${category.color}10 0%, transparent 70%)` }}
+          />
         )}
       </motion.div>
 
-      {/* Connection Ports */}
+      {/* Glowing Connection Ports */}
       <Handle 
         type="target" 
         position={Position.Left} 
-        className="!w-4 !h-4 !bg-white/10 !border-2 !border-[#1e1e1e] !rounded-full !left-[-8px] transition-all hover:!scale-110 shadow-md"
+        className="!w-5 !h-5 !bg-[#1c1c1e] !border-2 !border-white/20 !rounded-full !left-[-10px] transition-all hover:!scale-125 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+        style={{ borderColor: 'rgba(255,255,255,0.2)' }}
       />
       
       {data.type === 'if_condition' ? (
@@ -78,23 +92,24 @@ const GenericNode = ({ id, data, selected }) => {
             type="source" 
             position={Position.Right} 
             id="true"
-            className="!w-4 !h-4 !bg-[#34c759] !border-2 !border-[#1e1e1e] !rounded-full !right-[-8px] !top-[40%] hover:!scale-110 transition-transform shadow-md"
+            className="!w-5 !h-5 !bg-[#34c759] !border-2 !border-[#0d0d0f] !rounded-full !right-[-10px] !top-[40%] hover:!scale-125 transition-transform shadow-[0_0_15px_rgba(52,199,89,0.4)]"
           />
-          <div className="absolute top-[34%] -right-14 text-[11px] font-bold text-[#34c759] uppercase tracking-wider">TRUE</div>
+          <div className="absolute top-[34%] -right-16 text-[10px] font-black text-[#34c759] uppercase tracking-[0.2em] drop-shadow-sm">TRUE</div>
           
           <Handle 
             type="source" 
             position={Position.Bottom} 
             id="false"
-            className="!w-4 !h-4 !bg-[#ff2d55] !border-2 !border-[#1e1e1e] !rounded-full !bottom-[-8px] !left-1/2 hover:!scale-110 transition-transform shadow-md"
+            className="!w-5 !h-5 !bg-[#ff2d55] !border-2 !border-[#0d0d0f] !rounded-full !bottom-[-10px] !left-1/2 hover:!scale-125 transition-transform shadow-[0_0_15px_rgba(255,45,85,0.4)]"
           />
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[11px] font-bold text-[#ff2d55] uppercase tracking-wider">FALSE</div>
+          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-[10px] font-black text-[#ff2d55] uppercase tracking-[0.2em] drop-shadow-sm">FALSE</div>
         </>
       ) : (
         <Handle 
           type="source" 
           position={Position.Right} 
-          className="!w-4 !h-4 !bg-emerald-400 !border-2 !border-[#1e1e1e] !rounded-full !right-[-8px] transition-all hover:!scale-110 shadow-md"
+          className="!w-5 !h-5 !bg-[#007aff] !border-2 !border-[#0d0d0f] !rounded-full !right-[-10px] transition-all hover:!scale-125 shadow-[0_0_15px_rgba(0,122,255,0.4)]"
+          style={{ backgroundColor: category.color }}
         />
       )}
     </div>

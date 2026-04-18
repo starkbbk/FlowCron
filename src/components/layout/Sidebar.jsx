@@ -33,10 +33,10 @@ const Sidebar = () => {
 
   return (
     <aside 
-      className="fixed top-0 bottom-0 left-0 bg-[#1c1c1e]/80 backdrop-blur-2xl border-r border-white/5 z-50 transition-all duration-300 ease-in-out shrink-0 hidden lg:flex flex-col shadow-2xl overflow-visible"
+      className="fixed top-6 bottom-6 left-6 bg-white/5 backdrop-blur-[40px] border border-white/10 z-50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] shrink-0 hidden lg:flex flex-col shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] rounded-[32px] overflow-visible"
       style={{ 
         width: 'var(--sidebar-width, 260px)',
-        overflow: 'visible'
+        overflow: 'visible',
       }}
     >
       {/* Brand Section */}
@@ -44,17 +44,18 @@ const Sidebar = () => {
         className="flex items-center justify-center shrink-0 overflow-hidden"
         style={{ marginLeft: collapsed ? '12px' : '24px', marginRight: collapsed ? '12px' : '24px', marginTop: '40px', marginBottom: '32px' }}
       >
-        <div className="w-10 h-10 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-xl flex items-center justify-center shrink-0 shadow-lg mt-1">
-          <Zap size={20} className="text-white fill-white translate-y-[1px]" />
+        <div className="w-11 h-11 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-2xl flex items-center justify-center shrink-0 shadow-[0_4px_20px_rgba(0,122,255,0.4)] relative">
+          <div className="absolute inset-0 bg-white/20 rounded-2xl animate-pulse blur-[10px]" />
+          <Zap size={22} className="text-white fill-white relative z-10" />
         </div>
         <AnimatePresence>
           {!collapsed && (
             <motion.span 
-              initial={{ opacity: 0, x: -8 }}
+              initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              className="text-[24px] font-extrabold text-white tracking-tight whitespace-nowrap mt-1"
-              style={{ marginLeft: '20px' }}
+              exit={{ opacity: 0, x: -10 }}
+              className="text-[26px] font-black text-white tracking-tighter whitespace-nowrap"
+              style={{ marginLeft: '16px' }}
             >
               FlowCron
             </motion.span>
@@ -65,17 +66,16 @@ const Sidebar = () => {
       {/* Floating Collapse Toggle */}
       <button
         onClick={toggleCollapse}
-        className="text-[#86868b] hover:text-white hover:bg-[#007aff] transition-all shadow-xl group"
+        className="text-white/60 hover:text-white transition-all shadow-2xl group border border-white/10"
         style={{ 
           position: 'absolute', 
-          right: '-24px', 
-          top: '50%', 
-          transform: 'translateY(-50%)',
-          width: '48px', 
-          height: '48px', 
-          borderRadius: '50%', 
-          backgroundColor: '#2c2c2e', 
-          border: '1px solid rgba(255,255,255,0.1)', 
+          right: '-20px', 
+          top: '60px', 
+          width: '40px', 
+          height: '40px', 
+          borderRadius: '12px', 
+          backgroundColor: 'rgba(44, 44, 48, 0.8)', 
+          backdropFilter: 'blur(20px)',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -83,73 +83,74 @@ const Sidebar = () => {
           cursor: 'pointer'
         }}
       >
-        {collapsed ? <ChevronRight size={24} className="group-hover:translate-x-0.5 transition-transform text-white/70 group-hover:text-white" /> : <ChevronLeft size={24} className="group-hover:-translate-x-0.5 transition-transform text-white/70 group-hover:text-white" />}
+        {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
       </button>
 
       {/* Primary Navigation */}
       <nav 
-        className="flex-1 overflow-y-auto no-scrollbar scroll-smooth"
-        style={{ marginLeft: collapsed ? '12px' : '24px', marginRight: collapsed ? '12px' : '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}
+        className="flex-1 overflow-y-auto custom-scrollbar scroll-smooth"
+        style={{ marginLeft: '12px', marginRight: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}
       >
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center rounded-2xl transition-all duration-300 group relative font-medium overflow-hidden
+              flex items-center rounded-2xl transition-all duration-500 group relative font-bold overflow-hidden
               ${isActive 
-                ? 'bg-[#007aff] text-white' 
-                : 'text-[#86868b] hover:bg-white/10 hover:text-white'}
+                ? 'bg-white/10 text-[#007aff] shadow-inner' 
+                : 'text-[#86868b] hover:bg-white/5 hover:text-white'}
             `}
             style={({ isActive }) => ({ 
-              paddingTop: '20px', 
-              paddingBottom: '20px', 
-              paddingLeft: collapsed ? '20px' : '28px', 
-              paddingRight: collapsed ? '20px' : '28px',
+              height: '56px',
+              paddingLeft: collapsed ? '0' : '20px',
               justifyContent: collapsed ? 'center' : 'flex-start',
-              boxShadow: isActive 
-                ? '0 8px 32px -4px rgba(0,122,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15)' 
-                : 'none'
             })}
           >
-            <item.icon size={24} className="shrink-0" />
-            <AnimatePresence>
-              {!collapsed && (
-                <motion.span 
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -8 }}
-                  className="text-[17px] font-semibold whitespace-nowrap"
-                  style={{ marginLeft: '16px' }}
-                >
-                  {item.label}
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <motion.div 
+                    layoutId="active-indicator"
+                    className="absolute left-0 w-1 h-6 bg-[#007aff] rounded-r-full shadow-[0_0_15px_#007aff]"
+                  />
+                )}
+                <item.icon size={22} className={`shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(0,122,255,0.6)]' : 'group-hover:scale-110'}`} />
+                <AnimatePresence>
+                  {!collapsed && (
+                    <motion.span 
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className="text-[15px] tracking-tight whitespace-nowrap"
+                      style={{ marginLeft: '16px' }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
       {/* Sidebar Footer */}
       <div 
-        className="bg-transparent border-t border-white/10"
+        className="p-4 border-t border-white/5"
         style={{ 
-          marginLeft: collapsed ? '12px' : '24px', 
-          marginRight: collapsed ? '12px' : '24px', 
-          paddingTop: '32px', 
-          paddingBottom: '32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px'
+          gap: '12px'
         }}
       >
         <div 
-          className="flex items-center rounded-2xl bg-white/5 border border-white/10 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
-          style={{ padding: collapsed ? '12px' : '20px', justifyContent: collapsed ? 'center' : 'space-between' }}
+          className="flex items-center rounded-2xl bg-white/5 border border-white/5 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
+          style={{ padding: collapsed ? '8px' : '14px', justifyContent: collapsed ? 'center' : 'space-between' }}
         >
           <div 
-            className="rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-inner"
-            style={{ width: '48px', height: '48px', fontSize: '18px' }}
+            className="rounded-xl bg-gradient-to-br from-[#1c1c1e] to-[#0d0d0f] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-2xl"
+            style={{ width: '40px', height: '40px', fontSize: '15px' }}
           >
             {user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
@@ -157,17 +158,17 @@ const Sidebar = () => {
           <AnimatePresence>
             {!collapsed && (
               <motion.div 
-                initial={{ opacity: 0, x: -8 }}
+                initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
+                exit={{ opacity: 0, x: -10 }}
                 className="flex-1 min-w-0"
-                style={{ marginLeft: '16px' }}
+                style={{ marginLeft: '12px' }}
               >
-                <div className="text-[17px] font-bold text-white truncate">
+                <div className="text-[14px] font-bold text-white truncate">
                   {user?.username || user?.email?.split('@')[0]}
                 </div>
-                <div className="text-[14px] font-medium text-[#007aff] truncate mt-1">
-                   Free Plan
+                <div className="text-[11px] font-black text-[#007aff] uppercase tracking-widest mt-0.5 opacity-80">
+                   Premium
                 </div>
               </motion.div>
             )}
@@ -175,11 +176,10 @@ const Sidebar = () => {
 
           <button 
             onClick={handleLogout}
-            className="rounded-xl text-[#86868b] hover:text-[#ff2d55] hover:bg-[#ff2d55]/10 transition-all shrink-0"
+            className="p-2.5 rounded-xl text-[#86868b] hover:text-[#ff2d55] hover:bg-[#ff2d55]/10 transition-all shrink-0"
             title="Sign Out"
-            style={{ padding: '12px' }}
           >
-            <LogOut size={24} />
+            <LogOut size={20} />
           </button>
         </div>
       </div>

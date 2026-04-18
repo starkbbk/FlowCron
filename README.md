@@ -2,7 +2,7 @@
 
 A production-ready, visual workflow automation platform with a stunning Apple Liquid Glass interface (iOS 26 / MacOS Tahoe inspired).
 
-![FlowCron Landing](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80)
+![FlowCron Landing](./screenshots/hero.png)
 
 ## 🌟 Features
 

@@ -14,8 +14,10 @@ export default function ConfigPanel() {
   if (!selectedNode) return null;
 
   const nodeType = getNodeType(selectedNode.data.type);
-  const category = NODE_CATEGORIES[nodeType?.category || 'action'];
-  const Icon = Icons[nodeType?.icon] || Zap;
+  const category = NODE_CATEGORIES[nodeType?.category || 'action'] || NODE_CATEGORIES.action;
+  
+  // Failsafe icon resolution
+  const Icon = Icons[nodeType?.icon] || Icons.Zap || Icons.Activity || Zap;
 
   const handleChange = (key, value) => {
     updateNodeConfig(selectedNode.id, { [key]: value });

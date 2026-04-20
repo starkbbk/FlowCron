@@ -23,6 +23,7 @@ import GenericNode from '../components/editor/GenericNode';
 import GlowEdge from '../components/editor/GlowEdge';
 import GlassButton from '../components/ui/GlassButton';
 import StatusBadge from '../components/common/StatusBadge';
+import ErrorBoundary from '../components/common/ErrorBoundary';
 
 import api from '../services/api';
 import useWorkflowStore from '../stores/workflowStore';
@@ -318,7 +319,10 @@ function FlowEditor() {
             <MiniMap 
                className="!bg-[#1e1e1e]/80 !backdrop-blur-xl !border-white/10 !rounded-xl !shadow-2xl !m-6 !p-2" 
                maskColor="rgba(22, 22, 24, 0.7)"
-               nodeColor={(n) => getNodeType(n.data.type)?.category === 'trigger' ? '#007aff' : '#34c759'}
+               nodeColor={(n) => {
+                 const type = getNodeType(n.data?.type);
+                 return type?.category === 'trigger' ? '#007aff' : '#34c759';
+               }}
             />
             
             <Panel position="top-right">
@@ -386,8 +390,10 @@ function FlowEditor() {
 
 export default function WorkflowEditorPage() {
   return (
-    <ReactFlowProvider>
-      <FlowEditor />
-    </ReactFlowProvider>
+    <ErrorBoundary>
+      <ReactFlowProvider>
+        <FlowEditor />
+      </ReactFlowProvider>
+    </ErrorBoundary>
   );
 }

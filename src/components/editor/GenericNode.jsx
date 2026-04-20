@@ -8,10 +8,12 @@ import useWorkflowStore from '../../stores/workflowStore';
 
 const GenericNode = ({ id, data, selected }) => {
   const nodeType = getNodeType(data.type);
-  const category = NODE_CATEGORIES[nodeType?.category || 'action'];
-  const Icon = Icons[nodeType?.icon || 'Zap'];
+  const category = NODE_CATEGORIES[nodeType?.category || 'action'] || NODE_CATEGORIES.action;
   
-  const execution = useWorkflowStore(state => state.nodeExecutions[id]);
+  // Failsafe icon resolution: check Icons object, fallback to Zap, then Activity
+  const Icon = Icons[nodeType?.icon] || Icons.Zap || Icons.Activity || (() => null);
+  
+  const execution = useWorkflowStore(state => state.nodeExecutions?.[id]);
 
   return (
     <div className={`relative group ${selected ? 'z-20' : 'z-10'} gpu-accel font-['Inter']`}>

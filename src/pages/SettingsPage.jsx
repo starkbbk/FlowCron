@@ -12,22 +12,28 @@ import GlassCard from '../components/ui/GlassCard';
 import GlassButton from '../components/ui/GlassButton';
 import { GlassInput, GlassToggle } from '../components/ui/GlassInput';
 import useAuthStore from '../stores/authStore';
+import api from '../services/api';
 
 const SettingsPage = () => {
-  const { user, logout } = useAuthStore();
+  const { user, logout, setUser } = useAuthStore();
   const [activeTab, setActiveTab] = useState('profile');
   const [apiKeys, setApiKeys] = useState([]);
   const [isLoadingKeys, setIsLoadingKeys] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(user?.profile_image || null);
+  const [username, setUsername] = useState(user?.username || '');
   const fileInputRef = useRef(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 1024 * 1024) { // 1MB limit for base64
+        toast.error('Image is too large. Please select an image under 1MB.');
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result);
-        toast.success('Profile image updated!');
       };
       reader.readAsDataURL(file);
     }
@@ -42,7 +48,7 @@ const SettingsPage = () => {
   const fetchApiKeys = async () => {
     setIsLoadingKeys(true);
     try {
-      const res = await axios.get('/api/api-keys');
+      const res = await api.get('/api-keys');
       setApiKeys(res.data);
     } catch (err) {
       console.error(err);
@@ -56,7 +62,7 @@ const SettingsPage = () => {
     if (!name) return;
 
     try {
-      const res = await axios.post(`/api/api-keys?name=${encodeURIComponent(name)}`);
+      const res = await api.post(`/api-keys?name=${encodeURIComponent(name)}`);
       setApiKeys([...apiKeys, { ...res.data, prefix: res.data.key.substring(0, 8), created_at: new Date() }]);
       alert(`API Key Generated: ${res.data.key}\n\nPlease store it safely. It will not be shown again.`);
       fetchApiKeys();
@@ -68,7 +74,7 @@ const SettingsPage = () => {
   const deleteKey = async (id) => {
     if (!confirm('Are you sure you want to delete this API key?')) return;
     try {
-      await axios.delete(`/api/api-keys/${id}`);
+      await api.delete(`/api-keys/${id}`);
       setApiKeys(apiKeys.filter(k => k.id !== id));
       toast.success('Key revoked');
     } catch (err) {
@@ -83,8 +89,20 @@ const SettingsPage = () => {
     { id: 'notifications', label: 'Notifications', icon: Bell },
   ], []);
 
-  const onSave = () => {
-    toast.success('Settings saved');
+  const onSave = async () => {
+    setIsSaving(true);
+    try {
+      const res = await api.patch('/auth/profile', {
+        username,
+        profile_image: profileImage
+      });
+      setUser(res.data);
+      toast.success('Profile updated successfully');
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to update profile');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -136,11 +154,11 @@ const SettingsPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              style={{ padding: '40px' }}
+              style={{ padding: '64px' }}
             >
               {activeTab === 'profile' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                   <div className="flex justify-between items-start">
+                   <div className="flex justify-between items-start px-8">
                        <div>
                           <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Profile Details</h3>
                           <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Update your account information and how you appear to others.</p>
@@ -150,7 +168,7 @@ const SettingsPage = () => {
                       </div>
                    </div>
 
-                   <div className="flex items-center border border-white/10" style={{ gap: '24px', padding: '24px', borderRadius: '20px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+                   <div className="flex items-center border border-white/10" style={{ gap: '32px', padding: '40px', borderRadius: '24px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
                       <div 
                         className="flex items-center justify-center font-extrabold border border-white/10 overflow-hidden" 
                         style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#2c2c2e', fontSize: '28px' }}
@@ -190,19 +208,19 @@ const SettingsPage = () => {
                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '24px' }}>
-                       <GlassInput label="Username" defaultValue={user?.username} />
-                       <GlassInput label="Email Address" defaultValue={user?.email} />
+                       <GlassInput label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                       <GlassInput label="Email Address" value={user?.email} readOnly />
                     </div>
 
                    <div className="flex justify-end" style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                       <GlassButton icon={Save} onClick={onSave} style={{ padding: '14px 32px', fontSize: '14px' }}>Save Changes</GlassButton>
+                       <GlassButton icon={Save} onClick={onSave} loading={isSaving} style={{ padding: '14px 32px', fontSize: '14px' }}>Save Changes</GlassButton>
                    </div>
                 </div>
               )}
 
               {activeTab === 'security' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start px-8">
                         <div>
                            <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Security</h3>
                            <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage your password and account protection.</p>
@@ -247,7 +265,7 @@ const SettingsPage = () => {
 
               {activeTab === 'api_keys' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                   <div className="flex justify-between items-end" style={{ paddingBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                   <div className="flex justify-between items-end px-8" style={{ paddingBottom: '32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                       <div>
                        <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>API Keys</h3>
                        <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Use these keys to access our API from your own scripts.</p>

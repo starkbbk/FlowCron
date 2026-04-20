@@ -73,7 +73,7 @@ const ActivityLogPage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
                   className="flex items-center hover:bg-white/5 transition-colors group cursor-pointer"
-                  style={{ padding: '28px 32px', gap: '24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                  style={{ padding: '40px 64px', gap: '32px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
                   onClick={() => navigate(`/executions/${log.id}`)}
                 >
                   {/* Status Indicator */}

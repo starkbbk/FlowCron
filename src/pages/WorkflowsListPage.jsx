@@ -220,8 +220,8 @@ export default function WorkflowsListPage() {
                 transition={{ delay: idx * 0.05 }}
                 className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
                 style={{ 
-                  height: '380px', 
-                  padding: '32px', 
+                  height: '420px', 
+                  padding: '48px', 
                   backgroundColor: 'rgba(255,255,255,0.03)', 
                   backdropFilter: 'blur(40px)',
                   border: '1px solid rgba(255,255,255,0.06)', 
@@ -230,7 +230,7 @@ export default function WorkflowsListPage() {
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
-                 <div className="flex justify-between items-start mb-10">
+                 <div className="flex justify-between items-start mb-10 px-4">
                       <div 
                         className={`flex items-center justify-center border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-2xl ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
                         style={{ 
@@ -279,11 +279,11 @@ export default function WorkflowsListPage() {
               <table className="w-full text-left border-collapse">
                  <thead>
                     <tr className="border-b border-[#27272a] bg-[#18181b]">
-                       <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Workflow Name</th>
-                       <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Status</th>
-                       <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Trigger</th>
-                       <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Last Run</th>
-                       <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#52525b] text-right">Actions</th>
+                       <th className="px-10 py-5 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Workflow Name</th>
+                       <th className="px-10 py-5 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Status</th>
+                       <th className="px-10 py-5 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Trigger</th>
+                       <th className="px-10 py-5 text-[11px] font-bold uppercase tracking-wider text-[#52525b]">Last Run</th>
+                       <th className="px-10 py-5 text-[11px] font-bold uppercase tracking-wider text-[#52525b] text-right">Actions</th>
                     </tr>
                  </thead>
                  <tbody className="divide-y divide-[#1f1f23]">
@@ -297,10 +297,10 @@ export default function WorkflowsListPage() {
                             <div className="font-semibold text-[#fafafa] group-hover:text-[#3b82f6] transition-colors mb-0.5">{wf.name}</div>
                             <div className="text-[12px] text-[#71717a] font-medium truncate max-w-[280px]">{wf.description}</div>
                          </td>
-                         <td className="px-6 py-5">
+                         <td className="px-10 py-6">
                             <StatusBadge status={wf.status} size="small" />
                          </td>
-                         <td className="px-6 py-5">
+                         <td className="px-10 py-6">
                             <div className="flex items-center gap-2 text-[13px] font-medium text-[#71717a] capitalize">
                                <div className="text-[#52525b] group-hover:text-[#3b82f6] transition-colors">
                                   {getTriggerIcon(wf.trigger_type)}
@@ -311,7 +311,7 @@ export default function WorkflowsListPage() {
                          <td className="px-6 py-5 text-[12px] font-medium text-[#71717a] tabular-nums">
                             {timeAgo(wf.last_executed_at)}
                          </td>
-                         <td className="px-6 py-5 text-right">
+                         <td className="px-10 py-6 text-right">
                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                <button className="p-2 hover:bg-[#1f1f23] rounded-md text-[#52525b] hover:text-[#3b82f6] transition-all">
                                   <Edit2 size={16} />

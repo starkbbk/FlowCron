@@ -100,3 +100,23 @@ async def reset_password(req: schemas.ResetPasswordRequest, db: AsyncSession = D
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to reset password.")
         
     return {"message": "Password successfully reset."}
+    
+@router.patch("/profile", response_model=schemas.User)
+async def update_profile(
+    profile_in: schemas.ProfileUpdate,
+    db: AsyncSession = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user)
+):
+    if profile_in.username:
+        # Check if username is taken by another user
+        res = await db.execute(select(models.User).filter(models.User.username == profile_in.username, models.User.id != current_user.id))
+        if res.scalars().first():
+            raise HTTPException(status_code=400, detail="Username already taken")
+        current_user.username = profile_in.username
+    
+    if profile_in.profile_image is not None:
+        current_user.profile_image = profile_in.profile_image
+        
+    await db.commit()
+    await db.refresh(current_user)
+    return current_user

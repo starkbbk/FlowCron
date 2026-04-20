@@ -19,6 +19,7 @@ class User(UserBase):
     id: UUID
     username: str
     is_active: bool
+    profile_image: Optional[str] = None
     created_at: datetime
 
     class Config:
@@ -56,6 +57,10 @@ class WorkflowUpdate(BaseModel):
     cron_timezone: Optional[str] = None
     nodes_data: Optional[List[Any]] = None
     edges_data: Optional[List[Any]] = None
+
+class ProfileUpdate(BaseModel):
+    username: Optional[str] = None
+    profile_image: Optional[str] = None
 
 class Workflow(WorkflowBase):
     id: UUID
@@ -128,3 +133,5 @@ class DashboardOverview(BaseModel):
     success_rate: float
     recent_executions: List[Execution]
     execution_chart_data: List[Dict[str, Any]]
+    node_reliability: Dict[str, str]
+    system_uptime: str

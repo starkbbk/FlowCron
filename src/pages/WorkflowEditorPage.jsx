@@ -13,7 +13,7 @@ import '@xyflow/react/dist/style.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Save, Play, Settings, 
-  Zap, Check, X, Terminal
+  Zap, Check, X, Terminal, Plus
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -142,54 +142,82 @@ function FlowEditor() {
   };
 
   const onExecute = async () => {
+    if (isExecuting) return;
+    
+    const loadingToast = toast.loading('Initializing pipeline...');
     setIsExecuting(true);
     setShowExecutionPanel(true);
-    setExecutionLogs([{ time: new Date().toLocaleTimeString(), message: 'Starting workflow...', type: 'info' }]);
+    setExecutionLogs([{ time: new Date().toLocaleTimeString(), message: 'Preparing workflow environment...', type: 'info' }]);
     
     try {
+      // 1. First save any changes
       await api.put(`/workflows/${id}`, {
         nodes_data: nodes,
         edges_data: edges,
       });
 
+      // 2. Trigger execution
       const res = await api.post(`/workflows/${id}/execute`);
       const executionId = res.data.execution_id;
       
+      toast.success('Execution started', { id: loadingToast });
+      setExecutionLogs(prev => [...prev, { 
+        time: new Date().toLocaleTimeString(), 
+        message: `Execution ID: ${executionId}`, 
+        type: 'info' 
+      }]);
+
       if (wsRef.current) wsRef.current.close();
       const wsUrl = getWsUrl(`ws/${executionId}`);
       wsRef.current = new WebSocket(wsUrl);
       
       wsRef.current.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        if (message.type === 'node_update') {
-          const { node_id, status, error } = message.data;
-          setExecutionLogs(prev => [...prev, {
-            time: new Date().toLocaleTimeString(),
-            message: `Step ${node_id}: ${status}${error ? ` - ${error}` : ''}`,
-            type: status === 'failed' ? 'error' : status === 'running' ? 'info' : 'success'
-          }]);
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === 'node_update') {
+            const { node_id, status, error } = message.data;
+            const nodeName = nodes.find(n => n.id === node_id)?.data?.label || node_id;
+            
+            setExecutionLogs(prev => [...prev, {
+              time: new Date().toLocaleTimeString(),
+              message: `[Step: ${nodeName}] status: ${status}${error ? ` - ${error}` : ''}`,
+              type: status === 'failed' ? 'error' : status === 'running' ? 'info' : 'success'
+            }]);
+            
+            useWorkflowStore.getState().updateNodeExecution(node_id, message.data);
+          }
           
-          useWorkflowStore.getState().updateNodeExecution(node_id, message.data);
-        }
-        
-        if (message.type === 'execution_finished') {
-           setIsExecuting(false);
-           setExecutionLogs(prev => [...prev, {
-             time: new Date().toLocaleTimeString(),
-             message: `Execution finished with status: ${message.data.status}`,
-             type: message.data.status === 'completed' ? 'success' : 'error'
-           }]);
+          if (message.type === 'execution_finished') {
+             setIsExecuting(false);
+             setExecutionLogs(prev => [...prev, {
+               time: new Date().toLocaleTimeString(),
+               message: `Pipeline finished: ${message.data.status.toUpperCase()}`,
+               type: message.data.status === 'completed' ? 'success' : 'error'
+             }]);
+          }
+        } catch (e) {
+          console.error("WS Parse Error:", e);
         }
       };
       
       wsRef.current.onerror = () => {
-        toast.error('WebSocket connection error');
+        toast.error('WebSocket signal lost');
+        setExecutionLogs(prev => [...prev, {
+          time: new Date().toLocaleTimeString(),
+          message: 'Error: WebSocket connection failed. Using fallback polling...',
+          type: 'error'
+        }]);
       };
       
-      toast.success('Execution started');
     } catch (err) {
-      toast.error('Failed to trigger execution');
+      console.error("Execution Error:", err);
+      toast.error('Failed to trigger execution', { id: loadingToast });
       setIsExecuting(false);
+      setExecutionLogs(prev => [...prev, {
+        time: new Date().toLocaleTimeString(),
+        message: `Critical Error: ${err.response?.data?.detail || err.message}`,
+        type: 'error'
+      }]);
     }
   };
 

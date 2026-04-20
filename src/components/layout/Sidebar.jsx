@@ -42,7 +42,7 @@ const Sidebar = () => {
       {/* Brand Section */}
       <div 
         className="flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ marginLeft: collapsed ? '12px' : '24px', marginRight: collapsed ? '12px' : '24px', marginTop: '40px', marginBottom: '32px' }}
+        style={{ marginLeft: collapsed ? '12px' : '40px', marginRight: collapsed ? '12px' : '40px', marginTop: '48px', marginBottom: '40px' }}
       >
         <div className="w-11 h-11 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-2xl flex items-center justify-center shrink-0 shadow-[0_4px_20px_rgba(0,122,255,0.4)] relative">
           <div className="absolute inset-0 bg-white/20 rounded-2xl animate-pulse blur-[10px]" />
@@ -89,7 +89,7 @@ const Sidebar = () => {
       {/* Primary Navigation */}
       <nav 
         className="flex-1 overflow-y-auto custom-scrollbar scroll-smooth"
-        style={{ marginLeft: '12px', marginRight: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}
+        style={{ marginLeft: '16px', marginRight: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}
       >
         {navItems.map((item) => (
           <NavLink
@@ -102,8 +102,8 @@ const Sidebar = () => {
                 : 'text-[#86868b] hover:bg-white/5 hover:text-white'}
             `}
             style={({ isActive }) => ({ 
-              height: '56px',
-              paddingLeft: collapsed ? '0' : '20px',
+              height: '64px',
+              paddingLeft: collapsed ? '0' : '32px',
               justifyContent: collapsed ? 'center' : 'flex-start',
             })}
           >
@@ -146,13 +146,17 @@ const Sidebar = () => {
       >
         <div 
           className="flex items-center rounded-2xl bg-white/5 border border-white/5 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
-          style={{ padding: collapsed ? '8px' : '14px', justifyContent: collapsed ? 'center' : 'space-between' }}
+          style={{ padding: collapsed ? '8px' : '20px', justifyContent: collapsed ? 'center' : 'space-between' }}
         >
           <div 
-            className="rounded-xl bg-gradient-to-br from-[#1c1c1e] to-[#0d0d0f] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-2xl"
+            className="rounded-xl bg-gradient-to-br from-[#1c1c1e] to-[#0d0d0f] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-2xl overflow-hidden"
             style={{ width: '40px', height: '40px', fontSize: '15px' }}
           >
-            {user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+            {user?.profile_image ? (
+              <img src={user.profile_image} alt="Avatar" className="w-full h-full object-cover" />
+            ) : (
+              user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'
+            )}
           </div>
           
           <AnimatePresence>

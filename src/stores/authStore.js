@@ -17,6 +17,8 @@ const useAuthStore = create((set, get) => ({
     set({ user: null, token: null, isAuthenticated: false, isLoading: false })
   },
 
+  setUser: (user) => set({ user }),
+
   fetchUser: async () => {
     const token = get().token
     if (!token) {

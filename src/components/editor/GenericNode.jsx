@@ -40,38 +40,33 @@ const GenericNode = ({ id, data, selected }) => {
           }} 
         />
 
-        <div className="p-12 space-y-10 relative z-10">
-          <div className="flex items-center justify-between">
+        <div className="p-16 space-y-10 relative z-10 flex flex-col items-center text-center">
+          <div className="flex items-center justify-center">
              <div 
-                className="flex items-center justify-center rounded-2xl w-12 h-12 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
+                className="flex items-center justify-center rounded-2xl w-10 h-10 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
                 style={{ 
                   color: category.color,
-                  boxShadow: `inset 0 0 15px ${category.color}20, 0 0 12px ${category.color}30`
+                  boxShadow: `inset 0 0 10px ${category.color}20, 0 0 8px ${category.color}30`
                 }}
              >
-                <Icon size={24} strokeWidth={2.4} />
+                <Icon size={20} strokeWidth={2.6} />
              </div>
              {execution && (
-                <div className="flex flex-col items-end gap-2">
+                <div className="absolute top-10 right-10">
                   <StatusBadge 
                     status={execution.status} 
                     size="small" 
-                    className="scale-100 origin-right shadow-lg" 
+                    className="scale-90 origin-right shadow-lg" 
                   />
-                  {execution.started_at && (
-                    <span className="text-[9px] text-[#52525b] font-bold uppercase tracking-widest">
-                      {new Date(execution.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  )}
                 </div>
              )}
           </div>
           
-          <div className="space-y-2">
-            <div className="font-extrabold text-[18px] text-white tracking-tight truncate">
+          <div className="space-y-3 w-full">
+            <div className="font-extrabold text-[16px] text-white tracking-tight truncate px-2">
               {nodeType?.name || data.label}
             </div>
-             <div className="text-[14px] text-[#86868b] font-medium truncate leading-relaxed">
+             <div className="text-[12px] text-[#86868b] font-medium truncate leading-relaxed opacity-60 px-4">
                 {data.config?.url || data.config?.topic || nodeType?.description || 'Workflow Step'}
              </div>
           </div>

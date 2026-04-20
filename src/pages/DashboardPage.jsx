@@ -71,7 +71,7 @@ export default function DashboardPage() {
             Welcome back, {user?.username || user?.email?.split('@')[0]}
           </motion.h1>
           <p className="text-[18px] text-[#86868b] font-semibold max-w-xl leading-relaxed opacity-80">
-            Everything is running smoothly. Your automation infrastructure is currently at <span className="text-[#34c759]">99.8% uptime</span>.
+            Everything is running smoothly. Your automation infrastructure is currently at <span className="text-[#34c759]">{dashboardData?.system_uptime || '99.9%'} uptime</span>.
           </p>
         </div>
         <motion.button 
@@ -98,40 +98,29 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card p-12 flex flex-col h-[240px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            className={`mac-bento-card p-12 flex flex-col items-center justify-center gap-6 h-[200px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)'
             }}
           >
-            <div className="flex justify-between items-start mb-auto relative z-10">
-              <div 
-                className="flex items-center justify-center rounded-[18px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
+            <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
                 style={{ 
-                  width: '56px', 
-                  height: '56px', 
+                  width: '40px', 
+                  height: '40px', 
                   backgroundColor: `${stat.color}20`,
                   color: stat.color,
-                  boxShadow: `0 0 15px ${stat.color}30`
+                  boxShadow: `0 0 10px ${stat.color}30`
                 }}
               >
-                <stat.icon size={24} strokeWidth={2.5} />
-              </div>
-              {stat.status && (
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#34c759]/10 rounded-full border border-[#34c759]/20 backdrop-blur-md">
-                  <div className="w-2 h-2 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759] animate-pulse" />
-                  <span className="text-[10px] font-black text-[#34c759] uppercase tracking-[0.15em]">
-                    {stat.status}
-                  </span>
-                </div>
-              )}
+                <stat.icon size={18} strokeWidth={2.5} />
             </div>
 
-            <div className="relative z-10">
-              <div className="text-[36px] lg:text-[44px] font-black text-white leading-none tracking-tighter mb-2 tabular-nums">
+            <div className="text-center">
+              <div className="text-[28px] font-black text-white leading-none tracking-tighter mb-1 tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-[12px] lg:text-[13px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
+              <div className="text-[10px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
                 {stat.label}
               </div>
             </div>
@@ -147,13 +136,13 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mac-bento-card p-8 lg:p-12 min-h-[500px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            className="mac-bento-card p-16 lg:p-20 flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)'
             }}
           >
-            <div className="flex justify-between items-center mb-10 lg:mb-14">
+            <div className="flex justify-between items-center mb-10 lg:mb-14 px-10">
               <div>
                 <h3 className="text-[24px] lg:text-[28px] font-black text-white tracking-tighter">Activity Overview</h3>
                 <p className="text-[15px] text-[#86868b] mt-1 font-semibold opacity-60">System-wide traffic monitoring</p>
@@ -217,14 +206,14 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mac-bento-card p-8 lg:p-12 space-y-10 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
+            className="mac-bento-card p-16 lg:p-24 space-y-12 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)'
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-             <div className="flex justify-between items-center relative z-10">
+             <div className="flex justify-between items-center relative z-10 px-10">
                 <div>
                    <h3 className="text-[24px] font-black text-white tracking-tighter">Node Reliability</h3>
                    <p className="text-[14px] text-[#86868b] mt-1 font-semibold opacity-60">Uptime distribution and signal strength</p>
@@ -236,10 +225,10 @@ export default function DashboardPage() {
              
              <div className="grid grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
                 {[
-                  { label: 'Triggers', rate: '100%', color: '#007aff', glow: 'shadow-[0_0_15px_rgba(0,122,255,0.4)]' },
-                  { label: 'HTTP Req', rate: '98.2%', color: '#32ade6', glow: 'shadow-[0_0_15px_rgba(50,173,230,0.4)]' },
-                  { label: 'AI Gen', rate: '99.5%', color: '#af52de', glow: 'shadow-[0_0_15px_rgba(175,82,222,0.4)]' },
-                  { label: 'Storage', rate: '85.1%', color: '#ff9500', glow: 'shadow-[0_0_15px_rgba(255,149,0,0.4)]' }
+                  { label: 'Triggers', rate: dashboardData?.node_reliability?.manual_trigger || '100%', color: '#007aff', glow: 'shadow-[0_0_15px_rgba(0,122,255,0.4)]' },
+                  { label: 'HTTP Req', rate: dashboardData?.node_reliability?.http_request || '100%', color: '#32ade6', glow: 'shadow-[0_0_15px_rgba(50,173,230,0.4)]' },
+                  { label: 'AI Gen', rate: dashboardData?.node_reliability?.send_email || '100%', color: '#af52de', glow: 'shadow-[0_0_15px_rgba(175,82,222,0.4)]' },
+                  { label: 'Storage', rate: dashboardData?.node_reliability?.storage || '100%', color: '#ff9500', glow: 'shadow-[0_0_15px_rgba(255,149,0,0.4)]' }
                 ].map((item, i) => (
                   <div key={i} className="space-y-4">
                      <span className="text-[12px] font-black uppercase tracking-[0.2em] text-[#86868b] opacity-60">{item.label}</span>
@@ -267,7 +256,7 @@ export default function DashboardPage() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.6 }}
-             className="mac-bento-card p-8 lg:p-10 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             className="mac-bento-card p-16 lg:p-24 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
                backdropFilter: 'blur(40px)'
@@ -275,7 +264,7 @@ export default function DashboardPage() {
            >
               <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-              <div className="flex justify-between items-center mb-10 relative z-10">
+              <div className="flex justify-between items-center mb-10 relative z-10 px-10">
                  <div>
                    <h3 className="text-[22px] font-black text-white tracking-tighter">Live Monitor</h3>
                    <div className="flex items-center gap-2 mt-1">
@@ -291,7 +280,7 @@ export default function DashboardPage() {
               <div className="flex-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pr-2 relative z-10">
                  {dashboardData?.recent_executions?.length > 0 ? (
                    dashboardData.recent_executions.slice(0, 6).map((exec) => (
-                    <div key={exec.id} className="flex gap-4 group items-start p-3 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/5 cursor-pointer">
+                    <div key={exec.id} className="flex gap-4 group items-start p-4 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/5 cursor-pointer">
                         <div 
                           className={`mt-1 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
                             exec.status === 'completed' ? 'bg-[#34c759] shadow-[0_0_8px_#34c759]' : 
@@ -322,7 +311,7 @@ export default function DashboardPage() {
               <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
                  <div 
                    className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '24px', borderRadius: '20px' }}
+                   style={{ padding: '48px', borderRadius: '32px' }}
                  >
                     <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
                        <Zap size={18} fill="currentColor" />

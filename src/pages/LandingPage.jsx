@@ -258,7 +258,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 rounded-3xl" style={{ gap: '40px' }}>
             {/* Box 1 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card flex flex-col items-center justify-center min-h-[360px] p-20 lg:p-24 gap-10 text-center">
+            <div className="md:col-span-2 mac-bento-card flex flex-col items-center justify-center min-h-[320px] p-16 lg:p-20 gap-8 text-center">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#34c759] flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500">
                 <Workflow size={24} className="text-white" />
               </div>
@@ -271,7 +271,7 @@ const LandingPage = () => {
             </div>
 
             {/* Box 2 */}
-            <div className="md:col-span-1 mac-bento-card flex flex-col items-center justify-center min-h-[360px] p-16 lg:p-20 gap-8 text-center">
+            <div className="md:col-span-1 mac-bento-card flex flex-col items-center justify-center min-h-[320px] p-14 lg:p-16 gap-6 text-center">
               <div className="w-10 h-10 rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-500">
                 <Clock size={20} className="text-[#ffcc00]" />
               </div>
@@ -284,7 +284,7 @@ const LandingPage = () => {
             </div>
 
             {/* Box 3 */}
-            <div className="md:col-span-1 mac-bento-card flex flex-col items-center justify-center min-h-[360px] p-16 lg:p-20 gap-8 text-center">
+            <div className="md:col-span-1 mac-bento-card flex flex-col items-center justify-center min-h-[320px] p-14 lg:p-16 gap-6 text-center">
               <div className="w-10 h-10 rounded-xl bg-[#2c2c2e] border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-500">
                 <Zap size={20} className="text-[#ff2d55]" />
               </div>
@@ -297,7 +297,7 @@ const LandingPage = () => {
             </div>
 
             {/* Box 4 (Large Span) */}
-            <div className="md:col-span-2 mac-bento-card flex flex-col items-center justify-center relative overflow-hidden min-h-[360px] p-20 lg:p-24 gap-10 text-center">
+            <div className="md:col-span-2 mac-bento-card flex flex-col items-center justify-center relative overflow-hidden min-h-[320px] p-16 lg:p-20 gap-8 text-center">
                <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-gradient-to-br from-[#5856d6]/40 to-transparent blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
               
               <div className="w-12 h-12 rounded-2xl bg-[#5856d6] flex items-center justify-center relative z-10 shadow-xl group-hover:scale-110 transition-transform duration-500">
@@ -330,7 +330,7 @@ const LandingPage = () => {
                    { title: 'Configure Node Options', desc: 'Set URL, tokens, variables visually.' },
                    { title: 'Activate & Relax', desc: 'Hit execute. We handle the infrastructure.' },
                  ].map((item, idx) => (
-                   <div key={idx} className="flex items-center gap-12 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[48px] p-20 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
+                   <div key={idx} className="flex items-center gap-10 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[40px] p-16 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
                       <div className="w-14 h-14 rounded-full bg-[#007aff]/10 flex items-center justify-center shrink-0 border border-[#007aff]/20 group-hover:scale-110 transition-transform">
                          <span className="text-[#007aff] font-black text-[22px]">{idx + 1}</span>
                       </div>
@@ -346,7 +346,7 @@ const LandingPage = () => {
 
         {/* CALL TO ACTION */}
         <section className="w-full px-6 flex items-center justify-center">
-            <div className="relative w-full max-w-4xl mac-bento-card overflow-hidden text-center border-t border-[rgba(255,255,255,0.2)] shadow-2xl" style={{ padding: '96px 64px' }}>
+            <div className="relative w-full max-w-4xl mac-bento-card overflow-hidden text-center border-t border-[rgba(255,255,255,0.2)] shadow-2xl" style={{ padding: '80px 48px' }}>
                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-[600px] h-[600px] bg-gradient-to-tr from-[#007aff] via-[#5856d6] to-[#ff2d55] opacity-[0.15] blur-[100px] rounded-full" />
                </div>

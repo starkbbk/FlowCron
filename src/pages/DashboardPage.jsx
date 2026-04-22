@@ -102,7 +102,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '64px'
+              padding: '56px'
             }}
           >
             <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
@@ -141,7 +141,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '80px'
+              padding: '64px'
             }}
           >
             <div className="flex justify-between items-center mb-10 lg:mb-14 px-10">
@@ -212,7 +212,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '96px'
+              padding: '64px'
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -263,7 +263,7 @@ export default function DashboardPage() {
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
                backdropFilter: 'blur(40px)',
-               padding: '80px'
+               padding: '64px'
              }}
            >
               <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
@@ -315,7 +315,7 @@ export default function DashboardPage() {
               <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
                  <div 
                    className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '64px', borderRadius: '40px' }}
+                   style={{ padding: '48px', borderRadius: '40px' }}
                  >
                     <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
                        <Zap size={18} fill="currentColor" />

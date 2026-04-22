@@ -94,8 +94,8 @@ export default function WorkflowsListPage() {
 
   return (
     <div 
-      className="space-y-8 lg:space-y-12 pb-20 mx-auto w-full px-10 lg:px-16 pt-12 lg:pt-24"
-      style={{ maxWidth: '1400px' }}
+      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full pt-12 lg:pt-24 relative z-10"
+      style={{ maxWidth: '1600px', paddingLeft: '80px', paddingRight: '80px' }}
     >
       {/* Header & Controls */}
       <div className="flex flex-wrap items-center justify-between gap-x-12 gap-y-10 mb-8">

@@ -40,7 +40,7 @@ const ProtectedLayout = () => {
         <div className="floating-orb orb-4" />
         <div className="floating-orb orb-5" />
       </div>
-      <Sidebar />
+      {!isEditorRoute && <Sidebar />}
       <MobileNav />
       {/* 
           Main content area - Precise transitions

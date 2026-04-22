@@ -98,8 +98,8 @@ export default function WorkflowsListPage() {
       style={{ maxWidth: '1400px' }}
     >
       {/* Header & Controls */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-x-12 gap-y-10 mb-8">
+        <div className="min-w-[300px]">
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -107,12 +107,12 @@ export default function WorkflowsListPage() {
           >
             Workflows
           </motion.h1>
-          <p className="text-[18px] text-[#86868b] font-semibold max-w-xl leading-relaxed opacity-80">
+          <p className="text-[17px] text-[#86868b] font-semibold max-w-lg leading-relaxed opacity-80">
             Design, deploy and scale your automated pipelines with precision.
           </p>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-6 w-full xl:w-auto">
+        <div className="flex flex-wrap items-center gap-6 flex-1 justify-end min-w-[500px]">
           <div className="relative group flex-1 md:w-96">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[#52525b] group-focus-within:text-[#007aff] transition-all duration-300" size={20} />
             <input 

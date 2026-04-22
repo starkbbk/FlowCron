@@ -9,7 +9,12 @@ import GlassButton from '../ui/GlassButton';
 import useWorkflowStore from '../../stores/workflowStore';
 
 export default function ConfigPanel() {
-  const { selectedNode, updateNodeConfig, setNodes, nodes, deselectNode } = useWorkflowStore();
+  const { 
+    selectedNode, updateNodeConfig, 
+    setNodes, nodes, 
+    setEdges, edges,
+    deselectNode 
+  } = useWorkflowStore();
   
   if (!selectedNode) return null;
 
@@ -24,10 +29,13 @@ export default function ConfigPanel() {
   };
 
   const handleDelete = () => {
-    if (confirm('Are you sure you want to delete this step?')) {
-      setNodes(nodes.filter(n => n.id !== selectedNode.id));
-      deselectNode();
-    }
+    // Remove the node
+    setNodes(nodes.filter(n => n.id !== selectedNode.id));
+    // Remove connected edges
+    setEdges(edges.filter(e => e.source !== selectedNode.id && e.target !== selectedNode.id));
+    // Close panel
+    deselectNode();
+    toast.success('Step removed');
   };
 
   const renderField = (field) => {

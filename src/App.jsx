@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 // Layouts
 import ProtectedLayout from './components/layout/ProtectedLayout';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 // Stores
 import useAuthStore from './stores/authStore';
@@ -52,30 +53,32 @@ export default function App() {
         }}
       />
       
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <ErrorBoundary>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-          {/* Protected Routes */}
-          <Route path="/" element={<ProtectedLayout />}>
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="workflows" element={<WorkflowsListPage />} />
-            <Route path="workflows/:id/edit" element={<WorkflowEditorPage />} />
-            <Route path="executions" element={<ExecutionsListPage />} />
-            <Route path="executions/:id" element={<ExecutionDetailPage />} />
-            <Route path="activity" element={<ActivityLogPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
+            {/* Protected Routes */}
+            <Route path="/" element={<ProtectedLayout />}>
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="workflows" element={<WorkflowsListPage />} />
+              <Route path="workflows/:id/edit" element={<WorkflowEditorPage />} />
+              <Route path="executions" element={<ExecutionsListPage />} />
+              <Route path="executions/:id" element={<ExecutionDetailPage />} />
+              <Route path="activity" element={<ActivityLogPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+            </Route>
 
-          {/* Catch-all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
+            {/* Catch-all */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }

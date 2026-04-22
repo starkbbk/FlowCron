@@ -65,8 +65,11 @@ async def seed():
                 description=wd["description"],
                 trigger_type=wd["trigger_type"],
                 status=wd["status"],
-                nodes_data=[{"id": "trigger", "type": wd["trigger_type"]}, {"id": "action", "type": "http_request"}],
-                edges_data=[{"source": "trigger", "target": "action"}]
+                nodes_data=[
+                    {"id": "trigger", "type": wd["trigger_type"], "position": {"x": 100, "y": 150}, "data": {"type": wd["trigger_type"], "label": wd["name"]}}, 
+                    {"id": "action", "type": "http_request", "position": {"x": 450, "y": 150}, "data": {"type": "http_request", "label": "HTTP Action"}}
+                ],
+                edges_data=[{"id": "e1-2", "source": "trigger", "target": "action", "type": "glow", "animated": True}]
             )
             db.add(wf)
             workflows.append(wf)

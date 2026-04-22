@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Plus, Search, GitBranch, Play, Clock, Webhook,
+  Plus, Search, GitBranch, Play, Clock, Webhook, Zap,
   MoreHorizontal, Edit2, LayoutGrid, List as ListIcon, Loader2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -76,7 +76,8 @@ export default function WorkflowsListPage() {
   };
 
   const filteredWorkflows = useMemo(() => {
-    return workflows.filter(wf => {
+    return (workflows || []).filter(wf => {
+      if (!wf || !wf.name) return false;
       const matchesSearch = wf.name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = filterStatus === 'All' || wf.status === filterStatus.toLowerCase();
       return matchesSearch && matchesStatus;
@@ -118,7 +119,7 @@ export default function WorkflowsListPage() {
               type="text"
               placeholder="Search flows..."
               className="w-full bg-white/5 border border-white/10 rounded-2xl focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#52525b] font-bold text-white shadow-inner backdrop-blur-xl"
-              style={{ paddingLeft: '56px', paddingRight: '20px', height: '60px', fontSize: '16px' }}
+              style={{ paddingLeft: '64px', paddingRight: '24px', height: '72px', fontSize: '16px' }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -220,30 +221,30 @@ export default function WorkflowsListPage() {
                 transition={{ delay: idx * 0.05 }}
                 className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
                 style={{ 
-                  height: '420px', 
-                  padding: '48px', 
+                  height: '460px', 
+                  padding: '64px', 
                   backgroundColor: 'rgba(255,255,255,0.03)', 
                   backdropFilter: 'blur(40px)',
                   border: '1px solid rgba(255,255,255,0.06)', 
-                  borderRadius: '32px',
+                  borderRadius: '48px',
                   boxShadow: '0 30px 60px -12px rgba(0,0,0,0.4)',
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
-                 <div className="flex justify-between items-start mb-10 px-4">
+                 <div className="flex justify-between items-start mb-12">
                       <div 
                         className={`flex items-center justify-center border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-2xl ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
                         style={{ 
-                          width: '64px', 
-                          height: '64px', 
-                          borderRadius: '20px', 
+                          width: '72px', 
+                          height: '72px', 
+                          borderRadius: '24px', 
                           backgroundColor: 'rgba(255,255,255,0.05)',
                           boxShadow: wf.status === 'active' ? '0 0 20px rgba(0,122,255,0.2)' : 'none'
                         }}
                       >
-                         <GitBranch size={28} strokeWidth={2.5} />
+                         <GitBranch size={32} strokeWidth={2.5} />
                       </div>
-                    <StatusBadge status={wf.status} size="small" className="scale-110 translate-x-2" />
+                    <StatusBadge status={wf.status} size="default" className="scale-110" />
                  </div>
                  
                  <h3 className="font-black text-white group-hover:text-[#007aff] transition-all duration-500 truncate tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>

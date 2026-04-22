@@ -42,7 +42,7 @@ const GenericNode = ({ id, data, selected }) => {
           }} 
         />
 
-        <div className="p-16 space-y-10 relative z-10 flex flex-col items-center text-center">
+        <div className="p-20 space-y-12 relative z-10 flex flex-col items-center text-center">
           <div className="flex items-center justify-center">
              <div 
                 className="flex items-center justify-center rounded-2xl w-10 h-10 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 

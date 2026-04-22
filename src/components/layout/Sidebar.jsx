@@ -103,7 +103,7 @@ const Sidebar = () => {
             `}
             style={({ isActive }) => ({ 
               height: '64px',
-              paddingLeft: collapsed ? '0' : '32px',
+              paddingLeft: collapsed ? '0' : '40px',
               justifyContent: collapsed ? 'center' : 'flex-start',
             })}
           >

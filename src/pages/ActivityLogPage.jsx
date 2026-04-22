@@ -73,19 +73,19 @@ const ActivityLogPage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
                   className="flex items-center hover:bg-white/5 transition-colors group cursor-pointer"
-                  style={{ padding: '40px 64px', gap: '32px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                  style={{ padding: '48px 80px', gap: '40px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
                   onClick={() => navigate(`/executions/${log.id}`)}
                 >
                   {/* Status Indicator */}
                   <div 
                     className={`flex items-center justify-center border border-white/10 transition-all group-hover:border-white/20 ${log.status === 'completed' ? 'text-[#34c759]' : log.status === 'failed' ? 'text-[#ff3b30]' : 'text-[#007aff]'}`}
-                    style={{ width: '52px', height: '52px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}
+                    style={{ width: '60px', height: '60px', borderRadius: '18px', backgroundColor: '#2c2c2e' }}
                   >
-                     {log.status === 'completed' ? <CheckCircle2 size={24} /> : log.status === 'failed' ? <XCircle size={24} /> : <Zap size={24} />}
+                     {log.status === 'completed' ? <CheckCircle2 size={28} /> : log.status === 'failed' ? <XCircle size={28} /> : <Zap size={28} />}
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div style={{ fontSize: '16px', marginBottom: '8px' }}>
+                    <div style={{ fontSize: '17px', marginBottom: '10px' }}>
                       <span className="text-[#86868b] font-semibold">Workflow </span>
                       <span className="font-bold text-white group-hover:text-[#007aff] transition-colors">
                         {log.workflow_name || 'UNNAMED_PROCESS'}
@@ -93,7 +93,7 @@ const ActivityLogPage = () => {
                       <span className="text-[#52525b] font-semibold"> updated to </span>
                       <span 
                         className={`font-extrabold uppercase tracking-wider border border-white/10 ${log.status === 'completed' ? 'text-[#34c759]' : log.status === 'failed' ? 'text-[#ff3b30]' : 'text-[#007aff]'}`}
-                        style={{ fontSize: '11px', padding: '4px 10px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.05)', marginLeft: '8px' }}
+                        style={{ fontSize: '11px', padding: '6px 14px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.05)', marginLeft: '12px' }}
                       >
                         {log.status}
                       </span>

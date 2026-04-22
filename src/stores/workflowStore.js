@@ -13,11 +13,20 @@ const useWorkflowStore = create((set, get) => ({
   nodeExecutions: {},
 
   setWorkflows: (workflows) => set({ workflows }),
-  setCurrentWorkflow: (workflow) => set({
-    currentWorkflow: workflow,
-    nodes: workflow?.nodes_data || [],
-    edges: workflow?.edges_data || [],
-  }),
+  setCurrentWorkflow: (workflow) => {
+    // Sanitize nodes to ensure they have positions (React Flow requirement)
+    const sanitizedNodes = (workflow?.nodes_data || []).map(node => ({
+      ...node,
+      position: node.position || { x: Math.random() * 400 + 100, y: Math.random() * 300 + 100 },
+      data: node.data || { type: node.type, config: {} }
+    }));
+
+    set({
+      currentWorkflow: workflow,
+      nodes: sanitizedNodes,
+      edges: workflow?.edges_data || [],
+    });
+  },
 
   setNodes: (nodes) => set({ nodes }),
   setEdges: (edges) => set({ edges }),

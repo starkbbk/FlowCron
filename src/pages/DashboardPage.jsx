@@ -98,7 +98,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card p-12 flex flex-col items-center justify-center gap-6 h-[200px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            className={`mac-bento-card p-16 flex flex-col items-center justify-center gap-8 h-[220px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)'
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mac-bento-card p-16 lg:p-20 flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            className="mac-bento-card p-20 lg:p-24 flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)'
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                 <h3 className="text-[24px] lg:text-[28px] font-black text-white tracking-tighter">Activity Overview</h3>
                 <p className="text-[15px] text-[#86868b] mt-1 font-semibold opacity-60">System-wide traffic monitoring</p>
               </div>
-              <div className="text-[11px] lg:text-[12px] font-black text-[#86868b] uppercase tracking-[0.2em] px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">
+              <div className="text-[11px] lg:text-[12px] font-black text-[#86868b] uppercase tracking-[0.2em] px-8 py-3.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">
                 Real-time Data
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mac-bento-card p-16 lg:p-24 space-y-12 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
+            className="mac-bento-card p-20 lg:p-28 space-y-14 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)'
@@ -256,7 +256,7 @@ export default function DashboardPage() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.6 }}
-             className="mac-bento-card p-16 lg:p-24 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             className="mac-bento-card p-20 lg:p-24 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
                backdropFilter: 'blur(40px)'
@@ -280,7 +280,7 @@ export default function DashboardPage() {
               <div className="flex-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pr-2 relative z-10">
                  {dashboardData?.recent_executions?.length > 0 ? (
                    dashboardData.recent_executions.slice(0, 6).map((exec) => (
-                    <div key={exec.id} className="flex gap-4 group items-start p-4 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/5 cursor-pointer">
+                    <div key={exec.id} className="flex gap-6 group items-start p-6 hover:bg-white/5 rounded-3xl transition-colors border border-transparent hover:border-white/10 cursor-pointer">
                         <div 
                           className={`mt-1 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
                             exec.status === 'completed' ? 'bg-[#34c759] shadow-[0_0_8px_#34c759]' : 
@@ -311,7 +311,7 @@ export default function DashboardPage() {
               <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
                  <div 
                    className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '48px', borderRadius: '32px' }}
+                   style={{ padding: '64px', borderRadius: '40px' }}
                  >
                     <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
                        <Zap size={18} fill="currentColor" />

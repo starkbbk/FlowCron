@@ -98,10 +98,11 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card p-16 flex flex-col items-center justify-center gap-8 h-[220px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            className={`mac-bento-card flex flex-col items-center justify-center gap-8 h-[220px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-              backdropFilter: 'blur(40px)'
+              backdropFilter: 'blur(40px)',
+              padding: '64px'
             }}
           >
             <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
@@ -136,10 +137,11 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mac-bento-card p-20 lg:p-24 flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            className="mac-bento-card flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-              backdropFilter: 'blur(40px)'
+              backdropFilter: 'blur(40px)',
+              padding: '80px'
             }}
           >
             <div className="flex justify-between items-center mb-10 lg:mb-14 px-10">
@@ -206,10 +208,11 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mac-bento-card p-20 lg:p-28 space-y-14 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
+            className="mac-bento-card space-y-14 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-              backdropFilter: 'blur(40px)'
+              backdropFilter: 'blur(40px)',
+              padding: '96px'
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -256,10 +259,11 @@ export default function DashboardPage() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.6 }}
-             className="mac-bento-card p-20 lg:p-24 min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             className="mac-bento-card min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-               backdropFilter: 'blur(40px)'
+               backdropFilter: 'blur(40px)',
+               padding: '80px'
              }}
            >
               <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />

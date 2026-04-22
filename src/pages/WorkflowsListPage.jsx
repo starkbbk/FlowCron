@@ -221,8 +221,8 @@ export default function WorkflowsListPage() {
                 transition={{ delay: idx * 0.05 }}
                 className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
                 style={{ 
-                  height: '460px', 
-                  padding: '64px', 
+                  height: '480px', 
+                  padding: '80px', 
                   backgroundColor: 'rgba(255,255,255,0.03)', 
                   backdropFilter: 'blur(40px)',
                   border: '1px solid rgba(255,255,255,0.06)', 

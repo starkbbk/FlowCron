@@ -57,7 +57,7 @@ export default function DashboardPage() {
 
   return (
     <div 
-      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full px-6 lg:px-12 pt-12 lg:pt-24 relative z-10"
+      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full px-10 lg:px-16 pt-12 lg:pt-24 relative z-10"
       style={{ maxWidth: '1600px' }}
     >
       {/* Header Area */}

@@ -94,7 +94,7 @@ export default function WorkflowsListPage() {
 
   return (
     <div 
-      className="space-y-8 lg:space-y-12 pb-20 mx-auto w-full px-6 lg:px-8 pt-12 lg:pt-24"
+      className="space-y-8 lg:space-y-12 pb-20 mx-auto w-full px-10 lg:px-16 pt-12 lg:pt-24"
       style={{ maxWidth: '1400px' }}
     >
       {/* Header & Controls */}

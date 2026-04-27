@@ -62,7 +62,7 @@ const LandingPage = () => {
       </nav>
 
       {/* ADDED massive gap of 40 (160px) between major sections ensuring zero overlapping */}
-      <main className="relative z-10 flex flex-col items-center gap-40 pb-40" style={{ paddingTop: '160px' }}>
+      <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-20 md:pt-40">
         
         {/* HERO SECTION */}
         <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">
@@ -77,7 +77,7 @@ const LandingPage = () => {
 
           <motion.h1 
             initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[clamp(3.5rem,8vw,6.5rem)] font-extrabold leading-[1.15] tracking-normal text-white mb-8 max-w-4xl"
+            className="text-[40px] sm:text-[60px] md:text-[clamp(3.5rem,8vw,6.5rem)] font-extrabold leading-[1.1] md:leading-[1.15] tracking-tight text-white mb-6 md:mb-8 max-w-4xl px-4"
           >
             Automate everything. <br/>
             <span className="text-[#86868b]">Code nothing.</span>
@@ -85,7 +85,7 @@ const LandingPage = () => {
 
           <motion.p 
              initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-             className="text-[21px] md:text-[24px] font-medium text-[#86868b] max-w-3xl mb-16 leading-relaxed"
+             className="text-[17px] md:text-[24px] font-medium text-[#86868b] max-w-3xl mb-12 md:mb-16 leading-relaxed px-6"
           >
             Build powerful automated workflows with a visual drag-and-drop editor. Connect APIs, schedule tasks, and let your Mac handle the rest.
           </motion.p>
@@ -108,8 +108,9 @@ const LandingPage = () => {
           {/* APP WINDOW MOCKUP */}
           <motion.div 
              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
-             className="w-full max-w-5xl mac-window min-h-[500px] h-auto shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/20"
+             className="w-full max-w-5xl mac-window min-h-[300px] md:min-h-[500px] h-auto shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/20 scale-[0.9] md:scale-100"
           >
+观察到 scale-[0.9] 可能会导致在极窄手机上溢出，我改用宽度控制。
             {/* Title Bar */}
             <div className="mac-window-titlebar shrink-0 border-b border-black/80 h-10 w-full flex items-center px-4">
                <div className="flex gap-2.5">
@@ -120,7 +121,7 @@ const LandingPage = () => {
                <div className="flex-1 text-center text-[14px] font-semibold text-[#86868b]">FlowCron Editor — Untitled Workflow</div>
             </div>
             {/* Editor Canvas Area */}
-            <div className="flex-1 min-h-[650px] bg-[#161618] relative overflow-hidden flex flex-col">
+            <div className="flex-1 min-h-[400px] md:min-h-[650px] bg-[#161618] relative overflow-hidden flex flex-col">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#2c2c2e 1.5px, transparent 1.5px)', backgroundSize: '32px 32px', opacity: 0.6 }} />
               
               <div className="flex-1 flex overflow-hidden relative">
@@ -246,8 +247,8 @@ const LandingPage = () => {
 
         {/* BENTO GRID FEATURES SECTION */}
         <section id="features" className="w-full max-w-5xl px-6 flex flex-col">
-          <div className="text-center" style={{ marginBottom: '120px' }}>
-            <h2 className="text-[44px] md:text-[56px] font-extrabold text-white tracking-tight" style={{ marginBottom: '24px' }}>
+          <div className="text-center mb-16 md:mb-32">
+            <h2 className="text-[32px] md:text-[56px] font-extrabold text-white tracking-tight mb-4 md:mb-6">
               Designed for Professionals.
             </h2>
             <p className="text-[21px] text-[#86868b] max-w-2xl font-medium leading-relaxed" style={{ textAlign: 'center', margin: '0 auto' }}>
@@ -314,7 +315,7 @@ const LandingPage = () => {
 
         {/* HOW IT WORKS */}
         <section id="how-it-works" className="w-full max-w-6xl px-6 flex flex-col relative z-20">
-           <div className="mac-bento-card flex flex-col lg:flex-row items-center gap-24 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-24 px-16 lg:px-32">
+           <div className="mac-bento-card flex flex-col lg:flex-row items-center gap-12 lg:gap-24 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-12 md:py-24 px-6 md:px-32">
               <div className="flex-1 text-center lg:text-left px-8 lg:px-0">
                 <h2 className="text-[40px] md:text-[50px] font-extrabold text-white tracking-tight mb-8 leading-tight">
                   Three Steps to Automation.
@@ -351,7 +352,7 @@ const LandingPage = () => {
                </div>
                
                <div className="relative z-10 flex flex-col items-center" style={{ gap: '32px' }}>
-                 <h2 className="text-[48px] md:text-[64px] font-extrabold text-white tracking-tight leading-tight" style={{ textAlign: 'center' }}>
+                 <h2 className="text-[36px] md:text-[64px] font-extrabold text-white tracking-tight leading-tight px-4" style={{ textAlign: 'center' }}>
                    Ready to automate?
                  </h2>
                  <p className="text-[22px] text-[#c1c1c6] max-w-2xl font-medium leading-relaxed" style={{ textAlign: 'center' }}>
@@ -368,7 +369,7 @@ const LandingPage = () => {
         </section>
 
         {/* FOOTER */}
-        <footer className="w-full max-w-6xl pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10" style={{ paddingLeft: '32px', paddingRight: '32px' }}>
+        <footer className="w-full max-w-6xl pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10 px-8 md:px-12" style={{ paddingBottom: '60px' }}>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#f5f5f7] flex items-center justify-center">
               <Zap size={16} className="text-[#1c1c1e] fill-current" />

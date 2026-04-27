@@ -63,7 +63,7 @@ export default function DashboardPage() {
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-[40px] lg:text-[52px] font-black text-white tracking-tighter mb-4"
+            className="text-[32px] md:text-[40px] lg:text-[52px] font-black text-white tracking-tighter mb-2 md:mb-4"
           >
             Welcome back, {user?.username || user?.email?.split('@')[0]}
           </motion.h1>
@@ -75,14 +75,14 @@ export default function DashboardPage() {
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => navigate('/workflows')}
-          className="flex items-center gap-3 bg-[#007aff] text-white font-black rounded-3xl hover:bg-[#006ce6] shadow-[0_15px_40px_rgba(0,122,255,0.4),0_0_80px_rgba(0,122,255,0.2)] transition-all cursor-pointer border border-white/20"
+          className="flex items-center gap-3 bg-[#007aff] text-white font-black rounded-3xl hover:bg-[#006ce6] shadow-[0_15px_40px_rgba(0,122,255,0.4)] transition-all cursor-pointer border border-white/20"
           style={{
-            padding: '20px 48px',
-            fontSize: '18px',
+            padding: '16px 32px',
+            fontSize: '16px',
             letterSpacing: '-0.02em'
           }}
         >
-          <Plus size={24} strokeWidth={4} />
+          <Plus size={20} strokeWidth={4} />
           New Workflow
         </motion.button>
       </div>
@@ -99,7 +99,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '32px'
+              padding: '40px'
             }}
           >
             <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
@@ -134,14 +134,13 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mac-bento-card flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            className="mac-bento-card flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 p-10 md:p-16"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-              backdropFilter: 'blur(40px)',
-              padding: '32px'
+              backdropFilter: 'blur(40px)'
             }}
           >
-            <div className="flex justify-between items-center mb-10 lg:mb-14 px-10">
+            <div className="flex justify-between items-center mb-10 lg:mb-14">
               <div>
                 <h3 className="text-[24px] lg:text-[28px] font-black text-white tracking-tighter">Activity Overview</h3>
                 <p className="text-[15px] text-[#86868b] mt-1 font-semibold opacity-60">System-wide traffic monitoring</p>
@@ -213,7 +212,7 @@ export default function DashboardPage() {
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-             <div className="flex justify-between items-center relative z-10 px-10">
+             <div className="flex justify-between items-center relative z-10">
                 <div>
                    <h3 className="text-[24px] font-black text-white tracking-tighter">Node Reliability</h3>
                    <p className="text-[14px] text-[#86868b] mt-1 font-semibold opacity-60">Uptime distribution and signal strength</p>
@@ -256,16 +255,15 @@ export default function DashboardPage() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.6 }}
-             className="mac-bento-card min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             className="mac-bento-card min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden p-10 md:p-16"
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-               backdropFilter: 'blur(40px)',
-               padding: '40px'
+               backdropFilter: 'blur(40px)'
              }}
            >
               <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-              <div className="flex justify-between items-center mb-10 relative z-10 px-10">
+              <div className="flex justify-between items-center mb-10 relative z-10">
                  <div>
                    <h3 className="text-[22px] font-black text-white tracking-tighter">Live Monitor</h3>
                    <div className="flex items-center gap-2 mt-1">

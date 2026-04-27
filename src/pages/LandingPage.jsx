@@ -29,7 +29,7 @@ const LandingPage = () => {
   return (
     <div className="relative min-h-screen text-[#f5f5f7] selection:bg-[#007aff]/30 overflow-x-hidden font-['Inter']">
       {/* NAVBAR */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>
+      <nav className="fixed top-10 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>
         {/* LEFT: Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#007aff] to-[#34c759] flex items-center justify-center shadow-lg">
@@ -60,10 +60,13 @@ const LandingPage = () => {
       </nav>
 
       <div className="responsive-container relative z-10">
-        <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-32 md:pt-48">
+        <main 
+          className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40"
+          style={{ paddingTop: '220px' }}
+        >
         
         {/* HERO SECTION */}
-        <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">
+        <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center" style={{ marginTop: '40px' }}>
           <motion.div 
             initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="inline-flex items-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-10 shadow-sm"

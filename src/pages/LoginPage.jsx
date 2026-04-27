@@ -40,7 +40,7 @@ export default function LoginPage() {
 
   return (
     <div 
-      className="relative min-h-screen overflow-hidden font-['Inter'] bg-[#09090b]"
+      className="relative min-h-screen overflow-hidden font-['Inter']"
     >
       {/* Main Split Container */}
       <div 

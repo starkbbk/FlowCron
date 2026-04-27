@@ -63,8 +63,7 @@ export default function SignupPage() {
 
   return (
     <div 
-      className="relative min-h-screen overflow-hidden font-['Inter'] bg-[#09090b]"
-    >
+      className="relative min-h-screen overflow-hidden font-['Inter']"
     >
       {/* Main Split Container */}
       <div className="relative z-10 flex min-h-screen items-center justify-center p-6 lg:p-12">

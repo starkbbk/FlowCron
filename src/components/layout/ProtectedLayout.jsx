@@ -31,7 +31,7 @@ const ProtectedLayout = () => {
   const isEditorRoute = location.pathname.includes('/edit');
 
   return (
-    <div className="min-h-screen relative bg-[#09090b] selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
+    <div className="min-h-screen relative selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
       {!isEditorRoute && <Sidebar />}
       <MobileNav />
       {/* 

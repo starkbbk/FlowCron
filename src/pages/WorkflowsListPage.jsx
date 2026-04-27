@@ -221,17 +221,17 @@ export default function WorkflowsListPage() {
                 transition={{ delay: idx * 0.05 }}
                 className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
                 style={{ 
-                  height: '460px', 
-                  padding: '64px', 
+                  height: '340px', 
+                  padding: '40px', 
                   backgroundColor: 'rgba(255,255,255,0.03)', 
                   backdropFilter: 'blur(40px)',
                   border: '1px solid rgba(255,255,255,0.06)', 
-                  borderRadius: '48px',
+                  borderRadius: '32px',
                   boxShadow: '0 30px 60px -12px rgba(0,0,0,0.4)',
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
-                 <div className="flex justify-between items-start mb-12">
+                 <div className="flex justify-between items-start mb-6">
                       <div 
                         className={`flex items-center justify-center border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-2xl ${wf.status === 'active' ? 'text-[#007aff]' : 'text-[#86868b]'}`}
                         style={{ 
@@ -242,9 +242,9 @@ export default function WorkflowsListPage() {
                           boxShadow: wf.status === 'active' ? '0 0 20px rgba(0,122,255,0.2)' : 'none'
                         }}
                       >
-                         <GitBranch size={32} strokeWidth={2.5} />
+                         <GitBranch size={28} strokeWidth={2.5} />
                       </div>
-                    <StatusBadge status={wf.status} size="default" className="scale-110" />
+                    <StatusBadge status={wf.status} size="small" className="scale-110" />
                  </div>
                  
                  <h3 className="font-black text-white group-hover:text-[#007aff] transition-all duration-500 truncate tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>

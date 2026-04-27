@@ -98,11 +98,11 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card flex flex-col items-center justify-center gap-8 h-[220px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '56px'
+              padding: '32px'
             }}
           >
             <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"

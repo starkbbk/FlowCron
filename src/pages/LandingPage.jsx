@@ -390,6 +390,7 @@ const LandingPage = () => {
           </div>
         </footer>
       </main>
+      </div>
     </div>
   );
 };

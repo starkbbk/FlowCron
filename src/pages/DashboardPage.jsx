@@ -47,10 +47,10 @@ export default function DashboardPage() {
   , [workflows]);
 
   const stats = useMemo(() => [
-    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff', glow: 'shadow-[0_0_30px_rgba(0,122,255,0.2)]' },
-    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active', glow: 'shadow-[0_0_30px_rgba(52,199,89,0.2)]' },
-    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55', glow: 'shadow-[0_0_30px_rgba(255,45,85,0.2)]' },
-    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ff9500', glow: 'shadow-[0_0_30px_rgba(255,149,0,0.2)]' },
+    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff', path: '/workflows', glow: 'shadow-[0_0_30px_rgba(0,122,255,0.2)]' },
+    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active', path: '/workflows', glow: 'shadow-[0_0_30px_rgba(52,199,89,0.2)]' },
+    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55', path: '/executions', glow: 'shadow-[0_0_30px_rgba(255,45,85,0.2)]' },
+    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ff9500', path: '/activity', glow: 'shadow-[0_0_30px_rgba(255,149,0,0.2)]' },
   ], [dashboardData, activeWorkflowsCount]);
 
   if (isLoading) return <StatSkeleton />;
@@ -95,7 +95,8 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 ${stat.glow}`}
+            onClick={() => stat.path && navigate(stat.path)}
+            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 cursor-pointer ${stat.glow}`}
             style={{
               background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
               backdropFilter: 'blur(40px)',
@@ -281,7 +282,11 @@ export default function DashboardPage() {
               <div className="flex-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pr-2 relative z-10">
                  {dashboardData?.recent_executions?.length > 0 ? (
                    dashboardData.recent_executions.slice(0, 6).map((exec) => (
-                    <div key={exec.id} className="flex gap-4 group items-start p-5 hover:bg-white/5 rounded-2xl transition-all border border-transparent hover:border-white/10 cursor-pointer">
+                    <div 
+                      key={exec.id} 
+                      onClick={() => navigate(`/executions/${exec.id}`)}
+                      className="flex gap-4 group items-start p-5 hover:bg-white/5 rounded-2xl transition-all border border-transparent hover:border-white/10 cursor-pointer"
+                    >
                         <div 
                           className={`mt-1 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
                             exec.status === 'completed' ? 'bg-[#34c759] shadow-[0_0_8px_#34c759]' : 

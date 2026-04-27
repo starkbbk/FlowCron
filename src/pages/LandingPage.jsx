@@ -62,7 +62,7 @@ const LandingPage = () => {
       </nav>
 
       {/* ADDED massive gap of 40 (160px) between major sections ensuring zero overlapping */}
-      <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-20 md:pt-40">
+      <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-10 md:pt-24">
         
         {/* HERO SECTION */}
         <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">
@@ -110,7 +110,6 @@ const LandingPage = () => {
              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
              className="w-full max-w-5xl mac-window min-h-[300px] md:min-h-[500px] h-auto shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/20 scale-[0.9] md:scale-100"
           >
-观察到 scale-[0.9] 可能会导致在极窄手机上溢出，我改用宽度控制。
             {/* Title Bar */}
             <div className="mac-window-titlebar shrink-0 border-b border-black/80 h-10 w-full flex items-center px-4">
                <div className="flex gap-2.5">

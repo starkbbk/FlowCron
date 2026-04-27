@@ -66,14 +66,28 @@ export default function SignupPage() {
       className="relative min-h-screen overflow-hidden font-['Inter']"
     >
       {/* Main Split Container */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-6 lg:p-12">
+      <div className="relative z-10 flex min-h-screen items-center justify-center p-4 lg:p-10 overflow-hidden">
+        {/* Back to Home Button - Premium Glass Design */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="absolute left-6 top-6 lg:left-12 lg:top-12 z-50"
+        >
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/20 transition-all no-underline group shadow-2xl"
+          >
+            <ArrowRight className="rotate-180 text-white group-hover:-translate-x-1 transition-transform" size={20} />
+            <span className="text-[14px] font-bold text-white tracking-tight">Back to Home</span>
+          </Link>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 180 }}
-          className="flex w-full overflow-hidden max-w-[1240px]"
+          className="flex w-full overflow-hidden max-w-[1240px] max-h-[85vh]"
           style={{ 
-            minHeight: '860px',
             borderRadius: '40px',
             background: 'rgba(255, 255, 255, 0.03)',
             backdropFilter: 'blur(80px)',
@@ -195,38 +209,38 @@ export default function SignupPage() {
 
           {/* RIGHT — Form Side */}
           <div 
-            className="flex flex-col justify-center w-full lg:w-1/2"
-            style={{ padding: '56px' }}
+            className="flex flex-col justify-center w-full lg:w-1/2 overflow-y-auto no-scrollbar"
+            style={{ padding: '40px 56px' }}
           >
             {/* Brand */}
-            <Link to="/" className="flex items-center gap-3 no-underline mb-10 group">
+            <Link to="/" className="flex items-center gap-3 no-underline mb-6 group">
               <div 
                 className="flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-105"
                 style={{ 
-                  width: '48px', height: '48px', borderRadius: '16px',
+                  width: '40px', height: '40px', borderRadius: '12px',
                   background: 'linear-gradient(135deg, #007aff, #34c759)',
                 }}
               >
-                <Zap size={24} className="text-white fill-white" />
+                <Zap size={20} className="text-white fill-white" />
               </div>
-              <span className="text-2xl font-extrabold text-white tracking-tight">FlowCron</span>
+              <span className="text-xl font-extrabold text-white tracking-tight">FlowCron</span>
             </Link>
 
             {/* Heading */}
-            <div style={{ marginBottom: '40px' }}>
+            <div style={{ marginBottom: '24px' }}>
               <h1 
                 className="font-extrabold text-white tracking-tight"
-                style={{ fontSize: '34px', lineHeight: 1.15, marginBottom: '12px' }}
+                style={{ fontSize: '30px', lineHeight: 1.15, marginBottom: '8px' }}
               >
                 Create Account
               </h1>
-              <p className="text-[#86868b] font-medium" style={{ fontSize: '16px', lineHeight: 1.6 }}>
+              <p className="text-[#86868b] font-medium" style={{ fontSize: '15px', lineHeight: 1.6 }}>
                 Build powerful automated workflows in minutes
               </p>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col" style={{ gap: '24px' }}>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col" style={{ gap: '20px' }}>
               <GlassInput
                 label="Username"
                 placeholder="Choose a username"

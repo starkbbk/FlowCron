@@ -46,13 +46,32 @@ export default function LoginPage() {
       <div 
         className="relative z-10 flex min-h-screen items-center justify-center p-6 lg:p-12"
       >
+        {/* Back to Home Button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="absolute left-6 top-6 lg:left-12 lg:top-12 z-50"
+        >
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 text-[#86868b] hover:text-white font-bold transition-all no-underline group"
+          >
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
+              <ArrowRight className="rotate-180" size={18} />
+            </div>
+            <span className="text-[14px]">Back to Home</span>
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
+              <ArrowRight className="rotate-180" size={16} />
+            </div>
+            <span className="text-[13px]">Back to Home</span>
+          </Link>
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="flex w-full overflow-hidden max-w-[1240px]"
+          className="flex w-full overflow-hidden max-w-[1240px] max-h-[92vh]"
           style={{ 
-            minHeight: '800px',
             borderRadius: '40px',
             background: 'rgba(255, 255, 255, 0.03)',
             backdropFilter: 'blur(80px)',
@@ -63,21 +82,21 @@ export default function LoginPage() {
         >
           {/* LEFT — Form Side */}
           <div 
-            className="flex flex-col justify-center w-full lg:w-1/2"
+            className="flex flex-col justify-center w-full lg:w-1/2 overflow-y-auto"
             style={{ padding: '64px' }}
           >
             {/* Brand */}
-            <Link to="/" className="flex items-center gap-3 no-underline mb-12 group">
+            <Link to="/" className="flex items-center gap-3 no-underline mb-8 group">
               <div 
                 className="flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-105"
                 style={{ 
-                  width: '48px', height: '48px', borderRadius: '16px',
+                  width: '40px', height: '40px', borderRadius: '12px',
                   background: 'linear-gradient(135deg, #007aff, #34c759)',
                 }}
               >
-                <Zap size={24} className="text-white fill-white" />
+                <Zap size={20} className="text-white fill-white" />
               </div>
-              <span className="text-2xl font-extrabold text-white tracking-tight">FlowCron</span>
+              <span className="text-xl font-extrabold text-white tracking-tight">FlowCron</span>
             </Link>
 
             {/* Heading */}

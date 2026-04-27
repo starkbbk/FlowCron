@@ -14,7 +14,7 @@ import StatusBadge from '../components/common/StatusBadge';
 import { CardSkeleton } from '../components/common/LoadingSkeleton';
 
 import api from '../services/api';
-import { timeAgo, formatDuration, getStatusColor } from '../utils/helpers';
+import { timeAgo, formatDuration, getStatusColor, stripAnsi } from '../utils/helpers';
 
 const ExecutionDetailPage = () => {
   const { id } = useParams();
@@ -143,7 +143,7 @@ const ExecutionDetailPage = () => {
                           <XCircle size={18} /> Critical Error
                        </div>
                        <div className="font-semibold text-[#ff3b30] bg-[#ff3b30]/10 border border-[#ff3b30]/20 leading-relaxed" style={{ padding: '20px', borderRadius: '16px', fontSize: '14px' }}>
-                          {execution.error_message}
+                          {stripAnsi(execution.error_message)}
                        </div>
                     </motion.div>
                   )}
@@ -235,7 +235,7 @@ const ExecutionDetailPage = () => {
                                    </div>
                                 </div>
                                 {ne.error_message && (
-                                   <div className="pl-4 text-[#ef4444] opacity-70 italic">FAIL_STACK: {ne.error_message}</div>
+                                   <div className="pl-4 text-[#ef4444] opacity-70 italic">FAIL_STACK: {stripAnsi(ne.error_message)}</div>
                                 )}
                              </div>
                            ))}
@@ -308,7 +308,9 @@ const ExecutionDetailPage = () => {
                                 <div className="space-y-2">
                                    <div className="text-[10px] uppercase font-bold text-[#52525b] tracking-wider">Output</div>
                                    <pre className="text-[11px] font-mono p-4 rounded-lg bg-[#09090b] text-[#a1a1aa] border border-[#27272a] overflow-x-auto max-h-40 custom-scrollbar">
-                                      {JSON.stringify(ne.output_data || ne.error_message, null, 2)}
+                                      {typeof (ne.output_data || ne.error_message) === 'string' 
+                                          ? stripAnsi(ne.output_data || ne.error_message) 
+                                          : JSON.stringify(ne.output_data || ne.error_message, null, 2)}
                                    </pre>
                                 </div>
                              </div>

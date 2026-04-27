@@ -63,3 +63,8 @@ export function getStatusClass(status) {
   }
   return map[status] || 'status-paused'
 }
+
+export function stripAnsi(str) {
+  if (typeof str !== 'string') return str
+  return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+}

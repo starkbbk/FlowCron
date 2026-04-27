@@ -314,8 +314,8 @@ const LandingPage = () => {
 
         {/* HOW IT WORKS */}
         <section id="how-it-works" className="w-full max-w-6xl px-6 flex flex-col relative z-20">
-           <div className="mac-bento-card flex flex-col lg:flex-row items-center gap-24 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-24 px-16 lg:px-24">
-              <div className="flex-1 text-center lg:text-left">
+           <div className="mac-bento-card flex flex-col lg:flex-row items-center gap-24 bg-gradient-to-b from-[rgba(44,44,46,0.9)] to-[rgba(28,28,30,0.9)] shadow-2xl overflow-visible py-24 px-16 lg:px-32">
+              <div className="flex-1 text-center lg:text-left px-8 lg:px-0">
                 <h2 className="text-[40px] md:text-[50px] font-extrabold text-white tracking-tight mb-8 leading-tight">
                   Three Steps to Automation.
                 </h2>
@@ -329,7 +329,7 @@ const LandingPage = () => {
                    { title: 'Configure Node Options', desc: 'Set URL, tokens, variables visually.' },
                    { title: 'Activate & Relax', desc: 'Hit execute. We handle the infrastructure.' },
                  ].map((item, idx) => (
-                   <div key={idx} className="flex items-center gap-10 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[40px] p-16 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
+                  <div key={idx} className="flex items-center gap-8 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[32px] p-8 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
                       <div className="w-14 h-14 rounded-full bg-[#007aff]/10 flex items-center justify-center shrink-0 border border-[#007aff]/20 group-hover:scale-110 transition-transform">
                          <span className="text-[#007aff] font-black text-[22px]">{idx + 1}</span>
                       </div>

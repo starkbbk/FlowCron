@@ -56,10 +56,7 @@ export default function DashboardPage() {
   if (isLoading) return <StatSkeleton />;
 
   return (
-    <div 
-      className="flex flex-col gap-12 lg:gap-16 pb-20 mx-auto w-full pt-12 lg:pt-24 relative z-10"
-      style={{ maxWidth: '1600px', paddingLeft: '80px', paddingRight: '80px' }}
-    >
+    <div className="flex flex-col gap-10 lg:gap-12 pb-20 mx-auto w-full pt-8 lg:pt-16 relative z-10">
       {/* Header Area */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
         <div>
@@ -141,7 +138,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '64px'
+              padding: '32px'
             }}
           >
             <div className="flex justify-between items-center mb-10 lg:mb-14 px-10">
@@ -212,7 +209,7 @@ export default function DashboardPage() {
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               backdropFilter: 'blur(40px)',
-              padding: '64px'
+              padding: '32px'
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -263,7 +260,7 @@ export default function DashboardPage() {
              style={{
                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
                backdropFilter: 'blur(40px)',
-               padding: '64px'
+               padding: '40px'
              }}
            >
               <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
@@ -315,7 +312,7 @@ export default function DashboardPage() {
               <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
                  <div 
                    className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '48px', borderRadius: '40px' }}
+                   style={{ padding: '24px', borderRadius: '24px' }}
                  >
                     <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
                        <Zap size={18} fill="currentColor" />

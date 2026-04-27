@@ -27,11 +27,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="relative min-h-screen text-[#f5f5f7] selection:bg-[#007aff]/30 overflow-x-hidden pt-32 font-['Inter']">
-      <div className="responsive-container relative z-10">
-
+    <div className="relative min-h-screen text-[#f5f5f7] selection:bg-[#007aff]/30 overflow-x-hidden font-['Inter']">
       {/* NAVBAR */}
-      <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>
         {/* LEFT: Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#007aff] to-[#34c759] flex items-center justify-center shadow-lg">
@@ -61,8 +59,8 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* ADDED massive gap of 40 (160px) between major sections ensuring zero overlapping */}
-      <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-10 md:pt-24">
+      <div className="responsive-container relative z-10">
+        <main className="relative z-10 flex flex-col items-center gap-20 md:gap-40 pb-40 pt-32 md:pt-48">
         
         {/* HERO SECTION */}
         <section className="w-full max-w-6xl px-6 flex flex-col items-center text-center">

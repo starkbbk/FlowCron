@@ -85,7 +85,7 @@ input, textarea, pre, code {
 .mac-os-wallpaper {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -3; /* Base layer */
   overflow: hidden;
   background-color: var(--color-surface-bg);
 }
@@ -104,6 +104,42 @@ input, textarea, pre, code {
 .orb-3 { top: 20%; right: 10%; width: 40vw; height: 40vh; background: radial-gradient(circle, #af52de 0%, transparent 70%); animation-delay: -10s; }
 .orb-4 { bottom: 10%; left: -10%; width: 45vw; height: 45vh; background: radial-gradient(circle, #32ade6 0%, transparent 70%); animation-delay: -15s; }
 .orb-5 { top: 50%; left: 50%; width: 30vw; height: 30vh; background: radial-gradient(circle, #34c759 0%, transparent 70%); animation-delay: -20s; opacity: 0.08; }
+
+/* Liquid Blobs Background (LiquidPortfolio Style) */
+.blob-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Above MotionCanvas (-2) */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  filter: blur(150px);
+  opacity: 0.2;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
+}
+
+.blob-1 {
+  background: radial-gradient(circle, rgba(0, 122, 255, 0.8) 0%, rgba(88, 86, 214, 0.5) 100%);
+  width: 70vw;
+  height: 70vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: move-blobs 20s infinite alternate ease-in-out;
+}
+
+@keyframes move-blobs {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-45%, -55%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
 
 @keyframes float {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); }

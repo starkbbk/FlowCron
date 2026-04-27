@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   Zap,
@@ -15,9 +15,31 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import MotionCanvas from '../components/MotionCanvas';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const blobRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!blobRef.current) return;
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const maxScroll = scrollHeight - clientHeight;
+      
+      const scrollPercent = maxScroll > 0 ? scrollY / maxScroll : 0;
+      const hue = scrollPercent * 360;
+      
+      // Increased visibility: slightly less blur, higher opacity handled in CSS or here
+      blobRef.current.style.filter = `hue-rotate(${hue}deg) blur(100px)`;
+      blobRef.current.style.opacity = 0.4 + (scrollPercent * 0.2); // Subtle opacity increase on scroll
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial call
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -28,8 +50,14 @@ const LandingPage = () => {
 
   return (
     <div className="relative min-h-screen text-[#f5f5f7] selection:bg-[#007aff]/30 overflow-x-hidden pt-32 font-['Inter']">
-      {/* Background */}
+      {/* Background Layers */}
       <div className="mac-os-wallpaper" />
+      <MotionCanvas />
+      
+      {/* Liquid Blobs Background */}
+      <div className="blob-container" ref={blobRef}>
+        <div className="blob blob-1"></div>
+      </div>
 
       {/* NAVBAR */}
       <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-5xl rounded-full mac-glass-nav h-16 flex items-center justify-between shadow-xl border border-white/10" style={{ padding: '0 32px' }}>

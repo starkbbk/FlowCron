@@ -129,7 +129,7 @@ export default function DashboardPage() {
       {/* Main Grid */}
       <div className="flex flex-col xl:grid xl:grid-cols-3 gap-10">
         {/* Chart Card */}
-        <div className="xl:col-span-2 space-y-10">
+        <div className="xl:col-span-2 flex flex-col gap-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -251,7 +251,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Activity */}
-        <div className="space-y-10">
+        <div className="flex flex-col gap-10">
            <motion.div 
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}

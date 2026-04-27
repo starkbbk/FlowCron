@@ -77,14 +77,14 @@ const MotionCanvas = () => {
 
     const initEntities = () => {
       particles = [];
-      for(let i=0; i<100; i++) {
+      for(let i=0; i<200; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1 + 0.3,
           history: [],
-          size: Math.random() * 2 + 1
+          size: Math.random() * 2.5 + 0.8
         });
       }
 
@@ -131,7 +131,7 @@ const MotionCanvas = () => {
       let diff = targetScrollY - currentScrollY;
       currentScrollY += diff * 0.1; 
       scrollVelocity = diff * 0.1;
-      let speedMultiplier = 1 + Math.abs(scrollVelocity) * 0.1;
+      let speedMultiplier = 1 + Math.abs(scrollVelocity) * 0.4; // Boosted from 0.1
       
       const colors = getCurrentColors();
 
@@ -163,7 +163,7 @@ const MotionCanvas = () => {
       waves.forEach((wave) => {
         wave.offset += wave.speed * speedMultiplier * 0.2;
         ctx.beginPath();
-        let scrollDistortion = scrollVelocity * 0.3;
+        let scrollDistortion = scrollVelocity * 0.8; // Boosted from 0.3
         
         for(let x = 0; x <= width; x += 30) {
           let y = wave.yBase + Math.sin(x * wave.frequency + wave.offset) * (wave.amplitude + scrollDistortion);
@@ -232,7 +232,7 @@ const MotionCanvas = () => {
         if(p.y > height) p.y = 0;
 
         p.history.push({x: p.x, y: p.y});
-        const maxHistory = Math.min(20, 8 + Math.abs(scrollVelocity) * 0.4); 
+        const maxHistory = Math.min(40, 10 + Math.abs(scrollVelocity) * 0.8); // Longer trails
         if (p.history.length > maxHistory) p.history.shift();
 
         if (p.history.length > 1) {

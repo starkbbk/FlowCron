@@ -330,7 +330,7 @@ const LandingPage = () => {
                    { title: 'Configure Node Options', desc: 'Set URL, tokens, variables visually.' },
                    { title: 'Activate & Relax', desc: 'Hit execute. We handle the infrastructure.' },
                  ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-8 bg-[#1e1e1e]/60 backdrop-blur-md rounded-[32px] p-8 border border-white/5 shadow-2xl group hover:bg-white/5 transition-all duration-500">
+                  <div key={idx} className="flex gap-8 group items-start p-10 hover:bg-white/5 rounded-[32px] transition-all border border-transparent hover:border-white/10 cursor-pointer">
                       <div className="w-14 h-14 rounded-full bg-[#007aff]/10 flex items-center justify-center shrink-0 border border-[#007aff]/20 group-hover:scale-110 transition-transform">
                          <span className="text-[#007aff] font-black text-[22px]">{idx + 1}</span>
                       </div>

@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 // Layouts
 import ProtectedLayout from './components/layout/ProtectedLayout';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import Background from './components/common/Background';
 
 // Stores
 import useAuthStore from './stores/authStore';
@@ -54,6 +55,7 @@ export default function App() {
       />
       
       <ErrorBoundary>
+        <Background />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             {/* Public Routes */}

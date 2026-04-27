@@ -42,15 +42,6 @@ export default function LoginPage() {
     <div 
       className="relative min-h-screen overflow-hidden font-['Inter'] bg-[#09090b]"
     >
-      {/* Global animated background orbs */}
-      <div className="mac-os-wallpaper">
-        <div className="floating-orb orb-1" />
-        <div className="floating-orb orb-2" />
-        <div className="floating-orb orb-3" />
-        <div className="floating-orb orb-4" />
-        <div className="floating-orb orb-5" />
-      </div>
-
       {/* Main Split Container */}
       <div 
         className="relative z-10 flex min-h-screen items-center justify-center p-6 lg:p-12"

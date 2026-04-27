@@ -32,3 +32,4 @@ backend/.env
 .env.test.local
 .env.production.local
 .agent/
+backend/venv_new

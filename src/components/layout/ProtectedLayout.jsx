@@ -12,7 +12,6 @@ const ProtectedLayout = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#161618]">
-        <div className="mac-os-wallpaper" />
         <div className="flex flex-col items-center gap-6 z-10 relative">
           <motion.div
             className="w-12 h-12 border-2 border-[#3a3a3c] border-t-[#007aff] rounded-full"
@@ -33,13 +32,6 @@ const ProtectedLayout = () => {
 
   return (
     <div className="min-h-screen relative bg-[#09090b] selection:bg-[#007aff]/30 selection:text-white font-['Inter']">
-      <div className="mac-os-wallpaper">
-        <div className="floating-orb orb-1" />
-        <div className="floating-orb orb-2" />
-        <div className="floating-orb orb-3" />
-        <div className="floating-orb orb-4" />
-        <div className="floating-orb orb-5" />
-      </div>
       {!isEditorRoute && <Sidebar />}
       <MobileNav />
       {/* 

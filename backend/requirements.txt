@@ -14,3 +14,4 @@ redis
 apscheduler
 python-dotenv
 alembic
+asyncpg

@@ -66,40 +66,17 @@ async def get_me(current_user: models.User = Depends(deps.get_current_user)):
 
 @router.post("/forgot-password")
 async def forgot_password(req: schemas.ForgotPasswordRequest, db: AsyncSession = Depends(deps.get_db)):
-    result = await db.execute(select(models.User).filter(models.User.email == req.email))
-    user = result.scalars().first()
-    
-    if user:
-        reset_token = security.create_reset_token(user.email)
-        # Mocking email sending by printing to console
-        print(f"\n[{'='*40}]")
-        print(f"MOCK EMAIL SENT TO: {user.email}")
-        print(f"RESET LINK: http://localhost:5173/reset-password?token={reset_token}")
-        print(f"[{'='*40}]\n")
-        
-    # Always return 200 for security reasons (don't reveal if email exists)
-    return {"message": "If this email is registered, a password reset link has been sent."}
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="This application uses Clerk authentication. Password management is handled securely by Clerk."
+    )
 
 @router.post("/reset-password")
 async def reset_password(req: schemas.ResetPasswordRequest, db: AsyncSession = Depends(deps.get_db)):
-    email = security.verify_reset_token(req.token)
-    if not email:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired reset token.")
-        
-    result = await db.execute(select(models.User).filter(models.User.email == email))
-    user = result.scalars().first()
-    
-    if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid user.")
-        
-    user.password_hash = security.get_password_hash(req.new_password)
-    try:
-        await db.commit()
-    except Exception:
-        await db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to reset password.")
-        
-    return {"message": "Password successfully reset."}
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="This application uses Clerk authentication. Password management is handled securely by Clerk."
+    )
     
 @router.patch("/profile", response_model=schemas.User)
 async def update_profile(
@@ -120,3 +97,67 @@ async def update_profile(
     await db.commit()
     await db.refresh(current_user)
     return current_user
+
+@router.post("/sync", response_model=schemas.User)
+async def sync_user(
+    user_info: schemas.UserSyncInput,
+    db: AsyncSession = Depends(deps.get_db),
+    payload: dict = Depends(deps.get_clerk_payload)
+):
+    clerk_id = payload.get("sub")
+    
+    # Check if user with clerk_id exists
+    result = await db.execute(select(models.User).filter(models.User.clerk_id == clerk_id))
+    user = result.scalars().first()
+    
+    if not user:
+        # Check if a user with this email already exists
+        result_email = await db.execute(select(models.User).filter(models.User.email == user_info.email))
+        user = result_email.scalars().first()
+        if user:
+            # Link clerk_id to existing local user (migration of local account)
+            user.clerk_id = clerk_id
+            if user_info.profile_image:
+                user.profile_image = user_info.profile_image
+        else:
+            # Create new user
+            username = user_info.username or user_info.email.split("@")[0]
+            # Ensure unique username
+            res_username = await db.execute(select(models.User).filter(models.User.username == username))
+            if res_username.scalars().first():
+                import uuid
+                username = f"{username}_{uuid.uuid4().hex[:6]}"
+                
+            user = models.User(
+                email=user_info.email,
+                username=username,
+                clerk_id=clerk_id,
+                profile_image=user_info.profile_image
+            )
+            db.add(user)
+            
+        await db.commit()
+        await db.refresh(user)
+    else:
+        # Sync email/username/profile image if changed
+        updated = False
+        if user_info.email and user.email != user_info.email:
+            res_email = await db.execute(select(models.User).filter(models.User.email == user_info.email, models.User.id != user.id))
+            if not res_email.scalars().first():
+                user.email = user_info.email
+                updated = True
+        if user_info.username and user.username != user_info.username:
+            res_user = await db.execute(select(models.User).filter(models.User.username == user_info.username, models.User.id != user.id))
+            if not res_user.scalars().first():
+                user.username = user_info.username
+                updated = True
+        if user_info.profile_image and user.profile_image != user_info.profile_image:
+            user.profile_image = user_info.profile_image
+            updated = True
+            
+        if updated:
+            await db.commit()
+            await db.refresh(user)
+            
+    return user
+

@@ -6,6 +6,7 @@ import {
   LogOut, Zap, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import useAuthStore from '../../stores/authStore';
+import { useClerk } from '@clerk/clerk-react';
 
 const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -17,6 +18,7 @@ const navItems = [
 
 const Sidebar = () => {
   const { user, logout } = useAuthStore();
+  const clerk = useClerk();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -26,7 +28,14 @@ const Sidebar = () => {
     document.documentElement.style.setProperty('--sidebar-width', next ? '80px' : '260px');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      if (clerk && clerk.signOut) {
+        await clerk.signOut();
+      }
+    } catch (e) {
+      console.error("Clerk signOut error:", e);
+    }
     logout();
     navigate('/login');
   };

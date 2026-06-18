@@ -13,8 +13,10 @@ import GlassButton from '../components/ui/GlassButton';
 import { GlassInput, GlassToggle } from '../components/ui/GlassInput';
 import useAuthStore from '../stores/authStore';
 import api from '../services/api';
+import { useClerk } from '@clerk/clerk-react';
 
 const SettingsPage = () => {
+  const clerk = useClerk();
   const { user, logout, setUser } = useAuthStore();
   const [activeTab, setActiveTab] = useState('profile');
   const [apiKeys, setApiKeys] = useState([]);
@@ -223,22 +225,37 @@ const SettingsPage = () => {
                     <div className="flex justify-between items-start px-8">
                         <div>
                            <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Security</h3>
-                           <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage your password and account protection.</p>
+                           <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage your password, two-factor authentication, and account protection.</p>
                         </div>
                         <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}>
                            <Lock size={24} className="text-[#ff3b30]" />
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '520px' }}>
-                       <GlassInput label="Current Password" type="password" placeholder="••••••••" />
-                       <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)', width: '100%' }} />
-                       <GlassInput label="New Password" type="password" />
-                       <GlassInput label="Confirm New Password" type="password" />
-                    </div>
-
-                    <div className="flex justify-end" style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                       <GlassButton icon={Save} onClick={onSave} style={{ padding: '14px 32px', fontSize: '14px' }}>Update Password</GlassButton>
+                    <div style={{ padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(255,255,255,0.02)', textAlign: 'center' }}>
+                       <div className="mx-auto mb-6 text-[#007aff] flex justify-center">
+                         <Shield size={48} />
+                       </div>
+                       <h4 className="font-extrabold text-white text-lg mb-2">Clerk Account Protection</h4>
+                       <p className="font-medium text-[#86868b] max-w-md mx-auto mb-8 text-sm leading-relaxed">
+                         Your account credentials, two-factor authentication, and session controls are securely managed by Clerk. Click the button below to update your security settings.
+                       </p>
+                       <button
+                         onClick={() => clerk.openUserProfile()}
+                         className="mx-auto flex items-center font-bold text-white cursor-pointer transition-all hover:opacity-90 active:scale-95"
+                         style={{ 
+                           gap: '10px', 
+                           padding: '14px 32px', 
+                           fontSize: '14px', 
+                           borderRadius: '14px', 
+                           background: 'linear-gradient(135deg, #007aff, #5856d6)', 
+                           boxShadow: '0 4px 20px rgba(0, 122, 255, 0.4)',
+                           border: 'none',
+                         }}
+                       >
+                         <Shield size={18} />
+                         Manage Account Security
+                       </button>
                     </div>
 
                    <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>

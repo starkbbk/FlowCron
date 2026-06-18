@@ -7,12 +7,29 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('flowcron_token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+let clerkGetToken = null;
+
+export const setClerkGetToken = (fn) => {
+  clerkGetToken = fn;
+};
+
+api.interceptors.request.use(async (config) => {
+  if (clerkGetToken) {
+    try {
+      const token = await clerkGetToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (err) {
+      console.error('Error fetching Clerk token:', err);
+    }
+  } else {
+    const token = localStorage.getItem('flowcron_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
-  return config
+  return config;
 })
 
 api.interceptors.response.use(

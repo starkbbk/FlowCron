@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Zap, Eye, EyeOff, ArrowRight, Mail, Lock, User, Shield, Workflow, Clock } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { GlassInput } from '../components/ui/GlassInput';
+import { Zap, ArrowRight, Shield, Workflow, Clock } from 'lucide-react';
+import { SignUp } from '@clerk/clerk-react';
 import useAuthStore from '../stores/authStore';
-import api from '../services/api';
 
-function getStrengthTier(pwd) {
-  if (!pwd) return 0;
-  if (pwd.length < 8) return 1;
-  const hasNum = /[0-9]/.test(pwd);
-  const hasSpecial = /[^A-Za-z0-9]/.test(pwd);
-  if (hasNum && hasSpecial) return 3;
-  return 2;
-}
+const clerkAppearance = {
+  baseTheme: undefined,
+  variables: {
+    colorPrimary: '#34c759',
+    colorBackground: 'rgba(255, 255, 255, 0.03)',
+    colorText: '#ffffff',
+    colorTextSecondary: '#86868b',
+    colorInputBackground: 'rgba(255, 255, 255, 0.05)',
+    colorInputText: '#ffffff',
+    colorBorder: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '16px',
+    fontFamily: 'Inter, sans-serif'
+  },
+  elements: {
+    cardBox: 'w-full shadow-none bg-transparent border-0',
+    card: 'bg-transparent border-0 shadow-none p-0 w-full',
+    headerTitle: 'hidden',
+    headerSubtitle: 'hidden',
+    socialButtonsBlockButton: 'bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold h-14 rounded-2xl transition-all cursor-pointer',
+    socialButtonsBlockButtonText: 'text-white font-semibold',
+    formButtonPrimary: 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold h-14 rounded-2xl shadow-[0_8px_32px_rgba(52,199,89,0.35)] transition-all active:scale-95 border-0 cursor-pointer',
+    formFieldInput: 'bg-white/5 border border-white/10 text-white focus:border-[#34c759] rounded-xl h-12 px-4 transition-all',
+    formFieldLabel: 'text-[#86868b] font-bold text-xs uppercase tracking-wider mb-2',
+    footerActionText: 'text-[#86868b] font-semibold text-sm',
+    footerActionLink: 'text-[#34c759] font-bold hover:text-white transition-colors no-underline',
+    dividerLine: 'bg-white/10',
+    dividerText: 'text-[#86868b] font-bold text-xs uppercase tracking-widest',
+    formFieldInputShowPasswordButton: 'text-[#86868b] hover:text-white',
+    identityPreviewText: 'text-white',
+    identityPreviewEditButtonIcon: 'text-green-500',
+    userButtonPopoverCard: 'bg-zinc-900 border border-zinc-800 text-white'
+  }
+};
 
 export default function SignupPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const authLoading = useAuthStore((state) => state.isLoading);
 
@@ -30,36 +49,6 @@ export default function SignupPage() {
       navigate('/dashboard', { replace: true });
     }
   }, [authLoading, isAuthenticated, navigate]);
-
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const password = watch('password', '');
-
-  const strength = getStrengthTier(password);
-  const strengthColor =
-    strength === 1 ? '#FF3B30' : strength === 2 ? '#FFCC00' : strength === 3 ? '#34C759' : 'rgba(255,255,255,0.05)';
-  const strengthLabel = strength === 1 ? 'Weak' : strength === 2 ? 'Medium' : strength === 3 ? 'Strong' : '';
-
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    try {
-      // Remove confirm_password and other non-schema fields before sending
-      const { confirm_password, ...signupData } = data;
-      const res = await api.post('/auth/signup', signupData);
-      setAuth(res.data.user, res.data.access_token);
-      toast.success('Account created successfully');
-      navigate('/dashboard');
-    } catch (err) {
-      // Improved error reporting: handle FastAPI validation errors (array) or custom detail (string)
-      const detail = err.response?.data?.detail;
-      const errorMessage = Array.isArray(detail) 
-        ? detail[0]?.msg 
-        : (typeof detail === 'string' ? detail : 'Signup failed');
-        
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div 
@@ -227,7 +216,7 @@ export default function SignupPage() {
             </Link>
 
             {/* Heading */}
-            <div style={{ marginBottom: '24px' }}>
+            <div style={{ marginBottom: '16px' }}>
               <h1 
                 className="font-extrabold text-white tracking-tight"
                 style={{ fontSize: '30px', lineHeight: 1.15, marginBottom: '8px' }}
@@ -239,142 +228,13 @@ export default function SignupPage() {
               </p>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col" style={{ gap: '20px' }}>
-              <GlassInput
-                label="Username"
-                placeholder="Choose a username"
-                startIcon={User}
-                error={errors.username?.message}
-                {...register('username', {
-                  required: 'Username is required',
-                  minLength: { value: 3, message: 'Minimum 3 characters required' },
-                })}
+            {/* Clerk Sign Up Component */}
+            <div className="mt-2">
+              <SignUp 
+                appearance={clerkAppearance} 
+                signInUrl="/login" 
+                forceRedirectUrl="/dashboard" 
               />
-
-              <GlassInput
-                label="Email Address"
-                type="email"
-                placeholder="name@example.com"
-                startIcon={Mail}
-                error={errors.email?.message}
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' },
-                })}
-              />
-
-              <div className="flex flex-col" style={{ gap: '12px' }}>
-                <GlassInput
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  startIcon={Lock}
-                  error={errors.password?.message}
-                  endAdornment={
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="text-[#86868b] hover:text-white transition-colors flex items-center justify-center rounded-lg hover:bg-white/5"
-                      style={{ minWidth: '40px', minHeight: '40px' }}
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  }
-                  {...register('password', {
-                    required: 'Password is required',
-                    minLength: { value: 8, message: 'Minimum 8 characters required' },
-                  })}
-                />
-
-                <AnimatePresence>
-                  {password ? (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="flex flex-col px-1"
-                      style={{ gap: '8px' }}
-                    >
-                      <div className="flex justify-between items-center" style={{ marginTop: '4px' }}>
-                        <span className="text-[#86868b] text-[11px] font-bold uppercase tracking-widest">Password Strength</span>
-                        <span style={{ color: strengthColor, fontSize: '11px' }} className="font-bold uppercase tracking-widest transition-colors duration-500">
-                          {strengthLabel}
-                        </span>
-                      </div>
-                      <div className="flex h-1.5" style={{ gap: '8px', marginTop: '4px' }}>
-                        {[1, 2, 3].map((s) => (
-                          <div key={s} className="flex-1 rounded-full bg-white/10 overflow-hidden">
-                            <motion.div
-                              initial={false}
-                              animate={{ width: strength >= s ? '100%' : '0%' }}
-                              transition={{ duration: 0.45, ease: 'easeOut' }}
-                              className="h-full"
-                              style={{ backgroundColor: strengthColor }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-
-              <GlassInput
-                label="Confirm Password"
-                type="password"
-                placeholder="••••••••"
-                startIcon={Lock}
-                error={errors.confirm_password?.message}
-                {...register('confirm_password', {
-                  validate: (val) => val === password || 'Passwords do not match',
-                })}
-              />
-
-              <div 
-                className="rounded-2xl"
-                style={{ padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}
-              >
-                <label className="flex items-start cursor-pointer group" style={{ gap: '16px' }}>
-                  <div className="relative w-6 h-6 rounded-md border border-[#3a3a3c] bg-[#1a1a1c] flex items-center justify-center group-hover:border-[#007aff] transition-all mt-0.5 shrink-0">
-                    <input type="checkbox" required className="peer absolute inset-0 opacity-0 cursor-pointer" />
-                    <div className="w-3 h-3 rounded-sm bg-[#007aff] opacity-0 peer-checked:opacity-100 transition-opacity shadow-[0_0_8px_#007aff]" />
-                  </div>
-                  <p className="text-[14px] font-medium text-[#86868b] leading-relaxed group-hover:text-white transition-colors text-left">
-                    I agree to the Terms & Conditions
-                  </p>
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full text-white font-bold transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
-                style={{ 
-                  height: '56px', 
-                  fontSize: '16px',
-                  borderRadius: '16px',
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #007aff, #0066d6)',
-                  boxShadow: '0 8px 32px rgba(0,122,255,0.35)',
-                  marginTop: '8px',
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
-              </button>
-            </form>
-
-            {/* Bottom Text */}
-            <div className="text-center" style={{ marginTop: '32px' }}>
-              <p className="text-[15px] font-medium text-[#86868b]">
-                Already have an account?{' '}
-                <Link to="/login" className="text-[#007aff] font-bold hover:text-white no-underline transition-all inline-flex items-center gap-2 group" style={{ marginLeft: '4px' }}>
-                  Sign in
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </p>
             </div>
           </div>
         </motion.div>

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import api from '../services/api'
+import api, { setClerkGetToken } from '../services/api'
 
 const useAuthStore = create((set, get) => ({
   user: null,
@@ -7,8 +7,12 @@ const useAuthStore = create((set, get) => ({
   isAuthenticated: !!localStorage.getItem('flowcron_token'),
   isLoading: true,
 
+  setIsLoading: (isLoading) => set({ isLoading }),
+
   setAuth: (user, token) => {
-    localStorage.setItem('flowcron_token', token)
+    if (token) {
+      localStorage.setItem('flowcron_token', token)
+    }
     set({ user, token, isAuthenticated: true, isLoading: false })
   },
 
@@ -19,7 +23,12 @@ const useAuthStore = create((set, get) => ({
 
   setUser: (user) => set({ user }),
 
+  setClerkTokenResolver: (getTokenFn) => {
+    setClerkGetToken(getTokenFn)
+  },
+
   fetchUser: async () => {
+    // Legacy fallback/check
     const token = get().token
     if (!token) {
       set({ isLoading: false })

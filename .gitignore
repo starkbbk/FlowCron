@@ -33,3 +33,6 @@ backend/.env
 .env.production.local
 .agent/
 backend/venv_new
+**/__pycache__/
+backend/.venv/
+

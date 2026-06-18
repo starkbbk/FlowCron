@@ -1,18 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Zap, Eye, EyeOff, GitBranch, ArrowRight, Mail, Lock, Shield, Workflow, Clock } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { GlassInput } from '../components/ui/GlassInput';
+import { Zap, ArrowRight, Shield, Workflow, Clock } from 'lucide-react';
+import { SignIn } from '@clerk/clerk-react';
 import useAuthStore from '../stores/authStore';
-import api from '../services/api';
+
+const clerkAppearance = {
+  baseTheme: undefined,
+  variables: {
+    colorPrimary: '#007aff',
+    colorBackground: 'rgba(255, 255, 255, 0.03)',
+    colorText: '#ffffff',
+    colorTextSecondary: '#86868b',
+    colorInputBackground: 'rgba(255, 255, 255, 0.05)',
+    colorInputText: '#ffffff',
+    colorBorder: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '16px',
+    fontFamily: 'Inter, sans-serif'
+  },
+  elements: {
+    cardBox: 'w-full shadow-none bg-transparent border-0',
+    card: 'bg-transparent border-0 shadow-none p-0 w-full',
+    headerTitle: 'hidden',
+    headerSubtitle: 'hidden',
+    socialButtonsBlockButton: 'bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold h-14 rounded-2xl transition-all cursor-pointer',
+    socialButtonsBlockButtonText: 'text-white font-semibold',
+    formButtonPrimary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,122,255,0.35)] transition-all active:scale-95 border-0 cursor-pointer',
+    formFieldInput: 'bg-white/5 border border-white/10 text-white focus:border-[#007aff] rounded-xl h-12 px-4 transition-all',
+    formFieldLabel: 'text-[#86868b] font-bold text-xs uppercase tracking-wider mb-2',
+    footerActionText: 'text-[#86868b] font-semibold text-sm',
+    footerActionLink: 'text-[#007aff] font-bold hover:text-white transition-colors no-underline',
+    dividerLine: 'bg-white/10',
+    dividerText: 'text-[#86868b] font-bold text-xs uppercase tracking-widest',
+    formFieldInputShowPasswordButton: 'text-[#86868b] hover:text-white',
+    identityPreviewText: 'text-white',
+    identityPreviewEditButtonIcon: 'text-blue-500',
+    userButtonPopoverCard: 'bg-zinc-900 border border-zinc-800 text-white'
+  }
+};
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const authLoading = useAuthStore((state) => state.isLoading);
 
@@ -21,22 +49,6 @@ export default function LoginPage() {
       navigate('/dashboard', { replace: true });
     }
   }, [authLoading, isAuthenticated, navigate]);
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    try {
-      const res = await api.post('/auth/login', data);
-      setAuth(res.data.user, res.data.access_token);
-      toast.success('Logged in successfully');
-      navigate('/dashboard');
-    } catch (err) {
-      toast.error(err.response?.data?.detail || 'Invalid email or password');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div 
@@ -60,10 +72,6 @@ export default function LoginPage() {
               <ArrowRight className="rotate-180" size={18} />
             </div>
             <span className="text-[14px]">Back to Home</span>
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
-              <ArrowRight className="rotate-180" size={16} />
-            </div>
-            <span className="text-[13px]">Back to Home</span>
           </Link>
         </motion.div>
         <motion.div
@@ -100,119 +108,25 @@ export default function LoginPage() {
             </Link>
 
             {/* Heading */}
-            <div style={{ marginBottom: '48px' }}>
+            <div style={{ marginBottom: '24px' }}>
               <h1 
                 className="font-extrabold text-white tracking-tight"
                 style={{ fontSize: '36px', lineHeight: 1.15, marginBottom: '12px' }}
               >
                 Welcome back
               </h1>
-              <p className="text-[#86868b] font-medium" style={{ fontSize: '16px', lineHeight: 1.6 }}>
+              <p className="text-[#86868b] font-medium mb-4" style={{ fontSize: '16px', lineHeight: 1.6 }}>
                 Sign in to your FlowCron account
               </p>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col" style={{ gap: '28px' }}>
-              <GlassInput
-                label="Username or Email"
-                placeholder="name@example.com or username"
-                startIcon={Mail}
-                error={errors.email?.message}
-                {...register('email', {
-                  required: 'Username or Email is required',
-                })}
+            {/* Clerk Sign In component */}
+            <div className="mt-2">
+              <SignIn 
+                appearance={clerkAppearance} 
+                signUpUrl="/signup" 
+                forceRedirectUrl="/dashboard" 
               />
-
-              <div className="flex flex-col" style={{ gap: '16px' }}>
-                <GlassInput
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  startIcon={Lock}
-                  error={errors.password?.message}
-                  endAdornment={
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="text-[#86868b] hover:text-white transition-colors flex items-center justify-center rounded-lg hover:bg-white/5"
-                      style={{ minWidth: '40px', minHeight: '40px' }}
-                    >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  }
-                  {...register('password', {
-                    required: 'Password is required',
-                    minLength: { value: 6, message: 'Password must be at least 6 characters' },
-                  })}
-                />
-
-                <div className="flex items-center justify-between" style={{ paddingTop: '4px' }}>
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative w-5 h-5 rounded border border-[#3a3a3c] bg-[#1a1a1c] flex items-center justify-center transition-all group-hover:border-[#007aff]">
-                      <input type="checkbox" className="peer absolute inset-0 opacity-0 cursor-pointer" />
-                      <div className="w-2.5 h-2.5 rounded-sm bg-[#007aff] opacity-0 peer-checked:opacity-100 transition-opacity" />
-                    </div>
-                    <span className="text-[14px] font-medium text-[#86868b] group-hover:text-white transition-colors">Remember me</span>
-                  </label>
-                  <Link
-                    to="/forgot-password"
-                    className="text-[14px] text-[#007aff] hover:text-white font-semibold transition-colors"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full text-white font-bold transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
-                style={{ 
-                  height: '56px', 
-                  fontSize: '16px',
-                  borderRadius: '16px',
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #007aff, #0066d6)',
-                  boxShadow: '0 8px 32px rgba(0,122,255,0.35)',
-                  marginTop: '8px',
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                {isLoading ? 'Signing In...' : 'Sign In'}
-              </button>
-            </form>
-
-            {/* Divider */}
-            <div className="flex items-center" style={{ gap: '16px', marginTop: '32px', marginBottom: '32px' }}>
-              <div className="flex-1" style={{ height: '1px', background: 'rgba(255,255,255,0.08)' }} />
-              <span className="text-[12px] font-bold text-[#86868b] uppercase tracking-widest">or</span>
-              <div className="flex-1" style={{ height: '1px', background: 'rgba(255,255,255,0.08)' }} />
-            </div>
-
-            {/* Social Login */}
-            <button
-              type="button"
-              className="w-full flex items-center justify-center text-white font-semibold transition-all hover:bg-[#3a3a3c] cursor-pointer"
-              style={{ 
-                height: '56px', gap: '12px', fontSize: '15px',
-                background: '#2c2c2e', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '16px',
-              }}
-            >
-              <GitBranch size={20} />
-              Continue with GitHub
-            </button>
-
-            {/* Bottom Text */}
-            <div className="text-center" style={{ marginTop: '40px' }}>
-              <p className="text-[15px] font-medium text-[#86868b]">
-                {"Don't have an account? "}
-                <Link to="/signup" className="text-white hover:text-[#007aff] font-bold inline-flex items-center gap-1.5 group transition-colors" style={{ marginLeft: '4px' }}>
-                  Sign up
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </p>
             </div>
           </div>
 

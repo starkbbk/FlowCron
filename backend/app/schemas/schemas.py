@@ -37,6 +37,12 @@ class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str
 
+class UserSyncInput(BaseModel):
+    email: EmailStr
+    username: Optional[str] = None
+    profile_image: Optional[str] = None
+
+
 # Workflow
 class WorkflowBase(BaseModel):
     name: str = Field(..., min_length=1)

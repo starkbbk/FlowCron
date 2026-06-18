@@ -17,6 +17,8 @@ if "postgresql" in DATABASE_URL:
     if "sslmode" in query:
         query.pop("sslmode")
         connect_args["ssl"] = True
+    if "channel_binding" in query:
+        query.pop("channel_binding")
     new_query = urlencode(query)
     parsed = parsed._replace(query=new_query)
     DATABASE_URL = urlunparse(parsed)

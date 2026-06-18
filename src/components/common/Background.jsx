@@ -30,12 +30,12 @@ const Background = () => {
       
       {/* Cinematic Glowing Lights */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-3]">
-        {/* Warm Cinematic Glow (Top-Right) */}
-        <div className="absolute top-[-10%] right-[-10%] w-[60vw] h-[60vh] rounded-full bg-gradient-to-br from-[#ea580c]/20 to-[#fb923c]/5 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
-        {/* Cool Cinematic Glow (Left-Middle) */}
-        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vh] rounded-full bg-gradient-to-tr from-[#3b82f6]/15 to-[#6366f1]/5 blur-[120px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
-        {/* Soft Ambient Purple Glow (Bottom) */}
-        <div className="absolute bottom-[-10%] left-[30%] w-[45vw] h-[45vh] rounded-full bg-gradient-to-t from-[#8b5cf6]/10 to-transparent blur-[100px]" />
+        {/* Cool Indigo/Violet Glow (Top-Right) */}
+        <div className="absolute top-[-10%] right-[-10%] w-[60vw] h-[60vh] rounded-full bg-gradient-to-br from-[#4f46e5]/10 to-[#818cf8]/2 blur-[120px] animate-pulse" style={{ animationDuration: '10s' }} />
+        {/* Futuristic Cyan/Blue Glow (Left-Middle) */}
+        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vh] rounded-full bg-gradient-to-tr from-[#06b6d4]/10 to-[#3b82f6]/2 blur-[120px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
+        {/* Soft Ambient Violet Glow (Bottom-Right) */}
+        <div className="absolute bottom-[-10%] right-[10%] w-[45vw] h-[45vh] rounded-full bg-gradient-to-t from-[#7c3aed]/8 to-transparent blur-[100px]" />
       </div>
       
       {/* Motion Layer */}

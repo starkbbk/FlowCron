@@ -26,9 +26,9 @@ const variants = {
 
 const paddingPresets = {
   none: 'p-0',
-  compact: 'p-6',
-  standard: 'p-8',
-  large: 'p-10',
+  compact: 'p-[20px]',    // Small cards: padding 20px
+  standard: 'p-[24px]',   // Medium cards: padding 24px
+  large: 'p-[28px]',      // Large cards: padding 28px
 }
 
 export default function GlassCard({
@@ -57,19 +57,23 @@ export default function GlassCard({
       }
     : {}
 
+  // Merge internal styles with incoming props.style to prevent overriding
+  const combinedStyle = {
+    ...variants[variant],
+    borderRadius: '24px',
+    position: 'relative', 
+    cursor: onClick ? 'pointer' : 'default',
+    boxSizing: 'border-box',
+    ...props.style
+  }
+
   return (
     <Component
       className={`${paddingPresets[padding]} ${className}`}
       onClick={onClick}
-      style={{ 
-        ...variants[variant],
-        borderRadius: '24px',
-        position: 'relative', 
-        cursor: onClick ? 'pointer' : 'default',
-        boxSizing: 'border-box'
-      }}
       {...animateProps}
       {...props}
+      style={combinedStyle}
     >
       {children}
     </Component>

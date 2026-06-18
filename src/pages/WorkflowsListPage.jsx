@@ -187,12 +187,24 @@ export default function WorkflowsListPage() {
       {isLoading ? (
         <TableSkeleton rows={6} />
       ) : filteredWorkflows.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center border border-white/[0.08]" hover={false} style={{ paddingTop: '80px', paddingBottom: '80px', borderRadius: '24px' }}>
-          <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '64px', height: '64px', borderRadius: '18px', backgroundColor: 'rgba(255,255,255,0.04)', marginBottom: '24px' }}>
+        /* Empty states: Center content, padding 48px, gap 16px */
+        <GlassCard 
+          padding="none" 
+          className="flex flex-col items-center justify-center text-center border border-white/[0.08]" 
+          hover={false} 
+          style={{ 
+            padding: '48px', 
+            borderRadius: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px' 
+          }}
+        >
+          <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '64px', height: '64px', borderRadius: '18px', backgroundColor: 'rgba(255,255,255,0.04)' }}>
             <GitBranch size={32} className="text-[#94a3b8]" />
           </div>
-          <h3 className="font-bold text-white tracking-tight text-[20px] mb-2">No workflows found</h3>
-          <p className="text-[#94a3b8] font-medium text-[15px] mb-6 max-w-sm leading-relaxed">
+          <h3 className="font-bold text-white tracking-tight text-[20px] m-0">No workflows found</h3>
+          <p className="text-[#94a3b8] font-medium text-[15px] max-w-sm leading-relaxed m-0">
             {searchQuery ? "No workflows match your search query." : "Create your first workflow to start automating your tasks."}
           </p>
           <GlassButton variant="secondary" onClick={() => setIsModalOpen(true)} className="!px-6">
@@ -211,13 +223,16 @@ export default function WorkflowsListPage() {
                 whileHover={{ y: -5, scale: 1.015 }}
                 className="flex flex-col group cursor-pointer border border-white/[0.08] transition-all duration-300 relative overflow-hidden"
                 style={{ 
-                  height: '310px', 
-                  padding: '30px', 
+                  minHeight: '310px', 
+                  padding: '28px', // Large cards: padding: 28px
                   backgroundColor: 'rgba(255,255,255,0.035)', 
                   backdropFilter: 'blur(32px) saturate(140%)',
                   WebkitBackdropFilter: 'blur(32px) saturate(140%)',
-                  borderRadius: '20px',
+                  borderRadius: '24px',
                   boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px' // Spacing gap: 16px between elements
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
@@ -231,7 +246,7 @@ export default function WorkflowsListPage() {
                   }} 
                 />
 
-                <div className="flex justify-between items-start mb-6 w-full">
+                <div className="flex justify-between items-center w-full m-0">
                   <div 
                     className={`flex items-center justify-center border transition-all duration-500 group-hover:scale-110 shadow-lg ${
                       wf.status === 'active' 
@@ -249,14 +264,14 @@ export default function WorkflowsListPage() {
                   <StatusBadge status={wf.status} size="small" />
                 </div>
                  
-                <h3 className="font-extrabold text-white group-hover:text-[#06b6d4] transition-all duration-300 truncate tracking-tight text-[22px] mb-2">
+                <h3 className="font-extrabold text-white group-hover:text-[#06b6d4] transition-all duration-300 truncate tracking-tight text-[22px] m-0">
                   {wf.name}
                 </h3>
-                <p className="text-[#fafafa] font-semibold line-clamp-2 opacity-80 text-[14px] leading-relaxed min-h-[44px] mb-6">
+                <p className="text-[#fafafa] font-semibold line-clamp-2 opacity-80 text-[14px] leading-relaxed m-0 flex-1">
                   {wf.description || "Design intelligent automation for this workflow pipeline."}
                 </p>
 
-                <div className="mt-auto flex items-center justify-between pt-5 border-t border-white/[0.05]">
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/[0.05] m-0">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center font-bold uppercase tracking-wider text-[#94a3b8] gap-1.5 text-[11px]">
                       <span className="text-[#06b6d4]">{getTriggerIcon(wf.trigger_type)}</span>
@@ -282,11 +297,12 @@ export default function WorkflowsListPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-white/[0.06] bg-white/[0.02]">
-                  <th className="px-8 py-4 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]">Workflow Name</th>
-                  <th className="px-8 py-4 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]">Status</th>
-                  <th className="px-8 py-4 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]">Trigger</th>
-                  <th className="px-8 py-4 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]">Last Run</th>
-                  <th className="px-8 py-4 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8] text-right">Actions</th>
+                  {/* Header padding: 20px */}
+                  <th className="px-5 py-5 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]" style={{ padding: '20px' }}>Workflow Name</th>
+                  <th className="px-5 py-5 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]" style={{ padding: '20px' }}>Status</th>
+                  <th className="px-5 py-5 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]" style={{ padding: '20px' }}>Trigger</th>
+                  <th className="px-5 py-5 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]" style={{ padding: '20px' }}>Last Run</th>
+                  <th className="px-5 py-5 text-[11px] font-bold uppercase tracking-wider text-[#94a3b8] text-right" style={{ padding: '20px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.04]">
@@ -294,16 +310,18 @@ export default function WorkflowsListPage() {
                   <tr 
                     key={wf.id} 
                     className="hover:bg-white/[0.02] transition-all cursor-pointer group"
+                    style={{ height: '56px' }} // Minimum row height: 56px
                     onClick={() => navigate(`/workflows/${wf.id}/edit`)}
                   >
-                    <td className="px-8 py-4">
+                    {/* cell padding: 16px 20px */}
+                    <td style={{ padding: '16px 20px' }}>
                       <div className="font-semibold text-white group-hover:text-[#06b6d4] transition-colors mb-0.5">{wf.name}</div>
                       <div className="text-[13px] text-[#94a3b8] font-medium truncate max-w-[320px]">{wf.description}</div>
                     </td>
-                    <td className="px-8 py-4">
+                    <td style={{ padding: '16px 20px' }}>
                       <StatusBadge status={wf.status} size="small" />
                     </td>
-                    <td className="px-8 py-4">
+                    <td style={{ padding: '16px 20px' }}>
                       <div className="flex items-center gap-2 text-[13px] font-semibold text-[#94a3b8] capitalize">
                         <div className="text-[#86868b] group-hover:text-[#06b6d4] transition-colors">
                           {getTriggerIcon(wf.trigger_type)}
@@ -311,10 +329,10 @@ export default function WorkflowsListPage() {
                         {wf.trigger_type}
                       </div>
                     </td>
-                    <td className="px-8 py-4 text-[13px] font-semibold text-[#94a3b8] tabular-nums">
+                    <td style={{ padding: '16px 20px' }} className="text-[13px] font-semibold text-[#94a3b8] tabular-nums">
                       {timeAgo(wf.last_executed_at)}
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td style={{ padding: '16px 20px', textAlign: 'right' }}>
                       <div className="flex justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button className="p-2 hover:bg-white/5 rounded-lg text-[#94a3b8] hover:text-[#06b6d4] transition-all cursor-pointer">
                           <Edit2 size={15} />
@@ -339,7 +357,7 @@ export default function WorkflowsListPage() {
         title="Create New Workflow"
         maxWidth="540px"
       >
-        <form onSubmit={handleSubmit(onCreateWorkflow)} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <form onSubmit={handleSubmit(onCreateWorkflow)} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <GlassInput 
               label="Workflow Name"
@@ -366,14 +384,14 @@ export default function WorkflowsListPage() {
              <button 
                type="button" 
                onClick={() => setIsModalOpen(false)} 
-               className="font-bold cursor-pointer transition-all hover:bg-white/5 active:scale-95 flex-1 py-3.5 rounded-xl text-[#94a3b8] bg-white/5 border border-white/10"
+               className="font-bold cursor-pointer transition-all hover:bg-white/5 active:scale-95 flex-1 py-3 rounded-xl text-[#94a3b8] bg-white/5 border border-white/10"
              >
                Cancel
              </button>
              <button 
                type="submit"
                disabled={isSubmitting}
-               className="font-bold cursor-pointer transition-all hover:opacity-90 active:scale-95 flex-1 py-3.5 rounded-xl text-white flex justify-center items-center"
+               className="font-bold cursor-pointer transition-all hover:opacity-90 active:scale-95 flex-1 py-3 rounded-xl text-white flex justify-center items-center"
                style={{ 
                  background: 'linear-gradient(135deg, #2563EB, #06B6D4)',
                  boxShadow: '0 4px 20px rgba(37,99,235,0.3)',

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Play, Clock, Calendar, CheckCircle2, 
-  XCircle, RotateCcw, Search, Filter,
-  ArrowRight, ExternalLink, Activity
+  Play, Clock, CheckCircle2, 
+  XCircle, RotateCcw, ArrowRight, ExternalLink, Activity
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
 
 import GlassCard from '../components/ui/GlassCard';
 import GlassButton from '../components/ui/GlassButton';
@@ -46,37 +44,37 @@ const ExecutionsListPage = () => {
 
   return (
     <div 
-      className="space-y-8 mx-auto pb-20"
-      style={{ maxWidth: '1400px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '120px' }}
+      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10"
+      style={{ maxWidth: '1400px' }}
     >
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end" style={{ gap: '24px' }}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end pb-6 border-b border-white/[0.06]" style={{ gap: '24px' }}>
         <div>
-          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '40px', marginBottom: '12px' }}>History</h1>
-          <p className="text-[#86868b] font-medium" style={{ fontSize: '17px' }}>View the status and execution logs of all your workflow runs.</p>
+          <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '32px', marginBottom: '8px' }}>History</h1>
+          <p className="text-[#94a3b8] font-medium" style={{ fontSize: '15px' }}>View the status and execution logs of all your workflow runs.</p>
         </div>
-        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchExecutions} style={{ padding: '14px 24px', fontSize: '14px' }}>
+        <GlassButton variant="secondary" icon={RotateCcw} onClick={fetchExecutions} className="!py-2.5 !px-5 font-bold">
           Refresh History
         </GlassButton>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-between" style={{ gap: '20px', marginTop: '16px', marginBottom: '16px' }}>
-         <div className="flex p-1.5 rounded-2xl bg-white/5 border border-white/10 overflow-x-auto no-scrollbar" style={{ gap: '4px' }}>
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-2 mb-2">
+         <div className="flex p-1 bg-white/[0.03] border border-white/[0.08] rounded-xl gap-1 overflow-x-auto no-scrollbar">
             {['All', 'Running', 'Completed', 'Failed'].map(status => (
-              <button
-                key={status}
-                onClick={() => setFilterStatus(status)}
-                className={`font-bold rounded-xl transition-all flex-shrink-0 cursor-pointer ${
-                  filterStatus === status 
-                    ? 'bg-[#007aff] text-white' 
-                    : 'text-[#86868b] hover:text-white hover:bg-white/10'
-                }`}
-                style={{ padding: '12px 24px', fontSize: '14px' }}
-              >
-                {status}
-              </button>
+               <button
+                 key={status}
+                 onClick={() => setFilterStatus(status)}
+                 className="font-bold text-[13px] transition-all cursor-pointer px-4 py-2 rounded-lg"
+                 style={{
+                   backgroundColor: filterStatus === status ? 'rgba(255,255,255,0.07)' : 'transparent',
+                   color: filterStatus === status ? '#ffffff' : '#94a3b8',
+                   boxShadow: filterStatus === status ? '0 2px 8px rgba(0,0,0,0.2)' : 'none',
+                 }}
+               >
+                 {status}
+               </button>
             ))}
          </div>
-         <div className="text-[#86868b] bg-white/5 border border-white/10 rounded-xl" style={{ padding: '12px 20px', fontSize: '13px', fontWeight: 700, letterSpacing: '0.05em' }}>
+         <div className="text-[#94a3b8] bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2 text-[11px] font-black tracking-widest uppercase">
             {filteredExecutions.length} WORKFLOW RUNS
          </div>
       </div>
@@ -84,12 +82,24 @@ const ExecutionsListPage = () => {
       {isLoading ? (
         <TableSkeleton rows={8} />
       ) : executions.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(255, 255, 255, 0.05)', marginBottom: '32px' }}>
-               <Activity size={40} className="text-[#86868b]" />
+        /* Empty states: Center content, padding 48px, gap 16px */
+        <GlassCard 
+          padding="none" 
+          className="flex flex-col items-center justify-center text-center border border-white/[0.08]" 
+          hover={false} 
+          style={{ 
+            padding: '48px', 
+            borderRadius: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px'
+          }}
+        >
+            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '64px', height: '64px', borderRadius: '18px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+               <Activity size={32} className="text-[#94a3b8]" />
             </div>
-            <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No execution history</h3>
-            <p className="text-[#86868b] font-medium" style={{ maxWidth: '420px', fontSize: '16px', lineHeight: 1.6 }}>
+            <h3 className="font-bold text-white tracking-tight text-[20px] m-0">No execution history</h3>
+            <p className="text-[#94a3b8] font-medium text-[15px] m-0 max-w-sm leading-relaxed">
               Your workflow runs will appear here once they start executing.
             </p>
         </GlassCard>
@@ -101,58 +111,59 @@ const ExecutionsListPage = () => {
             backdropFilter: 'blur(40px) saturate(180%)',
             WebkitBackdropFilter: 'blur(40px) saturate(180%)',
             border: '1px solid rgba(255, 255, 255, 0.08)', 
-            borderRadius: '28px', 
+            borderRadius: '20px', 
             boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)',
-            marginTop: '8px',
           }}
         >
           <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(255,255,255,0.03)' }}>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b' }}>Status</th>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b' }}>Workflow</th>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b' }}>Trigger</th>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b' }}>Duration</th>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b' }}>Ran</th>
-                    <th style={{ padding: '20px 28px', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#86868b', textAlign: 'right' }}>Action</th>
+                    {/* Header padding: 20px */}
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>Status</th>
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>Workflow</th>
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>Trigger</th>
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>Duration</th>
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8' }}>Ran</th>
+                    <th style={{ padding: '20px', fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8', textAlign: 'right' }}>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-white/[0.04]">
                 <AnimatePresence initial={false}>
-                  {filteredExecutions.map((exec, idx) => (
+                  {filteredExecutions.map((exec) => (
                     <motion.tr 
                       key={exec.id} 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.2 }}
-                      className="hover:bg-white/5 transition-colors cursor-pointer group"
-                      style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                      className="hover:bg-white/[0.02] transition-colors cursor-pointer group"
+                      style={{ height: '56px' }} // Minimum row height: 56px
                       onClick={() => navigate(`/executions/${exec.id}`)}
                       >
-                        <td style={{ padding: '24px 28px' }}>
+                        {/* Cell padding: 16px 20px */}
+                        <td style={{ padding: '16px 20px' }}>
                           <StatusBadge status={exec.status} size="small" />
                         </td>
-                        <td style={{ padding: '24px 28px', minWidth: '240px' }}>
-                          <div className="font-bold text-white group-hover:text-[#007aff] transition-colors truncate" style={{ fontSize: '16px', maxWidth: '280px', marginBottom: '6px' }}>
+                        <td style={{ padding: '16px 20px', minWidth: '240px' }}>
+                          <div className="font-bold text-white group-hover:text-[#06b6d4] transition-colors truncate" style={{ fontSize: '15px', maxWidth: '280px', marginBottom: '4px' }}>
                             {exec.workflow_name || 'UNNAMED WORKFLOW'}
                           </div>
-                          <div className="text-[#52525b] font-mono truncate" style={{ fontSize: '12px', maxWidth: '220px' }}>ID: {exec.id}</div>
+                          <div className="text-[#86868b] font-mono truncate" style={{ fontSize: '12px', maxWidth: '220px' }}>ID: {exec.id}</div>
                         </td>
-                        <td style={{ padding: '24px 28px' }}>
-                          <div className="flex items-center font-bold text-[#86868b] bg-white/5 border border-white/8 w-fit" style={{ gap: '8px', fontSize: '13px', padding: '8px 16px', borderRadius: '12px' }}>
-                              {exec.trigger_type === 'cron' ? <Clock size={14} className="text-[#a855f7]" /> : exec.trigger_type === 'webhook' ? <ExternalLink size={14} className="text-[#007aff]" /> : <Play size={14} className="text-[#34c759]" />}
+                        <td style={{ padding: '16px 20px' }}>
+                          <div className="flex items-center font-bold text-[#94a3b8] bg-white/5 border border-white/8 w-fit" style={{ gap: '6px', fontSize: '11px', padding: '6px 12px', borderRadius: '10px' }}>
+                              {exec.trigger_type === 'cron' ? <Clock size={12} className="text-[#a855f7]" /> : exec.trigger_type === 'webhook' ? <ExternalLink size={12} className="text-[#007aff]" /> : <Play size={12} className="text-[#34c759]" />}
                               <span className="capitalize">{exec.trigger_type}</span>
                           </div>
                         </td>
-                        <td className="font-mono tabular-nums text-[#86868b]" style={{ padding: '24px 28px', fontSize: '14px', fontWeight: 600 }}>
+                        <td className="font-mono tabular-nums text-[#94a3b8]" style={{ padding: '16px 20px', fontSize: '13px', fontWeight: 600 }}>
                           {formatDuration(exec.duration_ms)}
                         </td>
-                        <td className="text-[#86868b]" style={{ padding: '24px 28px', fontSize: '14px', fontWeight: 600 }}>
+                        <td className="text-[#94a3b8]" style={{ padding: '16px 20px', fontSize: '13px', fontWeight: 600 }}>
                           {timeAgo(exec.created_at)}
                         </td>
-                        <td style={{ padding: '24px 28px', textAlign: 'right' }}>
-                          <div className="inline-flex rounded-xl text-[#52525b] group-hover:text-[#007aff] group-hover:bg-[#007aff]/10 transition-all border border-transparent" style={{ padding: '10px' }}>
-                              <ArrowRight size={20} />
+                        <td style={{ padding: '16px 20px', textAlign: 'right' }}>
+                          <div className="inline-flex rounded-xl text-[#86868b] group-hover:text-[#06b6d4] group-hover:bg-[#06b6d4]/10 transition-all border border-transparent" style={{ padding: '8px' }}>
+                              <ArrowRight size={18} />
                           </div>
                         </td>
                     </motion.tr>

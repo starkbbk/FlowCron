@@ -52,14 +52,12 @@ const Sidebar = () => {
         overflow: 'visible',
       }}
     >
-      {/* Brand Section */}
+      {/* Brand Section: Logo section padding: 24px */}
       <div 
-        className="flex items-center justify-center shrink-0 overflow-hidden"
+        className="flex items-center shrink-0 overflow-hidden"
         style={{ 
-          marginLeft: collapsed ? '8px' : '24px', 
-          marginRight: collapsed ? '8px' : '24px', 
-          marginTop: '40px', 
-          marginBottom: '32px' 
+          padding: '24px',
+          justifyContent: collapsed ? 'center' : 'flex-start'
         }}
       >
         <div className="w-10 h-10 bg-gradient-to-tr from-[#2563EB] to-[#06B6D4] rounded-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(37,99,235,0.4)] relative">
@@ -88,7 +86,7 @@ const Sidebar = () => {
         style={{ 
           position: 'absolute', 
           right: '-18px', 
-          top: '40px', 
+          top: '26px', 
           width: '36px', 
           height: '36px', 
           borderRadius: '10px', 
@@ -105,7 +103,7 @@ const Sidebar = () => {
         {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
 
-      {/* Primary Navigation */}
+      {/* Primary Navigation: height 56px, pad-left/right 20px, icon gap 12px */}
       <nav 
         className="flex-1 overflow-y-auto custom-scrollbar scroll-smooth"
         style={{ 
@@ -113,7 +111,7 @@ const Sidebar = () => {
           marginRight: '12px', 
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '6px' 
+          gap: '8px' 
         }}
       >
         {navItems.map((item) => (
@@ -127,9 +125,11 @@ const Sidebar = () => {
                 : 'text-[#94a3b8] border border-transparent hover:bg-white/[0.03] hover:text-white'}
             `}
             style={{ 
-              height: '46px',
+              height: '56px',
               paddingLeft: collapsed ? '0' : '20px',
+              paddingRight: collapsed ? '0' : '20px',
               justifyContent: collapsed ? 'center' : 'flex-start',
+              gap: '12px', // Icon-to-text gap: 12px
             }}
           >
             {({ isActive }) => (
@@ -137,7 +137,7 @@ const Sidebar = () => {
                 {isActive && (
                   <motion.div 
                     layoutId="active-indicator"
-                    className="absolute left-0 w-1 h-5 bg-gradient-to-b from-[#2563EB] to-[#06B6D4] rounded-r-full shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+                    className="absolute left-0 w-1 h-6 bg-gradient-to-b from-[#2563EB] to-[#06B6D4] rounded-r-full shadow-[0_0_12px_rgba(6,182,212,0.8)]"
                   />
                 )}
                 <item.icon 
@@ -155,7 +155,6 @@ const Sidebar = () => {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       className="text-[14px] tracking-tight whitespace-nowrap"
-                      style={{ marginLeft: '12px' }}
                     >
                       {item.label}
                     </motion.span>
@@ -167,10 +166,11 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Sidebar Footer / Premium Account Card */}
+      {/* Sidebar Footer / Premium Account Card: padding 16px */}
       <div 
-        className="p-3 border-t border-white/5"
+        className="border-t border-white/5"
         style={{ 
+          padding: '16px',
           display: 'flex',
           flexDirection: 'column',
           gap: '8px'
@@ -179,11 +179,11 @@ const Sidebar = () => {
         <div 
           className="flex items-center rounded-xl bg-white/[0.03] border border-white/[0.05] relative group overflow-hidden transition-all duration-300 hover:bg-white/[0.06] hover:border-white/[0.1] backdrop-blur-md"
           style={{ 
-            padding: collapsed ? '6px' : '12px 14px', 
+            padding: collapsed ? '8px' : '16px', 
             justifyContent: collapsed ? 'center' : 'space-between' 
           }}
         >
-          <div className="relative shrink-0">
+          <div className="relative shrink-0 flex items-center justify-center">
             <div 
               className="rounded-lg bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-white/10 flex items-center justify-center text-white font-bold shadow-xl overflow-hidden"
               style={{ width: '36px', height: '36px', fontSize: '13px' }}

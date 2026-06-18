@@ -78,6 +78,18 @@ export default function GlassButton({
   fullWidth = false,
   ...props
 }) {
+  const combinedStyle = {
+    ...variantStyles[variant],
+    padding: '8px 16px',
+    borderRadius: '14px',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.5 : 1,
+    outline: 'none',
+    ...props.style
+  };
+
   return (
     <motion.button
       type={type}
@@ -89,19 +101,10 @@ export default function GlassButton({
         ${fullWidth ? 'w-full' : ''} 
         ${className}
       `}
-      style={{
-        ...variantStyles[variant],
-        padding: '8px 16px',
-        borderRadius: '14px',
-        fontSize: '14px',
-        fontWeight: '500',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        outline: 'none',
-      }}
       whileHover={!disabled ? hoverStyles[variant] : undefined}
       whileTap={!disabled ? { scale: 0.98 } : undefined}
       {...props}
+      style={combinedStyle}
     >
       {isLoading ? (
         <motion.div

@@ -57,37 +57,41 @@ export default function DashboardPage() {
   if (isLoading) return <StatSkeleton />;
 
   return (
-    <div className="flex flex-col gap-8 lg:gap-10 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10">
-      {/* Dashboard Hero Banner */}
+    <div className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10">
+      {/* Dashboard Hero Banner: padding 32px */}
       <GlassCard 
-        padding="large" 
+        padding="none" 
         className="relative overflow-hidden border border-white/[0.08]" 
         hover={false}
         style={{
           borderRadius: '24px',
-          background: 'rgba(255, 255, 255, 0.04)'
+          background: 'rgba(255, 255, 255, 0.04)',
+          padding: '32px'
         }}
       >
         {/* Soft background light beams */}
         <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-bl from-[#2563EB]/15 via-[#06B6D4]/5 to-transparent blur-[110px] pointer-events-none rounded-full" />
         
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 relative z-10">
-          <div className="space-y-4 flex-1">
+          <div className="flex-1">
             {/* Uptime status indicator */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-black tracking-widest uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
               System Status: {dashboardData?.system_uptime || '99.9%'} Uptime
             </div>
             
-            <h1 className="text-[32px] md:text-[42px] font-black text-white tracking-tight leading-tight">
+            {/* Title spacing mb: 12px */}
+            <h1 className="text-[32px] md:text-[42px] font-black text-white tracking-tight leading-tight mt-4" style={{ marginBottom: '12px' }}>
               Welcome back, {user?.username || user?.email?.split('@')[0]}
             </h1>
-            <p className="text-[16px] text-[#94a3b8] font-medium max-w-xl leading-relaxed">
+            
+            {/* Description spacing mb: 24px */}
+            <p className="text-[16px] text-[#94a3b8] font-medium max-w-xl leading-relaxed" style={{ marginBottom: '24px' }}>
               Your workflow infrastructure is fully operational. All pipeline signals are responding with optimal latency rates.
             </p>
 
-            {/* Inline Stats Row */}
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-6 border-t border-white/[0.06]">
+            {/* Inline Stats Row: mt 24px */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-6 border-t border-white/[0.06]" style={{ marginTop: '24px' }}>
               <div className="flex items-center gap-2">
                 <span className="text-[14px] font-bold text-white">{dashboardData?.total_workflows || 0}</span>
                 <span className="text-[12px] text-[#94a3b8] font-semibold">Workflows Configured</span>
@@ -109,8 +113,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="flex flex-wrap items-center gap-3.5 shrink-0">
+          {/* Quick Actions: Gap 16px */}
+          <div className="flex flex-wrap items-center shrink-0" style={{ gap: '16px' }}>
             <GlassButton 
               variant="secondary" 
               onClick={() => navigate('/workflows')} 
@@ -130,7 +134,7 @@ export default function DashboardPage() {
         </div>
       </GlassCard>
 
-      {/* Stats Grid */}
+      {/* Stats Grid: padding 24px */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
           <motion.div 
@@ -140,8 +144,9 @@ export default function DashboardPage() {
             transition={{ delay: idx * 0.05 }}
             whileHover={{ y: -6, scale: 1.015 }}
             onClick={() => stat.path && navigate(stat.path)}
-            className="flex flex-col justify-between p-6 h-[170px] cursor-pointer rounded-[20px] border border-white/[0.08] transition-all duration-300 relative group overflow-hidden"
+            className="flex flex-col justify-between h-[180px] cursor-pointer rounded-[20px] border border-white/[0.08] transition-all duration-300 relative group overflow-hidden"
             style={{
+              padding: '24px', // Enforce top/side/bottom padding: 24px
               background: 'rgba(255, 255, 255, 0.06)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
@@ -159,22 +164,25 @@ export default function DashboardPage() {
                 {stat.label}
               </span>
               <div 
-                className="flex items-center justify-center rounded-xl w-10 h-10 border border-white/10 transition-transform duration-500 group-hover:scale-110 shadow-md"
+                className="flex items-center justify-center rounded-xl w-10 h-10 border border-white/10 transition-transform duration-500 group-hover:scale-110 shadow-md shrink-0"
                 style={{ 
                   background: `linear-gradient(135deg, ${stat.color}20, ${stat.color}05)`,
                   color: stat.color,
-                  boxShadow: `0 6px 16px ${stat.color}15`
+                  boxShadow: `0 6px 16px ${stat.color}15`,
+                  marginRight: '0px'
                 }}
               >
                 <stat.icon size={20} strokeWidth={2} />
               </div>
             </div>
 
-            <div>
+            {/* Metric number: margin-top: auto */}
+            <div className="flex flex-col mt-auto" style={{ marginTop: 'auto' }}>
               <div className="text-[34px] font-black text-white tracking-tight leading-none tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-[10px] font-bold text-[#06b6d4] mt-2 opacity-80 flex items-center gap-1.5 uppercase tracking-wider">
+              {/* Label under number: margin-top: 12px */}
+              <div className="text-[10px] font-bold text-[#06b6d4] opacity-80 flex items-center gap-1.5 uppercase tracking-wider" style={{ marginTop: '12px' }}>
                 <span className="h-1.5 w-1.5 rounded-full bg-[#06b6d4] animate-pulse" />
                 Live telemetry
               </div>
@@ -192,17 +200,19 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             hover={false}
+            padding="none"
             className="flex flex-col border border-white/[0.08]"
             style={{
-              padding: '32px',
+              padding: '24px', // Chart area padding: 24px
               borderRadius: '24px',
               background: 'rgba(255, 255, 255, 0.035)'
             }}
           >
-            <div className="flex justify-between items-center mb-8">
+            {/* Title spacing: margin-bottom: 8px. Description spacing: margin-bottom: 20px */}
+            <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-[22px] font-black text-white tracking-tight">Activity Overview</h3>
-                <p className="text-[14px] text-[#94a3b8] mt-0.5 font-medium">System-wide traffic monitoring</p>
+                <h3 className="text-[22px] font-black text-white tracking-tight" style={{ marginBottom: '8px' }}>Activity Overview</h3>
+                <p className="text-[14px] text-[#94a3b8] font-medium" style={{ marginBottom: '20px' }}>System-wide traffic monitoring</p>
               </div>
               <div className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xl">
                 Real-time Data
@@ -258,21 +268,22 @@ export default function DashboardPage() {
             </div>
           </GlassCard>
 
-          {/* Node Performance */}
+          {/* Node Performance: Widget padding 28px */}
           <GlassCard 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             hover={false}
-            className="space-y-8 overflow-hidden relative border border-white/[0.08]"
+            padding="none"
+            className="overflow-hidden relative border border-white/[0.08]"
             style={{
-              padding: '32px',
+              padding: '28px',
               borderRadius: '24px',
               background: 'rgba(255, 255, 255, 0.035)'
             }}
           >
              <div className="absolute right-0 top-0 w-80 h-80 bg-[#f59e0b]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-             <div className="flex justify-between items-center relative z-10">
+             <div className="flex justify-between items-center relative z-10" style={{ marginBottom: '24px' }}>
                 <div>
                    <h3 className="text-[22px] font-black text-white tracking-tight">Node Reliability</h3>
                    <p className="text-[14px] text-[#94a3b8] mt-0.5 font-medium">Uptime distribution and signal strength</p>
@@ -309,16 +320,17 @@ export default function DashboardPage() {
           </GlassCard>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent Activity / Live Monitor: Widget padding 28px */}
         <div className="flex flex-col gap-8">
            <GlassCard 
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.4 }}
              hover={false}
+             padding="none"
              className="min-h-[550px] flex flex-col relative overflow-hidden border border-white/[0.08]"
              style={{
-               padding: '32px',
+               padding: '28px',
                borderRadius: '24px',
                background: 'rgba(255, 255, 255, 0.035)'
              }}
@@ -347,7 +359,7 @@ export default function DashboardPage() {
                       className="flex gap-4 group items-start p-4 hover:bg-white/[0.04] rounded-xl transition-all border border-transparent hover:border-white/10 cursor-pointer"
                     >
                         <div 
-                          className={`mt-1.5 h-2 w-2 rounded-full flex-shrink-0 shadow-md ${
+                          className={`mt-1.5 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
                             exec.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 
                             exec.status === 'failed' ? 'bg-rose-500 shadow-[0_0_8px_#f43f5e]' : 
                             'bg-blue-500 shadow-[0_0_8px_#3b82f6] animate-pulse'

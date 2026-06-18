@@ -30,8 +30,8 @@ const GlassModal = ({ isOpen, onClose, title, children, maxWidth = '480px' }) =>
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between" style={{ padding: '32px 40px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            {/* Header: padding 32px (32px left/right, 32px top, 24px bottom) */}
+            <div className="flex items-center justify-between" style={{ padding: '32px 32px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '22px' }}>{title}</h3>
               <button
                 onClick={onClose}
@@ -42,8 +42,8 @@ const GlassModal = ({ isOpen, onClose, title, children, maxWidth = '480px' }) =>
               </button>
             </div>
 
-            {/* Scrollable Content */}
-            <div className="max-h-[80vh] overflow-y-auto" style={{ padding: '32px 40px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            {/* Scrollable Content: padding: 32px, gap: 24px */}
+            <div className="max-h-[80vh] overflow-y-auto" style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {children}
             </div>
           </motion.div>

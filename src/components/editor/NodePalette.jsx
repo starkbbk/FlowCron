@@ -41,7 +41,7 @@ export default function NodePalette({ isOpen, setIsOpen }) {
             type="text"
             placeholder="Search steps..."
             className="w-full bg-white/5 border border-white/10 rounded-2xl focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#86868b] font-medium text-white shadow-inner"
-            style={{ paddingLeft: '52px', paddingRight: '20px', paddingTop: '16px', paddingBottom: '16px', fontSize: '15px' }}
+            style={{ paddingLeft: '52px', paddingRight: '16px', height: '48px', fontSize: '15px' }}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

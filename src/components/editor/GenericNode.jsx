@@ -18,57 +18,58 @@ const GenericNode = ({ id, data, selected }) => {
   return (
     <div className={`relative group ${selected ? 'z-20' : 'z-10'} gpu-accel font-['Inter']`}>
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 10 }}
+        initial={{ scale: 0.92, opacity: 0, y: 8 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 320 }}
         className={`
-          w-[260px] mac-bento-card overflow-hidden transition-all duration-500 relative
+          w-[250px] overflow-hidden transition-all duration-300 relative rounded-2xl border
           ${selected 
-            ? 'shadow-[0_0_0_2px_#007aff,_0_30px_60px_rgba(0,0,0,0.6)]' 
-            : 'shadow-2xl hover:border-white/20'
+            ? 'border-[#0a84ff] shadow-[0_0_25px_rgba(10,132,255,0.35),0_20px_40px_rgba(0,0,0,0.6)]' 
+            : 'border-white/[0.08] hover:border-white/20 shadow-2xl hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)]'
           }
         `}
         style={{
-          background: `linear-gradient(135deg, rgba(44, 44, 48, 0.4) 0%, rgba(28, 28, 30, 0.2) 100%)`,
-          backdropFilter: 'blur(40px)',
-          WebkitBackdropFilter: 'blur(40px)',
+          background: `rgba(255, 255, 255, 0.045)`,
+          backdropFilter: 'blur(32px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(32px) saturate(140%)',
         }}
       >
-        {/* Category Inner Glow Signature */}
+        {/* Category top lighting strip */}
         <div 
-          className="absolute inset-x-0 top-0 h-[100px] pointer-events-none opacity-20" 
+          className="absolute inset-x-0 top-0 h-[3px] pointer-events-none" 
           style={{ 
-            background: `linear-gradient(to bottom, ${category.color} 0%, transparent 100%)`,
+            background: `linear-gradient(to right, ${category.color}, transparent)`,
           }} 
         />
 
-        <div className="p-20 space-y-12 relative z-10 flex flex-col items-center text-center">
-          <div className="flex items-center justify-center">
+        <div className="p-5 space-y-4 relative z-10 flex flex-col items-center text-center">
+          <div className="flex items-center justify-center relative w-full">
              <div 
-                className="flex items-center justify-center rounded-2xl w-10 h-10 bg-white/5 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500" 
+                className="flex items-center justify-center rounded-xl w-12 h-12 border border-white/10 group-hover:scale-105 transition-transform duration-300" 
                 style={{ 
                   color: category.color,
-                  boxShadow: `inset 0 0 10px ${category.color}20, 0 0 8px ${category.color}30`
+                  background: `linear-gradient(135deg, ${category.color}20, ${category.color}05)`,
+                  boxShadow: `inset 0 0 12px ${category.color}15, 0 4px 12px rgba(0,0,0,0.2)`
                 }}
              >
-                <Icon size={20} strokeWidth={2.6} />
+                <Icon size={22} strokeWidth={2.2} />
              </div>
              {execution && (
-                <div className="absolute top-10 right-10">
+                <div className="absolute right-0 top-0">
                   <StatusBadge 
                     status={execution.status} 
                     size="small" 
-                    className="scale-90 origin-right shadow-lg" 
+                    className="scale-90 shadow-md" 
                   />
                 </div>
              )}
           </div>
           
-          <div className="space-y-3 w-full">
-            <div className="font-extrabold text-[16px] text-white tracking-tight truncate px-2">
+          <div className="w-full">
+            <div className="font-extrabold text-[15px] text-white tracking-tight truncate">
               {nodeType?.name || data.label}
             </div>
-             <div className="text-[12px] text-[#86868b] font-medium truncate leading-relaxed opacity-60 px-4">
+             <div className="text-[12px] text-[#94a3b8] font-bold truncate leading-relaxed mt-1 opacity-90">
                 {data.config?.url || data.config?.topic || nodeType?.description || 'Workflow Step'}
              </div>
           </div>

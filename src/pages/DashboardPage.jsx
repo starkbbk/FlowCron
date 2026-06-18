@@ -12,6 +12,8 @@ import api from '../services/api';
 import useAuthStore from '../stores/authStore';
 import useWorkflowStore from '../stores/workflowStore';
 import { StatSkeleton } from '../components/common/LoadingSkeleton';
+import GlassCard from '../components/ui/GlassCard';
+import GlassButton from '../components/ui/GlassButton';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -26,7 +28,6 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch both in parallel for efficiency
         const [dashRes, wfRes] = await Promise.all([
           api.get('/dashboard/overview'),
           api.get('/workflows/'),
@@ -47,78 +48,135 @@ export default function DashboardPage() {
   , [workflows]);
 
   const stats = useMemo(() => [
-    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#007aff', path: '/workflows', glow: 'shadow-[0_0_30px_rgba(0,122,255,0.2)]' },
-    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#34c759', status: 'Active', path: '/workflows', glow: 'shadow-[0_0_30px_rgba(52,199,89,0.2)]' },
-    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ff2d55', path: '/executions', glow: 'shadow-[0_0_30px_rgba(255,45,85,0.2)]' },
-    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#ff9500', path: '/activity', glow: 'shadow-[0_0_30px_rgba(255,149,0,0.2)]' },
+    { label: 'Total Workflows', value: dashboardData?.total_workflows || 0, icon: GitBranch, color: '#3b82f6', path: '/workflows' },
+    { label: 'Active Flows', value: activeWorkflowsCount, icon: Activity, color: '#06b6d4', path: '/workflows' },
+    { label: 'Runs Today', value: dashboardData?.total_executions_today || 0, icon: Play, color: '#ef4444', path: '/executions' },
+    { label: 'Avg Latency', value: `${dashboardData?.avg_execution_time || '0.4'}s`, icon: Clock, color: '#f59e0b', path: '/activity' },
   ], [dashboardData, activeWorkflowsCount]);
 
   if (isLoading) return <StatSkeleton />;
 
   return (
-    <div className="flex flex-col gap-10 lg:gap-12 pb-20 mx-auto w-full pt-8 lg:pt-16 relative z-10">
-      {/* Header Area */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
-        <div>
-          <motion.h1 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-[32px] md:text-[40px] lg:text-[52px] font-black text-white tracking-tighter mb-2 md:mb-4"
-          >
-            Welcome back, {user?.username || user?.email?.split('@')[0]}
-          </motion.h1>
-          <p className="text-[18px] text-[#86868b] font-semibold max-w-xl leading-relaxed opacity-80">
-            Everything is running smoothly. Your automation infrastructure is currently at <span className="text-[#34c759]">{dashboardData?.system_uptime || '99.9%'} uptime</span>.
-          </p>
+    <div className="flex flex-col gap-8 lg:gap-10 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10">
+      {/* Dashboard Hero Banner */}
+      <GlassCard 
+        padding="large" 
+        className="relative overflow-hidden border border-white/[0.08]" 
+        hover={false}
+        style={{
+          borderRadius: '24px',
+          background: 'rgba(255, 255, 255, 0.04)'
+        }}
+      >
+        {/* Soft background light beams */}
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-bl from-[#2563EB]/15 via-[#06B6D4]/5 to-transparent blur-[110px] pointer-events-none rounded-full" />
+        
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 relative z-10">
+          <div className="space-y-4 flex-1">
+            {/* Uptime status indicator */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-black tracking-widest uppercase">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
+              System Status: {dashboardData?.system_uptime || '99.9%'} Uptime
+            </div>
+            
+            <h1 className="text-[32px] md:text-[42px] font-black text-white tracking-tight leading-tight">
+              Welcome back, {user?.username || user?.email?.split('@')[0]}
+            </h1>
+            <p className="text-[16px] text-[#94a3b8] font-medium max-w-xl leading-relaxed">
+              Your workflow infrastructure is fully operational. All pipeline signals are responding with optimal latency rates.
+            </p>
+
+            {/* Inline Stats Row */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-6 border-t border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-bold text-white">{dashboardData?.total_workflows || 0}</span>
+                <span className="text-[12px] text-[#94a3b8] font-semibold">Workflows Configured</span>
+              </div>
+              <div className="h-3.5 w-px bg-white/10 hidden sm:block" />
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-bold text-white">{activeWorkflowsCount}</span>
+                <span className="text-[12px] text-[#94a3b8] font-semibold">Active Pipelines</span>
+              </div>
+              <div className="h-3.5 w-px bg-white/10 hidden sm:block" />
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-bold text-white">
+                  {dashboardData?.recent_executions?.[0]?.status 
+                    ? `Workflow ${dashboardData.recent_executions[0].status}` 
+                    : 'Idle'}
+                </span>
+                <span className="text-[12px] text-[#94a3b8] font-semibold">Last Execution</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex flex-wrap items-center gap-3.5 shrink-0">
+            <GlassButton 
+              variant="secondary" 
+              onClick={() => navigate('/workflows')} 
+              className="!py-3.5 !px-6 font-bold"
+            >
+              Manage Flows
+            </GlassButton>
+            <GlassButton 
+              variant="primary" 
+              onClick={() => navigate('/workflows')} 
+              className="!py-3.5 !px-6 font-bold"
+            >
+              <Plus size={18} strokeWidth={2.8} className="mr-1" />
+              New Workflow
+            </GlassButton>
+          </div>
         </div>
-        <motion.button 
-          whileHover={{ scale: 1.02, y: -2 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => navigate('/workflows')}
-          className="flex items-center gap-3 bg-[#007aff] text-white font-black rounded-3xl hover:bg-[#006ce6] shadow-[0_15px_40px_rgba(0,122,255,0.4)] transition-all cursor-pointer border border-white/20"
-          style={{
-            padding: '16px 32px',
-            fontSize: '16px',
-            letterSpacing: '-0.02em'
-          }}
-        >
-          <Plus size={20} strokeWidth={4} />
-          New Workflow
-        </motion.button>
-      </div>
+      </GlassCard>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
           <motion.div 
             key={idx} 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
+            transition={{ delay: idx * 0.05 }}
+            whileHover={{ y: -6, scale: 1.015 }}
             onClick={() => stat.path && navigate(stat.path)}
-            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] cursor-pointer ${stat.glow}`}
+            className="flex flex-col justify-between p-6 h-[170px] cursor-pointer rounded-[20px] border border-white/[0.08] transition-all duration-300 relative group overflow-hidden"
             style={{
-              padding: '40px'
+              background: 'rgba(255, 255, 255, 0.06)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              boxShadow: `0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 25px ${stat.color}08, inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)`
             }}
           >
-            <div className="flex items-center justify-center rounded-[16px] border border-white/10 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
+            {/* Corner hover glow */}
+            <div 
+              className="absolute top-0 right-0 w-24 h-24 rounded-full blur-[35px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
+              style={{ background: stat.color }} 
+            />
+
+            <div className="flex justify-between items-start w-full">
+              <span className="text-[12px] font-bold text-[#94a3b8] uppercase tracking-widest leading-none">
+                {stat.label}
+              </span>
+              <div 
+                className="flex items-center justify-center rounded-xl w-10 h-10 border border-white/10 transition-transform duration-500 group-hover:scale-110 shadow-md"
                 style={{ 
-                  width: '40px', 
-                  height: '40px', 
-                  backgroundColor: `${stat.color}20`,
+                  background: `linear-gradient(135deg, ${stat.color}20, ${stat.color}05)`,
                   color: stat.color,
-                  boxShadow: `0 0 10px ${stat.color}30`
+                  boxShadow: `0 6px 16px ${stat.color}15`
                 }}
               >
-                <stat.icon size={18} strokeWidth={2.5} />
+                <stat.icon size={20} strokeWidth={2} />
+              </div>
             </div>
 
-            <div className="text-center">
-              <div className="text-[28px] font-black text-white leading-none tracking-tighter mb-1 tabular-nums">
+            <div>
+              <div className="text-[34px] font-black text-white tracking-tight leading-none tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-[10px] font-bold text-[#86868b] uppercase tracking-[0.2em] opacity-60">
-                {stat.label}
+              <div className="text-[10px] font-bold text-[#06b6d4] mt-2 opacity-80 flex items-center gap-1.5 uppercase tracking-wider">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#06b6d4] animate-pulse" />
+                Live telemetry
               </div>
             </div>
           </motion.div>
@@ -126,114 +184,120 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Grid */}
-      <div className="flex flex-col xl:grid xl:grid-cols-3 gap-10">
+      <div className="flex flex-col xl:grid xl:grid-cols-3 gap-8">
         {/* Chart Card */}
-        <div className="xl:col-span-2 flex flex-col gap-10">
-          <motion.div 
+        <div className="xl:col-span-2 flex flex-col gap-8">
+          <GlassCard 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mac-bento-card flex flex-col"
+            transition={{ delay: 0.2 }}
+            hover={false}
+            className="flex flex-col border border-white/[0.08]"
             style={{
-              padding: '40px'
+              padding: '32px',
+              borderRadius: '24px',
+              background: 'rgba(255, 255, 255, 0.035)'
             }}
           >
-            <div className="flex justify-between items-center mb-10 lg:mb-14">
+            <div className="flex justify-between items-center mb-8">
               <div>
-                <h3 className="text-[24px] lg:text-[28px] font-black text-white tracking-tighter">Activity Overview</h3>
-                <p className="text-[15px] text-[#86868b] mt-1 font-semibold opacity-60">System-wide traffic monitoring</p>
+                <h3 className="text-[22px] font-black text-white tracking-tight">Activity Overview</h3>
+                <p className="text-[14px] text-[#94a3b8] mt-0.5 font-medium">System-wide traffic monitoring</p>
               </div>
-              <div className="text-[11px] lg:text-[12px] font-black text-[#86868b] uppercase tracking-[0.2em] px-8 py-3.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">
+              <div className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest px-4 py-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xl">
                 Real-time Data
               </div>
             </div>
             
-            <div className="flex-1 w-full min-h-[300px] lg:min-h-[360px]">
+            <div className="flex-1 w-full min-h-[300px] lg:min-h-[340px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={dashboardData?.execution_chart_data || []}>
                   <defs>
                     <linearGradient id="colorExec" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#007aff" stopOpacity={0.25}/>
-                      <stop offset="95%" stopColor="#007aff" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#2563EB" stopOpacity={0.25}/>
+                      <stop offset="95%" stopColor="#2563EB" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                  <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(255,255,255,0.04)" />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#86868b', fontSize: 11, fontWeight: 600 }}
-                    dy={16}
+                    tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                    dy={12}
                     tickFormatter={(val) => val.split('-').slice(-2).join('/')}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#86868b', fontSize: 11, fontWeight: 600 }} 
+                    tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }} 
                   />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'rgba(28,28,30,0.85)', 
-                      borderColor: 'rgba(255,255,255,0.1)', 
+                      backgroundColor: 'rgba(5, 9, 20, 0.9)', 
+                      borderColor: 'rgba(255,255,255,0.08)', 
                       borderRadius: '16px',
-                      padding: '16px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+                      padding: '12px 16px',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                       backdropFilter: 'blur(20px)'
                     }}
-                    labelStyle={{ color: '#fff', fontWeight: 600, marginBottom: '8px' }}
-                    itemStyle={{ color: '#007aff', fontWeight: 700, fontSize: '15px' }}
+                    labelStyle={{ color: '#fff', fontWeight: 600, marginBottom: '6px' }}
+                    itemStyle={{ color: '#06b6d4', fontWeight: 700, fontSize: '14px' }}
                   />
                   <Area 
                     type="monotone" 
                     dataKey="executions" 
-                    stroke="#007aff" 
+                    stroke="#2563EB" 
                     fill="url(#colorExec)" 
-                    strokeWidth={3}
-                    activeDot={{ r: 6, fill: '#007aff', stroke: '#fff', strokeWidth: 2 }}
+                    strokeWidth={2.5}
+                    activeDot={{ r: 5, fill: '#2563EB', stroke: '#fff', strokeWidth: 1.5 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-          </motion.div>
+          </GlassCard>
 
-          {/* New Feature: Node Performance */}
-          <motion.div 
+          {/* Node Performance */}
+          <GlassCard 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mac-bento-card space-y-14 overflow-hidden relative"
+            transition={{ delay: 0.3 }}
+            hover={false}
+            className="space-y-8 overflow-hidden relative border border-white/[0.08]"
             style={{
-              padding: '40px'
+              padding: '32px',
+              borderRadius: '24px',
+              background: 'rgba(255, 255, 255, 0.035)'
             }}
           >
-             <div className="absolute right-0 top-0 w-80 h-80 bg-[#ff9500]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+             <div className="absolute right-0 top-0 w-80 h-80 bg-[#f59e0b]/5 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
              <div className="flex justify-between items-center relative z-10">
                 <div>
-                   <h3 className="text-[24px] font-black text-white tracking-tighter">Node Reliability</h3>
-                   <p className="text-[14px] text-[#86868b] mt-1 font-semibold opacity-60">Uptime distribution and signal strength</p>
+                   <h3 className="text-[22px] font-black text-white tracking-tight">Node Reliability</h3>
+                   <p className="text-[14px] text-[#94a3b8] mt-0.5 font-medium">Uptime distribution and signal strength</p>
                 </div>
-                <div className="bg-[#ff9500]/10 p-4 rounded-2xl border border-[#ff9500]/20 shadow-[0_0_20px_rgba(255,149,0,0.2)]">
-                   <Zap size={24} className="text-[#ff9500] fill-[#ff9500]/20" />
+                <div className="bg-[#f59e0b]/10 p-3.5 rounded-xl border border-[#f59e0b]/20 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+                   <Zap size={22} className="text-[#f59e0b] fill-[#f59e0b]/10" />
                 </div>
              </div>
              
-             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
                 {[
-                  { label: 'Triggers', rate: dashboardData?.node_reliability?.manual_trigger || '100%', color: '#007aff', glow: 'shadow-[0_0_15px_rgba(0,122,255,0.4)]' },
-                  { label: 'HTTP Req', rate: dashboardData?.node_reliability?.http_request || '100%', color: '#32ade6', glow: 'shadow-[0_0_15px_rgba(50,173,230,0.4)]' },
-                  { label: 'AI Gen', rate: dashboardData?.node_reliability?.send_email || '100%', color: '#af52de', glow: 'shadow-[0_0_15px_rgba(175,82,222,0.4)]' },
-                  { label: 'Storage', rate: dashboardData?.node_reliability?.storage || '100%', color: '#ff9500', glow: 'shadow-[0_0_15px_rgba(255,149,0,0.4)]' }
+                  { label: 'Triggers', rate: dashboardData?.node_reliability?.manual_trigger || '100%', color: '#2563EB', glow: 'shadow-[0_0_15px_rgba(37,99,235,0.4)]' },
+                  { label: 'HTTP Req', rate: dashboardData?.node_reliability?.http_request || '100%', color: '#06b6d4', glow: 'shadow-[0_0_15px_rgba(6,182,212,0.4)]' },
+                  { label: 'AI Gen', rate: dashboardData?.node_reliability?.send_email || '100%', color: '#8b5cf6', glow: 'shadow-[0_0_15px_rgba(139,92,246,0.4)]' },
+                  { label: 'Storage', rate: dashboardData?.node_reliability?.storage || '100%', color: '#f59e0b', glow: 'shadow-[0_0_15px_rgba(245,158,11,0.4)]' }
                 ].map((item, i) => (
-                  <div key={i} className="space-y-4">
-                     <span className="text-[12px] font-black uppercase tracking-[0.2em] text-[#86868b] opacity-60">{item.label}</span>
-                     <div className="flex flex-col gap-3">
-                        <span className="text-[32px] font-black text-white tabular-nums tracking-tighter">{item.rate}</span>
-                        <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div key={i} className="space-y-3">
+                     <span className="text-[11px] font-bold uppercase tracking-widest text-[#94a3b8] opacity-75">{item.label}</span>
+                     <div className="flex flex-col gap-2">
+                        <span className="text-[28px] font-black text-white tabular-nums tracking-tight">{item.rate}</span>
+                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                            <motion.div 
                              initial={{ width: 0 }}
                              animate={{ width: item.rate }}
-                             transition={{ duration: 1.5, type: 'spring' }}
+                             transition={{ duration: 1.2, type: 'spring' }}
                              className={`h-full rounded-full ${item.glow}`}
                              style={{ backgroundColor: item.color }}
                            />
@@ -242,58 +306,61 @@ export default function DashboardPage() {
                   </div>
                 ))}
              </div>
-          </motion.div>
+          </GlassCard>
         </div>
 
         {/* Recent Activity */}
-        <div className="flex flex-col gap-10">
-           <motion.div 
+        <div className="flex flex-col gap-8">
+           <GlassCard 
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
-             transition={{ delay: 0.6 }}
-             className="mac-bento-card min-h-[600px] flex flex-col relative overflow-hidden"
+             transition={{ delay: 0.4 }}
+             hover={false}
+             className="min-h-[550px] flex flex-col relative overflow-hidden border border-white/[0.08]"
              style={{
-               padding: '40px'
+               padding: '32px',
+               borderRadius: '24px',
+               background: 'rgba(255, 255, 255, 0.035)'
              }}
            >
-              <div className="absolute right-0 top-0 w-80 h-80 bg-[#34c759]/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+              <div className="absolute right-0 top-0 w-80 h-80 bg-emerald-500/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-              <div className="flex justify-between items-center mb-10 relative z-10">
+              <div className="flex justify-between items-center mb-8 relative z-10">
                  <div>
-                   <h3 className="text-[22px] font-black text-white tracking-tighter">Live Monitor</h3>
+                   <h3 className="text-[20px] font-black text-white tracking-tight">Live Monitor</h3>
                    <div className="flex items-center gap-2 mt-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759] animate-pulse" />
-                      <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#34c759]">Incoming Signals</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse" />
+                      <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">Incoming Signals</span>
                    </div>
                  </div>
-                 <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
-                    <Activity size={22} className="text-[#86868b]" />
+                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                    <Activity size={20} className="text-[#94a3b8]" />
                  </div>
               </div>
               
-              <div className="flex-1 flex flex-col gap-6 overflow-y-auto no-scrollbar pr-2 relative z-10">
+              <div className="flex-1 flex flex-col gap-4 overflow-y-auto no-scrollbar pr-1 relative z-10">
                  {dashboardData?.recent_executions?.length > 0 ? (
                    dashboardData.recent_executions.slice(0, 6).map((exec) => (
                     <div 
                       key={exec.id} 
                       onClick={() => navigate(`/executions/${exec.id}`)}
-                      className="flex gap-4 group items-start p-5 hover:bg-white/5 rounded-2xl transition-all border border-transparent hover:border-white/10 cursor-pointer"
+                      className="flex gap-4 group items-start p-4 hover:bg-white/[0.04] rounded-xl transition-all border border-transparent hover:border-white/10 cursor-pointer"
                     >
                         <div 
-                          className={`mt-1 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-md ${
-                            exec.status === 'completed' ? 'bg-[#34c759] shadow-[0_0_8px_#34c759]' : 
-                            exec.status === 'failed' ? 'bg-[#ff2d55] shadow-[0_0_8px_#ff2d55]' : 
-                            'bg-[#007aff] shadow-[0_0_8px_#007aff] animate-pulse'
+                          className={`mt-1.5 h-2 w-2 rounded-full flex-shrink-0 shadow-md ${
+                            exec.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 
+                            exec.status === 'failed' ? 'bg-rose-500 shadow-[0_0_8px_#f43f5e]' : 
+                            'bg-blue-500 shadow-[0_0_8px_#3b82f6] animate-pulse'
                           }`}
                         />
                         <div className="flex-1 min-w-0">
-                           <div className="text-[14px] font-bold text-white truncate group-hover:text-[#007aff] transition-colors">
-                             Workflow {exec.status} <span className="text-[#86868b] font-mono text-[11px] ml-1 uppercase">{exec.id.slice(0, 8)}</span>
+                           <div className="text-[14px] font-bold text-white truncate group-hover:text-[#06b6d4] transition-colors">
+                             Workflow {exec.status} <span className="text-[#94a3b8] font-mono text-[11px] ml-1 uppercase">{exec.id.slice(0, 8)}</span>
                            </div>
                            <div className="flex items-center gap-2 mt-1">
-                              <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-widest">{exec.status}</span>
+                              <span className="text-[11px] font-bold text-[#94a3b8] uppercase tracking-wider">{exec.status}</span>
                               <div className="w-1 h-1 rounded-full bg-white/20" />
-                              <span className="text-[12px] text-[#86868b] font-medium tabular-nums">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                              <span className="text-[12px] text-[#94a3b8] font-semibold tabular-nums">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                            </div>
                         </div>
                     </div>
@@ -301,26 +368,26 @@ export default function DashboardPage() {
                  ) : (
                    <div className="flex flex-col items-center justify-center h-full text-center py-12 opacity-40">
                       <Clock size={40} className="mb-4 text-white" />
-                      <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#86868b]">No signals detected</div>
+                      <div className="text-[11px] font-bold uppercase tracking-widest text-[#94a3b8]">No signals detected</div>
                    </div>
                  )}
               </div>
               
-              <div className="mt-8 pt-8 border-t border-white/10 relative z-10 w-full">
+              <div className="mt-6 pt-6 border-t border-white/[0.06] relative z-10 w-full">
                  <div 
-                   className="bg-[#007aff]/10 border border-[#007aff]/30 shadow-[0_8px_32px_rgba(0,122,255,0.15)] backdrop-blur-xl"
-                   style={{ padding: '24px', borderRadius: '24px' }}
+                   className="bg-blue-500/5 border border-blue-500/20 shadow-[0_8px_32px_rgba(37,99,235,0.08)] backdrop-blur-xl"
+                   style={{ padding: '20px', borderRadius: '18px' }}
                  >
-                    <div className="flex items-center gap-2.5 text-[#007aff] mb-3">
-                       <Zap size={18} fill="currentColor" />
-                       <span className="text-[12px] font-bold uppercase tracking-[0.2em]">Scale Fast</span>
+                    <div className="flex items-center gap-2 text-[#06b6d4] mb-2">
+                       <Zap size={16} fill="currentColor" />
+                       <span className="text-[11px] font-bold uppercase tracking-widest">Scaling Tip</span>
                     </div>
-                    <p className="text-[14px] text-white/90 leading-relaxed font-medium">
-                       Scale your work with the <strong className="text-white font-extrabold text-[15px]">Schedule Node</strong>.
+                    <p className="text-[13px] text-white/90 leading-relaxed font-medium">
+                       Scale your work efficiently by linking actions to the <strong className="text-white font-extrabold text-[14px]">Schedule Node</strong>.
                     </p>
-                    </div>
+                 </div>
                </div>
-            </motion.div>
+            </GlassCard>
          </div>
       </div>
     </div>

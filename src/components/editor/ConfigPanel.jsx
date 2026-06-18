@@ -54,7 +54,7 @@ export default function ConfigPanel() {
               <input 
                 readOnly
                 value={webhookUrl}
-                className="flex-1 px-4 py-3 rounded-xl text-[14px] text-white font-mono border border-[#3a3a3c] bg-[#111113] outline-none truncate shadow-inner focus:border-[#007aff]"
+                className="flex-1 px-4 py-3 rounded-xl text-[14px] text-white font-mono border border-white/[0.08] bg-white/[0.03] backdrop-blur-md outline-none truncate shadow-inner focus:border-[#0a84ff] transition-all"
               />
               <GlassButton 
                 variant="secondary" 
@@ -143,7 +143,7 @@ export default function ConfigPanel() {
               {kvPairs.map((pair, idx) => (
                 <div key={idx} className="flex gap-2 group">
                   <input 
-                    className="flex-1 px-3 py-2 text-[12px] rounded-lg border border-[#27272a] bg-[#18181b] outline-none focus:border-[#3b82f650] transition-all font-medium text-[#fafafa] placeholder:text-[#3f3f46]" 
+                    className="flex-1 px-3.5 py-2.5 text-[13px] rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md outline-none focus:border-[#0a84ff] focus:ring-2 focus:ring-[#0a84ff]/10 transition-all font-semibold text-[#fafafa] placeholder:text-[#86868b]" 
                     placeholder={isHeader ? "Key" : "Condition"}
                     value={pair.key || ''}
                     onChange={(e) => {
@@ -153,7 +153,7 @@ export default function ConfigPanel() {
                     }}
                   />
                   <input 
-                    className="flex-1 px-3 py-2 text-[12px] rounded-lg border border-[#27272a] bg-[#18181b] outline-none focus:border-[#3b82f650] transition-all font-medium text-[#fafafa] placeholder:text-[#3f3f46]" 
+                    className="flex-1 px-3.5 py-2.5 text-[13px] rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md outline-none focus:border-[#0a84ff] focus:ring-2 focus:ring-[#0a84ff]/10 transition-all font-semibold text-[#fafafa] placeholder:text-[#86868b]" 
                     placeholder={isHeader ? "Value" : "Target"}
                     value={pair.value || ''}
                     onChange={(e) => {

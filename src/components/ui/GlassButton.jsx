@@ -2,29 +2,32 @@ import { motion } from 'framer-motion';
 
 const variantStyles = {
   primary: {
-    background: 'linear-gradient(135deg, #0a84ff, #22d3ee)',
+    background: 'linear-gradient(135deg, #2563EB, #06B6D4)',
     border: 'none',
     color: '#ffffff',
-    boxShadow: '0 4px 20px rgba(10, 132, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+    boxShadow: '0 0 20px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
   },
   secondary: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
     color: '#f8fafc',
-    backdropFilter: 'blur(10px)',
-    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
   },
   danger: {
-    backgroundColor: 'rgba(239, 68, 68, 0.15)',
-    border: '1px solid rgba(239, 68, 68, 0.25)',
+    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+    border: '1px solid rgba(239, 68, 68, 0.2)',
     color: '#f8fafc',
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
   },
   success: {
-    backgroundColor: 'rgba(34, 197, 94, 0.15)',
-    border: '1px solid rgba(34, 197, 94, 0.25)',
+    backgroundColor: 'rgba(34, 197, 94, 0.12)',
+    border: '1px solid rgba(34, 197, 94, 0.2)',
     color: '#f8fafc',
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
   },
   ghost: {
     backgroundColor: 'transparent',
@@ -35,20 +38,27 @@ const variantStyles = {
 
 const hoverStyles = {
   primary: {
-    boxShadow: '0 0 30px rgba(34, 211, 238, 0.6), 0 4px 20px rgba(10, 132, 255, 0.4)',
-    scale: 1.02,
+    boxShadow: '0 0 32px rgba(6, 182, 212, 0.5), 0 0 16px rgba(37, 99, 235, 0.4)',
+    scale: 1.025,
+    y: -1,
   },
   secondary: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: 'rgba(255, 255, 255, 0.16)',
+    scale: 1.015,
+    y: -1,
   },
   danger: {
-    backgroundColor: 'rgba(239, 68, 68, 0.25)',
-    borderColor: 'rgba(239, 68, 68, 0.4)',
+    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+    borderColor: 'rgba(239, 68, 68, 0.35)',
+    scale: 1.015,
+    y: -1,
   },
   success: {
-    backgroundColor: 'rgba(34, 197, 94, 0.25)',
-    borderColor: 'rgba(34, 197, 94, 0.4)',
+    backgroundColor: 'rgba(34, 197, 94, 0.2)',
+    borderColor: 'rgba(34, 197, 94, 0.35)',
+    scale: 1.015,
+    y: -1,
   },
   ghost: {
     backgroundColor: 'rgba(255, 255, 255, 0.05)',

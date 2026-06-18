@@ -25,7 +25,7 @@ const Sidebar = () => {
   const toggleCollapse = () => {
     const next = !collapsed;
     setCollapsed(next);
-    document.documentElement.style.setProperty('--sidebar-width', next ? '80px' : '260px');
+    document.documentElement.style.setProperty('--sidebar-width', next ? '88px' : '280px');
   };
 
   const handleLogout = async () => {
@@ -42,20 +42,29 @@ const Sidebar = () => {
 
   return (
     <aside 
-      className="fixed top-6 bottom-6 left-6 bg-white/[0.03] backdrop-blur-3xl border border-white/[0.08] z-50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] shrink-0 hidden lg:flex flex-col shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] rounded-[32px] overflow-visible"
+      className="fixed top-6 bottom-6 left-6 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shrink-0 hidden lg:flex flex-col rounded-[24px] border border-white/[0.08]"
       style={{ 
-        width: 'var(--sidebar-width, 260px)',
+        width: collapsed ? '88px' : '280px',
+        background: 'rgba(255, 255, 255, 0.035)',
+        backdropFilter: 'blur(40px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+        boxShadow: '0 40px 80px -20px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05)',
         overflow: 'visible',
       }}
     >
       {/* Brand Section */}
       <div 
         className="flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ marginLeft: collapsed ? '12px' : '40px', marginRight: collapsed ? '12px' : '40px', marginTop: '48px', marginBottom: '40px' }}
+        style={{ 
+          marginLeft: collapsed ? '8px' : '24px', 
+          marginRight: collapsed ? '8px' : '24px', 
+          marginTop: '40px', 
+          marginBottom: '32px' 
+        }}
       >
-        <div className="w-11 h-11 bg-gradient-to-tr from-[#007aff] to-[#34c759] rounded-2xl flex items-center justify-center shrink-0 shadow-[0_4px_20px_rgba(0,122,255,0.4)] relative">
-          <div className="absolute inset-0 bg-white/20 rounded-2xl animate-pulse blur-[10px]" />
-          <Zap size={22} className="text-white fill-white relative z-10" />
+        <div className="w-10 h-10 bg-gradient-to-tr from-[#2563EB] to-[#06B6D4] rounded-xl flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(37,99,235,0.4)] relative">
+          <div className="absolute inset-0 bg-white/20 rounded-xl animate-pulse blur-[8px]" />
+          <Zap size={20} className="text-white fill-white relative z-10" />
         </div>
         <AnimatePresence>
           {!collapsed && (
@@ -63,8 +72,8 @@ const Sidebar = () => {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
-              className="text-[26px] font-black text-white tracking-tighter whitespace-nowrap"
-              style={{ marginLeft: '16px' }}
+              className="text-[22px] font-black text-white tracking-tighter whitespace-nowrap"
+              style={{ marginLeft: '12px' }}
             >
               FlowCron
             </motion.span>
@@ -75,16 +84,17 @@ const Sidebar = () => {
       {/* Floating Collapse Toggle */}
       <button
         onClick={toggleCollapse}
-        className="text-white/60 hover:text-white transition-all shadow-2xl group border border-white/10"
+        className="text-white/60 hover:text-white transition-all shadow-2xl group border border-white/10 hover:border-white/20"
         style={{ 
           position: 'absolute', 
-          right: '-20px', 
-          top: '60px', 
-          width: '40px', 
-          height: '40px', 
-          borderRadius: '12px', 
-          backgroundColor: 'rgba(44, 44, 48, 0.8)', 
+          right: '-18px', 
+          top: '40px', 
+          width: '36px', 
+          height: '36px', 
+          borderRadius: '10px', 
+          backgroundColor: 'rgba(13, 13, 15, 0.85)', 
           backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -92,47 +102,60 @@ const Sidebar = () => {
           cursor: 'pointer'
         }}
       >
-        {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+        {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
 
       {/* Primary Navigation */}
       <nav 
         className="flex-1 overflow-y-auto custom-scrollbar scroll-smooth"
-        style={{ marginLeft: '16px', marginRight: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+        style={{ 
+          marginLeft: '12px', 
+          marginRight: '12px', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '6px' 
+        }}
       >
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center rounded-2xl transition-all duration-500 group relative font-bold overflow-hidden
+              flex items-center rounded-xl transition-all duration-300 group relative font-semibold overflow-hidden
               ${isActive 
-                ? 'bg-white/10 text-[#0a84ff] shadow-inner' 
-                : 'text-[#94a3b8] hover:bg-white/5 hover:text-white'}
+                ? 'bg-white/[0.07] text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_0_20px_rgba(37,99,235,0.15)] border border-white/[0.08]' 
+                : 'text-[#94a3b8] border border-transparent hover:bg-white/[0.03] hover:text-white'}
             `}
-            style={({ isActive }) => ({ 
-              height: '64px',
-              paddingLeft: collapsed ? '0' : '40px',
+            style={{ 
+              height: '46px',
+              paddingLeft: collapsed ? '0' : '20px',
               justifyContent: collapsed ? 'center' : 'flex-start',
-            })}
+            }}
           >
             {({ isActive }) => (
               <>
                 {isActive && (
                   <motion.div 
                     layoutId="active-indicator"
-                    className="absolute left-0 w-1 h-6 bg-[#0a84ff] rounded-r-full shadow-[0_0_15px_#0a84ff]"
+                    className="absolute left-0 w-1 h-5 bg-gradient-to-b from-[#2563EB] to-[#06B6D4] rounded-r-full shadow-[0_0_12px_rgba(6,182,212,0.8)]"
                   />
                 )}
-                <item.icon size={22} className={`shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(10,132,255,0.6)]' : 'group-hover:scale-110'}`} />
+                <item.icon 
+                  size={18} 
+                  className={`shrink-0 transition-all duration-300 ${
+                    isActive 
+                      ? 'scale-110 text-white drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' 
+                      : 'group-hover:scale-110 group-hover:text-white'
+                  }`} 
+                />
                 <AnimatePresence>
                   {!collapsed && (
                     <motion.span 
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
-                      className="text-[15px] tracking-tight whitespace-nowrap"
-                      style={{ marginLeft: '16px' }}
+                      className="text-[14px] tracking-tight whitespace-nowrap"
+                      style={{ marginLeft: '12px' }}
                     >
                       {item.label}
                     </motion.span>
@@ -144,28 +167,35 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Sidebar Footer */}
+      {/* Sidebar Footer / Premium Account Card */}
       <div 
-        className="p-4 border-t border-white/5"
+        className="p-3 border-t border-white/5"
         style={{ 
           display: 'flex',
           flexDirection: 'column',
-          gap: '12px'
+          gap: '8px'
         }}
       >
         <div 
-          className="flex items-center rounded-2xl bg-white/5 border border-white/5 relative group overflow-hidden transition-all hover:bg-white/10 backdrop-blur-md"
-          style={{ padding: collapsed ? '8px' : '20px', justifyContent: collapsed ? 'center' : 'space-between' }}
+          className="flex items-center rounded-xl bg-white/[0.03] border border-white/[0.05] relative group overflow-hidden transition-all duration-300 hover:bg-white/[0.06] hover:border-white/[0.1] backdrop-blur-md"
+          style={{ 
+            padding: collapsed ? '6px' : '12px 14px', 
+            justifyContent: collapsed ? 'center' : 'space-between' 
+          }}
         >
-          <div 
-            className="rounded-xl bg-gradient-to-br from-[#1c1c1e] to-[#0d0d0f] border border-white/10 flex items-center justify-center text-white font-bold shrink-0 shadow-2xl overflow-hidden"
-            style={{ width: '40px', height: '40px', fontSize: '15px' }}
-          >
-            {user?.profile_image ? (
-              <img src={user.profile_image} alt="Avatar" className="w-full h-full object-cover" />
-            ) : (
-              user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'
-            )}
+          <div className="relative shrink-0">
+            <div 
+              className="rounded-lg bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-white/10 flex items-center justify-center text-white font-bold shadow-xl overflow-hidden"
+              style={{ width: '36px', height: '36px', fontSize: '13px' }}
+            >
+              {user?.profile_image ? (
+                <img src={user.profile_image} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'
+              )}
+            </div>
+            {/* Pulsing Active Indicator */}
+            <span className="absolute bottom-[-2px] right-[-2px] block h-2.5 w-2.5 rounded-full ring-2 ring-[#050914] bg-[#22c55e] animate-pulse" />
           </div>
           
           <AnimatePresence>
@@ -175,25 +205,27 @@ const Sidebar = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 className="flex-1 min-w-0"
-                style={{ marginLeft: '12px' }}
+                style={{ marginLeft: '10px' }}
               >
-                <div className="text-[14px] font-bold text-white truncate">
+                <div className="text-[13px] font-bold text-white truncate leading-tight">
                   {user?.username || user?.email?.split('@')[0]}
                 </div>
-                <div className="text-[11px] font-black text-[#0a84ff] uppercase tracking-widest mt-0.5 opacity-80">
-                   Premium
+                <div className="inline-flex items-center justify-center mt-1 px-1.5 py-0.5 rounded-md bg-gradient-to-r from-[#2563EB]/20 to-[#06B6D4]/20 border border-[#06B6D4]/30 text-[9px] font-black uppercase text-[#06B6D4] tracking-wider scale-95 origin-left">
+                   PRO MEMBER
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <button 
-            onClick={handleLogout}
-            className="p-2.5 rounded-xl text-[#86868b] hover:text-[#ff2d55] hover:bg-[#ff2d55]/10 transition-all shrink-0"
-            title="Sign Out"
-          >
-            <LogOut size={20} />
-          </button>
+          {!collapsed && (
+            <button 
+              onClick={handleLogout}
+              className="p-1.5 rounded-lg text-[#94a3b8] hover:text-[#ef4444] hover:bg-[#ef4444]/10 transition-all shrink-0 cursor-pointer"
+              title="Sign Out"
+            >
+              <LogOut size={16} />
+            </button>
+          )}
         </div>
       </div>
     </aside>

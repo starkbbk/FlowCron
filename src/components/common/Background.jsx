@@ -30,12 +30,27 @@ const Background = () => {
       
       {/* Cinematic Glowing Lights */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-3]">
-        {/* Cool Indigo/Violet Glow (Top-Right) */}
-        <div className="absolute top-[-10%] right-[-10%] w-[60vw] h-[60vh] rounded-full bg-gradient-to-br from-[#4f46e5]/10 to-[#818cf8]/2 blur-[120px] animate-pulse" style={{ animationDuration: '10s' }} />
-        {/* Futuristic Cyan/Blue Glow (Left-Middle) */}
-        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vh] rounded-full bg-gradient-to-tr from-[#06b6d4]/10 to-[#3b82f6]/2 blur-[120px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
-        {/* Soft Ambient Violet Glow (Bottom-Right) */}
-        <div className="absolute bottom-[-10%] right-[10%] w-[45vw] h-[45vh] rounded-full bg-gradient-to-t from-[#7c3aed]/8 to-transparent blur-[100px]" />
+        {/* Top-Right Blue Glow Orb */}
+        <div 
+          className="absolute top-[-20%] right-[-10%] w-[80vw] h-[80vh] rounded-full opacity-90 blur-[130px]" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 60%)' 
+          }} 
+        />
+        {/* Bottom-Left Cyan Glow Orb */}
+        <div 
+          className="absolute bottom-[-20%] left-[-10%] w-[80vw] h-[80vh] rounded-full opacity-90 blur-[130px]" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 60%)' 
+          }} 
+        />
+        {/* Center Blue Ambient Glow */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] rounded-full opacity-80 blur-[140px]" 
+          style={{ 
+            background: 'radial-gradient(circle, rgba(10, 132, 255, 0.06), transparent 70%)' 
+          }} 
+        />
       </div>
       
       {/* Motion Layer */}

@@ -14,46 +14,67 @@ async def get_dashboard_overview(
     db: AsyncSession = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user)
 ):
-    # 1. Total Workflows
-    wf_count_res = await db.execute(select(func.count(models.Workflow.id)).filter(models.Workflow.user_id == current_user.id))
-    total_workflows = wf_count_res.scalar() or 0
-
-    # 2. Active Workflows
-    active_wf_res = await db.execute(select(func.count(models.Workflow.id)).filter(models.Workflow.user_id == current_user.id, models.Workflow.status == "active"))
-    active_workflows = active_wf_res.scalar() or 0
-    
-    # 3. Executions today
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-    exec_today_res = await db.execute(select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id, models.Execution.created_at >= today))
-    total_executions_today = exec_today_res.scalar() or 0
     
-    # 4. Success rate
-    total_exec_res = await db.execute(select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id))
-    t_count = total_exec_res.scalar() or 0
-    success_exec_res = await db.execute(select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id, models.Execution.status == "completed"))
-    s_count = success_exec_res.scalar() or 0
+    # 1. Fetch counts (Total, Active, Executions Today, Total Executions, Success Executions) in one query using subqueries
+    sub_total_workflows = select(func.count(models.Workflow.id)).filter(models.Workflow.user_id == current_user.id).scalar_subquery()
+    sub_active_workflows = select(func.count(models.Workflow.id)).filter(models.Workflow.user_id == current_user.id, models.Workflow.status == "active").scalar_subquery()
+    sub_exec_today = select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id, models.Execution.created_at >= today).scalar_subquery()
+    sub_total_exec = select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id).scalar_subquery()
+    sub_success_exec = select(func.count(models.Execution.id)).filter(models.Execution.user_id == current_user.id, models.Execution.status == "completed").scalar_subquery()
+    
+    counts_query = select(
+        sub_total_workflows.label("total_workflows"),
+        sub_active_workflows.label("active_workflows"),
+        sub_exec_today.label("exec_today"),
+        sub_total_exec.label("total_exec"),
+        sub_success_exec.label("success_exec")
+    )
+    
+    counts_res = await db.execute(counts_query)
+    row = counts_res.first()
+    
+    total_workflows = row.total_workflows if row else 0
+    active_workflows = row.active_workflows if row else 0
+    total_executions_today = row.exec_today if row else 0
+    t_count = row.total_exec if row else 0
+    s_count = row.success_exec if row else 0
     success_rate = (s_count / t_count * 100) if t_count > 0 else 0
 
-    # 5. Recent Executions
-    recent_exec_res = await db.execute(select(models.Execution).filter(models.Execution.user_id == current_user.id).order_by(desc(models.Execution.created_at)).limit(5))
+    # 2. Recent Executions (1 query)
+    recent_exec_res = await db.execute(
+        select(models.Execution)
+        .filter(models.Execution.user_id == current_user.id)
+        .order_by(desc(models.Execution.created_at))
+        .limit(5)
+    )
     recent_executions = recent_exec_res.scalars().all()
 
-    # 6. Chart Data (Last 7 days) — real counts per day
-    chart_data = []
-    for i in range(6, -1, -1):
-        day_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=i)
-        day_end = day_start + timedelta(days=1)
-        day_count_res = await db.execute(
-            select(func.count(models.Execution.id)).filter(
-                models.Execution.user_id == current_user.id,
-                models.Execution.created_at >= day_start,
-                models.Execution.created_at < day_end
-            )
+    # 3. Chart Data (Last 7 days) — 1 query to get created_at timestamps, grouped in Python to avoid 7 roundtrips
+    seven_days_ago = today - timedelta(days=6)
+    chart_query = (
+        select(models.Execution.created_at)
+        .filter(
+            models.Execution.user_id == current_user.id,
+            models.Execution.created_at >= seven_days_ago
         )
-        chart_data.append({"name": day_start.strftime("%Y-%m-%d"), "executions": day_count_res.scalar() or 0})
+    )
+    chart_res = await db.execute(chart_query)
+    execution_dates = chart_res.scalars().all()
+    
+    date_counts = {}
+    for i in range(6, -1, -1):
+        day = (today - timedelta(days=i)).strftime("%Y-%m-%d")
+        date_counts[day] = 0
+        
+    for dt in execution_dates:
+        dt_str = dt.strftime("%Y-%m-%d")
+        if dt_str in date_counts:
+            date_counts[dt_str] += 1
+            
+    chart_data = [{"name": day, "executions": count} for day, count in date_counts.items()]
 
-    # 7. Node Reliability (Real data from node_executions)
-    # We'll calculate success rate per node type for the user
+    # 4. Node Reliability (1 query)
     reliability = {
         "manual_trigger": "100%",
         "http_request": "100%",
@@ -61,7 +82,6 @@ async def get_dashboard_overview(
         "storage": "100%"
     }
     
-    # Get last 100 node executions to calculate real rates
     node_stats_res = await db.execute(
         select(
             models.NodeExecution.node_type,

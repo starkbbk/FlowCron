@@ -6,7 +6,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import GlassCard from '../components/ui/GlassCard';
 import GlassButton from '../components/ui/GlassButton';
 import { TableSkeleton } from '../components/common/LoadingSkeleton';
 
@@ -49,39 +48,33 @@ const ActivityLogPage = () => {
         </GlassButton>
       </div>
       
-      {isLoading ? (
-        <TableSkeleton rows={10} />
-      ) : logs.length === 0 ? (
-        /* Empty states: Center content, padding 48px, gap 16px */
-        <GlassCard 
-          padding="none" 
-          className="flex flex-col items-center justify-center text-center border border-white/[0.08]" 
-          hover={false} 
-          style={{ 
-            padding: '48px', 
-            borderRadius: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px' 
-          }}
-        >
-            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '64px', height: '64px', borderRadius: '18px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
-               <Activity size={32} className="text-[#94a3b8]" />
-            </div>
-            <h3 className="font-bold text-white tracking-tight text-[20px] m-0">No activity recorded</h3>
-            <p className="text-[#94a3b8] font-medium text-[15px] m-0 max-w-sm leading-relaxed">Your automated activity will manifest here once workflows begin execution.</p>
-        </GlassCard>
-      ) : (
-        <div 
-          className="overflow-hidden border border-white/[0.08]"
-          style={{ 
-            backgroundColor: 'rgba(255, 255, 255, 0.035)', 
-            backdropFilter: 'blur(40px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-            borderRadius: '20px', 
-            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)' 
-          }}
-        >
+      <div 
+        className="overflow-hidden border border-white/[0.08]"
+        style={{ 
+          backgroundColor: 'rgba(255, 255, 255, 0.035)', 
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+          borderRadius: '20px', 
+          boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)' 
+        }}
+      >
+        {isLoading ? (
+          <div style={{ padding: '24px' }}>
+            <TableSkeleton rows={10} />
+          </div>
+        ) : logs.length === 0 ? (
+          /* Empty states: Center content, padding 48px, gap 16px */
+          <div 
+            className="flex flex-col items-center justify-center text-center"
+            style={{ padding: '48px', gap: '16px', display: 'flex', flexDirection: 'column' }}
+          >
+              <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '64px', height: '64px', borderRadius: '18px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+                 <Activity size={32} className="text-[#94a3b8]" />
+              </div>
+              <h3 className="font-bold text-white tracking-tight text-[20px] m-0">No activity recorded</h3>
+              <p className="text-[#94a3b8] font-medium text-[15px] m-0 max-w-sm leading-relaxed">Your automated activity will manifest here once workflows begin execution.</p>
+          </div>
+        ) : (
           <div className="divide-y divide-white/[0.04]">
             <AnimatePresence initial={false}>
               {logs.map((log) => (
@@ -144,8 +137,8 @@ const ActivityLogPage = () => {
               ))}
             </AnimatePresence>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

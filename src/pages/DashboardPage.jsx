@@ -135,8 +135,8 @@ export default function DashboardPage() {
         </div>
       </GlassCard>
 
-      {/* Stats Grid: padding 24px */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats Grid: grid-cols-12, gap-6 (24px) */}
+      <div className="grid grid-cols-12 gap-6">
         {stats.map((stat, idx) => (
           <motion.div 
             key={idx} 
@@ -145,7 +145,7 @@ export default function DashboardPage() {
             transition={{ delay: idx * 0.05 }}
             whileHover={{ y: -6, scale: 1.015 }}
             onClick={() => stat.path && navigate(stat.path)}
-            className="flex flex-col justify-between h-[180px] cursor-pointer rounded-[20px] border border-white/[0.08] transition-all duration-300 relative group overflow-hidden"
+            className="col-span-12 sm:col-span-6 lg:col-span-3 flex flex-col justify-between h-[180px] cursor-pointer rounded-[20px] border border-white/[0.08] transition-all duration-300 relative group overflow-hidden"
             style={{
               padding: '24px', // Enforce top/side/bottom padding: 24px
               background: 'rgba(255, 255, 255, 0.06)',
@@ -192,10 +192,10 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Main Grid */}
-      <div className="flex flex-col xl:grid xl:grid-cols-3 gap-8">
-        {/* Chart Card */}
-        <div className="xl:col-span-2 flex flex-col gap-8">
+      {/* Main Grid: grid-cols-12, gap-6 (24px) */}
+      <div className="grid grid-cols-12 gap-6">
+        {/* Chart Card & Node Reliability */}
+        <div className="col-span-12 xl:col-span-8 flex flex-col gap-6">
           <GlassCard 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -269,7 +269,7 @@ export default function DashboardPage() {
             </div>
           </GlassCard>
 
-          {/* Node Performance: Widget padding 28px */}
+          {/* Node Performance: Widget padding 24px */}
           <GlassCard 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -278,7 +278,7 @@ export default function DashboardPage() {
             padding="none"
             className="overflow-hidden relative border border-white/[0.08]"
             style={{
-              padding: '28px',
+              padding: '24px',
               borderRadius: '24px',
               background: 'rgba(255, 255, 255, 0.035)'
             }}
@@ -321,8 +321,8 @@ export default function DashboardPage() {
           </GlassCard>
         </div>
 
-        {/* Recent Activity / Live Monitor: Widget padding 28px */}
-        <div className="flex flex-col gap-8">
+        {/* Recent Activity / Live Monitor: col-span-12 xl:col-span-4 */}
+        <div className="col-span-12 xl:col-span-4 flex flex-col gap-6">
            <GlassCard 
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
@@ -331,7 +331,7 @@ export default function DashboardPage() {
              padding="none"
              className="min-h-[550px] flex flex-col relative overflow-hidden border border-white/[0.08]"
              style={{
-               padding: '28px',
+               padding: '24px',
                borderRadius: '24px',
                background: 'rgba(255, 255, 255, 0.035)'
              }}

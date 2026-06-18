@@ -22,56 +22,55 @@ export default function GlowEdge({
     targetPosition,
   });
 
+  // Default to blue accent — matches dashboard primary color
   const categoryColor = data?.color || '#007aff';
 
   return (
     <>
+      {/* Outer glow halo */}
       <path
-        id={id}
         style={{
           ...style,
           stroke: categoryColor,
-          strokeWidth: 4,
-          filter: `drop-shadow(0 0 8px ${categoryColor})`,
-          opacity: 0.3,
+          strokeWidth: 6,
+          filter: `drop-shadow(0 0 10px ${categoryColor}) drop-shadow(0 0 4px ${categoryColor})`,
+          opacity: 0.18,
+          fill: 'none',
         }}
         className="react-flow__edge-path"
         d={edgePath}
-        markerEnd={markerEnd}
       />
+
+      {/* Primary path — crisp and vivid */}
       <path
         style={{
           ...style,
           stroke: categoryColor,
           strokeWidth: 2,
-          opacity: 0.8,
+          opacity: 0.85,
+          fill: 'none',
         }}
         className="react-flow__edge-path"
         d={edgePath}
+        markerEnd={markerEnd}
       />
-      
-      {/* Animated Glowing Dot Path */}
-      <circle r="3" fill={categoryColor} className="edge-pulse-dot">
+
+      {/* Animated glowing traveler dot */}
+      <circle r="4" fill={categoryColor}>
         <animateMotion
-          dur="3s"
+          dur="2.5s"
           repeatCount="indefinite"
           path={edgePath}
+          calcMode="spline"
+          keySplines="0.4 0 0.2 1"
         />
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-          <feMerge>
-            <feMergeNode in="coloredBlur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        <style>{`
+          circle {
+            filter: drop-shadow(0 0 6px ${categoryColor}) drop-shadow(0 0 2px ${categoryColor});
+            opacity: 0.9;
+          }
+        `}</style>
       </circle>
-
-      <style jsx>{`
-        .edge-pulse-dot {
-          filter: drop-shadow(0 0 5px ${categoryColor});
-          opacity: 0.8;
-        }
-      `}</style>
     </>
   );
 }

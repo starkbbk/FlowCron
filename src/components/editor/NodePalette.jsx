@@ -21,35 +21,88 @@ export default function NodePalette({ isOpen, setIsOpen }) {
     <motion.div 
       initial={false}
       animate={{ 
-        width: isOpen ? (window.innerWidth < 1024 ? '100%' : '320px') : '0px',
+        width: isOpen ? (window.innerWidth < 1024 ? '100%' : '300px') : '0px',
         opacity: isOpen ? 1 : 0
       }}
-      className="h-full flex flex-col bg-[#1e1e1e]/80 backdrop-blur-3xl border-r border-white/10 z-30 shadow-2xl font-['Inter'] relative overflow-hidden"
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className="h-full flex flex-col z-30 relative overflow-hidden"
+      style={{
+        background: 'rgba(5,9,20,0.88)',
+        backdropFilter: 'blur(50px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(50px) saturate(180%)',
+        borderRight: '1px solid rgba(255,255,255,0.07)',
+        boxShadow: '4px 0 32px rgba(0,0,0,0.3), inset -1px 0 0 rgba(255,255,255,0.04)',
+      }}
     >
+      {/* Mobile close */}
       <button 
         onClick={() => setIsOpen(false)}
-        className="absolute right-4 top-4 p-2 hover:bg-white/10 rounded-xl text-[#86868b] lg:hidden z-50"
+        className="absolute right-4 top-4 lg:hidden z-50 flex items-center justify-center transition-all text-[#86868b] hover:text-white"
+        style={{
+          width: '32px', height: '32px', borderRadius: '8px',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.08)',
+        }}
       >
-        <Icons.X size={20} />
+        <Icons.X size={16} />
       </button>
 
-      {/* Search Header Area */}
-      <div style={{ padding: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      {/* ── PANEL HEADER ────────────────────────── */}
+      <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        {/* Title */}
+        <div className="flex items-center" style={{ gap: '10px', marginBottom: '14px' }}>
+          <div
+            className="flex items-center justify-center"
+            style={{
+              width: '28px', height: '28px', borderRadius: '8px',
+              background: 'linear-gradient(135deg, rgba(0,122,255,0.25), rgba(6,182,212,0.1))',
+              border: '1px solid rgba(0,122,255,0.2)',
+            }}
+          >
+            <Zap size={14} style={{ color: '#007aff' }} />
+          </div>
+          <span className="font-extrabold tracking-tight text-white" style={{ fontSize: '14px' }}>
+            Steps
+          </span>
+        </div>
+
+        {/* Search Input */}
         <div className="relative group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#86868b] group-focus-within:text-[#007aff] transition-colors" size={18} />
+          <Search
+            className="absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-[#007aff]"
+            size={15}
+            style={{ color: '#52525b' }}
+          />
           <input 
             type="text"
             placeholder="Search steps..."
-            className="w-full bg-white/5 border border-white/10 rounded-2xl focus:border-[#007aff]/50 focus:bg-white/10 outline-none transition-all placeholder:text-[#86868b] font-medium text-white shadow-inner"
-            style={{ paddingLeft: '52px', paddingRight: '16px', height: '48px', fontSize: '15px' }}
+            className="w-full outline-none transition-all font-medium text-white placeholder:font-medium"
+            style={{
+              paddingLeft: '42px', paddingRight: '14px', height: '40px', fontSize: '13px',
+              borderRadius: '10px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: '#f8fafc',
+            }}
+            onFocus={e => {
+              e.target.style.borderColor = 'rgba(0,122,255,0.4)';
+              e.target.style.background = 'rgba(0,122,255,0.05)';
+            }}
+            onBlur={e => {
+              e.target.style.borderColor = 'rgba(255,255,255,0.08)';
+              e.target.style.background = 'rgba(255,255,255,0.05)';
+            }}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
 
-      {/* Categories Scroller */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+      {/* ── CATEGORIES SCROLLER ─────────────────── */}
+      <div
+        className="flex-1 overflow-y-auto custom-scrollbar"
+        style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}
+      >
         {Object.entries(NODE_CATEGORIES).map(([key, cat]) => {
           const nodes = getNodesByCategory(key).filter(n => 
             n.name.toLowerCase().includes(search.toLowerCase())
@@ -59,21 +112,38 @@ export default function NodePalette({ isOpen, setIsOpen }) {
           const isCollapsed = collapsed[key];
 
           return (
-            <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              {/* Category Header */}
               <button 
                 onClick={() => toggleCategory(key)}
-                className="w-full flex items-center justify-between rounded-2xl hover:bg-white/5 transition-all text-left group"
-                style={{ padding: '14px 20px' }}
+                className="w-full flex items-center justify-between transition-all text-left group rounded-xl"
+                style={{ padding: '9px 10px' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
-                <div className="flex items-center" style={{ gap: '12px' }}>
-                   <div className="rounded-full" style={{ width: '6px', height: '20px', backgroundColor: cat.color }} />
-                   <span className="font-extrabold uppercase tracking-widest text-[#86868b] group-hover:text-white transition-colors" style={{ fontSize: '13px' }}>
+                <div className="flex items-center" style={{ gap: '10px' }}>
+                   {/* Category accent bar */}
+                   <div
+                     style={{
+                       width: '3px', height: '16px', borderRadius: '2px',
+                       background: cat.color,
+                       boxShadow: `0 0 8px ${cat.color}60`,
+                     }}
+                   />
+                   <span
+                     className="font-extrabold uppercase tracking-widest transition-colors"
+                     style={{ fontSize: '11px', color: '#52525b' }}
+                   >
                      {cat.label}
                    </span>
                 </div>
-                {isCollapsed ? <ChevronRight size={16} className="text-[#86868b]" /> : <ChevronDown size={16} className="text-[#86868b]" />}
+                {isCollapsed
+                  ? <ChevronRight size={13} style={{ color: '#52525b', flexShrink: 0 }} />
+                  : <ChevronDown size={13} style={{ color: '#52525b', flexShrink: 0 }} />
+                }
               </button>
 
+              {/* Node cards */}
               <AnimatePresence initial={false}>
                 {!isCollapsed && (
                   <motion.div 
@@ -82,7 +152,7 @@ export default function NodePalette({ isOpen, setIsOpen }) {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
                     className="overflow-hidden"
-                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '4px', paddingRight: '4px' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '3px', paddingLeft: '2px', paddingRight: '2px' }}
                   >
                     {nodes.map(node => {
                       const Icon = Icons[node.icon] || Zap;
@@ -91,16 +161,38 @@ export default function NodePalette({ isOpen, setIsOpen }) {
                           key={node.type}
                           draggable
                           onDragStart={(e) => onDragStart(e, node.type)}
-                          className="flex items-center rounded-2xl bg-white/5 border border-transparent hover:border-white/10 hover:bg-white/10 cursor-grab active:cursor-grabbing transition-all group shadow-sm"
-                          style={{ gap: '16px', padding: '16px 20px' }}
+                          className="flex items-center rounded-xl cursor-grab active:cursor-grabbing transition-all group"
+                          style={{ gap: '12px', padding: '10px 12px' }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.background = `rgba(255,255,255,0.05)`;
+                            e.currentTarget.style.border = `1px solid rgba(255,255,255,0.1)`;
+                            e.currentTarget.style.boxShadow = `0 4px 16px rgba(0,0,0,0.2)`;
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.background = 'transparent';
+                            e.currentTarget.style.border = '1px solid transparent';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
+                          style={{ border: '1px solid transparent' }}
                         >
+                          {/* Icon container */}
                           <div 
-                            className="rounded-xl bg-[#1a1a1c] border border-white/5 group-hover:border-white/20 transition-colors shadow-inner flex items-center justify-center" 
-                            style={{ color: cat.color, width: '44px', height: '44px' }}
+                            className="flex items-center justify-center flex-shrink-0 transition-all group-hover:scale-105 duration-200"
+                            style={{
+                              width: '36px', height: '36px', borderRadius: '9px',
+                              color: cat.color,
+                              background: `${cat.color}18`,
+                              border: `1px solid ${cat.color}30`,
+                              boxShadow: `inset 0 0 10px ${cat.color}10`,
+                            }}
                           >
-                            <Icon size={22} strokeWidth={2.5} />
+                            <Icon size={17} strokeWidth={2.2} />
                           </div>
-                          <span className="font-bold text-[#86868b] group-hover:text-white transition-colors truncate" style={{ fontSize: '15px' }}>
+                          {/* Label */}
+                          <span
+                            className="font-semibold transition-colors truncate"
+                            style={{ fontSize: '13px', color: '#94a3b8' }}
+                          >
                             {node.name}
                           </span>
                         </div>
@@ -114,10 +206,21 @@ export default function NodePalette({ isOpen, setIsOpen }) {
         })}
       </div>
 
-      <div className="p-6 border-t border-white/10">
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-[13px] text-[#86868b] text-center font-bold tracking-wide shadow-inner">
-            Drag items to canvas
-          </div>
+      {/* ── FOOTER DRAG HINT ─────────────────────── */}
+      <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div
+          className="flex items-center justify-center font-bold"
+          style={{
+            padding: '10px 16px', borderRadius: '10px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px dashed rgba(255,255,255,0.08)',
+            gap: '8px', fontSize: '11px', color: '#52525b',
+            letterSpacing: '0.05em',
+          }}
+        >
+          <Icons.GripVertical size={13} style={{ opacity: 0.5 }} />
+          Drag steps onto the canvas
+        </div>
       </div>
     </motion.div>
   );

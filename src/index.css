@@ -364,15 +364,16 @@ input:focus-visible {
 }
 
 /* ─────────────────────────────────────────────────
-   ReactFlow Controls – Dark Theme Override
+   ReactFlow Controls – Premium Glass Override
    ───────────────────────────────────────────────── */
 .react-flow__controls {
-  background: rgba(30, 30, 32, 0.85) !important;
-  backdrop-filter: blur(40px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 20px !important;
+  background: rgba(5, 9, 20, 0.85) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
-  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px -10px rgba(0, 122, 255, 0.1) !important;
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6), 0 0 30px -10px rgba(0, 122, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
   padding: 6px !important;
   gap: 4px !important;
   display: flex !important;
@@ -380,11 +381,11 @@ input:focus-visible {
 }
 
 .react-flow__controls button {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 14px !important;
-  width: 44px !important;
-  height: 44px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 10px !important;
+  width: 40px !important;
+  height: 40px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -393,9 +394,10 @@ input:focus-visible {
 }
 
 .react-flow__controls button:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(0, 122, 255, 0.12) !important;
+  border-color: rgba(0, 122, 255, 0.3) !important;
   transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 122, 255, 0.15) !important;
 }
 
 .react-flow__controls button:active {
@@ -403,7 +405,7 @@ input:focus-visible {
 }
 
 .react-flow__controls button svg {
-  fill: rgba(255, 255, 255, 0.7) !important;
+  fill: rgba(255, 255, 255, 0.6) !important;
 }
 
 .react-flow__controls button:hover svg {
@@ -411,10 +413,10 @@ input:focus-visible {
 }
 
 .react-flow__minimap {
-  background: rgba(30, 30, 32, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5) !important;
+  background: rgba(5, 9, 20, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 /* Custom Scrollbar for Bento Cards */
@@ -437,22 +439,26 @@ input:focus-visible {
 
 /* Utility for responsive padding */
 .responsive-container {
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
+  max-width: 1600px;
   width: 100%;
-  padding: 32px; /* desktop: 32px */
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    padding: 32px; /* desktop: 32px */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-container {
+    padding: 24px; /* tablet: 24px */
+  }
 }
 
 @media (max-width: 767px) {
   .responsive-container {
-    padding: 20px; /* smaller screens: 20px */
-  }
-}
-
-@media (min-width: 1440px) {
-  .responsive-container {
-    padding: 40px; /* large screens: 40px */
+    padding: 20px; /* mobile: 20px */
   }
 }

@@ -13,7 +13,7 @@ import '@xyflow/react/dist/style.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Save, Play, Settings, 
-  Zap, Check, X, Terminal, Plus
+  Zap, Check, X, Terminal, Plus, Workflow, MousePointer2
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -55,8 +55,6 @@ const edgeTypes = {
 
 const getWsUrl = (path) => {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  // In dev: proxy from vite to backend. WS goes through vite's proxy too.
-  // So we just use the current host (vite dev server) which proxies /ws to :8000
   return `${protocol}//${window.location.host}/${path}`;
 };
 
@@ -223,75 +221,156 @@ function FlowEditor() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col bg-[#161618] overflow-hidden select-none relative font-['Inter']">
+    <div className="h-screen w-full flex flex-col overflow-hidden select-none relative font-['Inter']" style={{ backgroundColor: '#050914' }}>
+      {/* Premium ambient background — same as dashboard */}
       <div className="mac-os-wallpaper opacity-60 pointer-events-none" />
+      <div className="floating-orb orb-1 pointer-events-none" style={{ opacity: 0.08 }} />
+      <div className="floating-orb orb-4 pointer-events-none" style={{ opacity: 0.06 }} />
       
-      {/* Top Toolbar */}
-      <header className="h-14 lg:h-16 flex items-center justify-between px-4 lg:px-6 shrink-0 z-50 bg-[#1e1e1e]/80 backdrop-blur-3xl border-b border-white/10 shadow-lg">
-        <div className="flex items-center gap-2 lg:gap-6">
+      {/* ── TOP TOOLBAR ─────────────────────────────── */}
+      <header
+        className="shrink-0 z-50 flex items-center justify-between border-b"
+        style={{
+          height: '64px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          background: 'rgba(5, 9, 20, 0.85)',
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+          borderBottomColor: 'rgba(255,255,255,0.07)',
+          boxShadow: '0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4)',
+        }}
+      >
+        {/* Left: back + workflow info */}
+        <div className="flex items-center" style={{ gap: '16px' }}>
           <Link 
             to="/workflows" 
-            className="p-2 hover:bg-white/10 rounded-xl transition-all text-[#86868b] hover:text-white border border-transparent hover:border-white/10 shadow-sm"
+            className="flex items-center justify-center transition-all text-[#86868b] hover:text-white"
+            style={{
+              width: '36px', height: '36px', borderRadius: '10px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
           >
-            <ArrowLeft size={16} className="lg:hidden" />
-            <ArrowLeft size={18} className="hidden lg:block" />
+            <ArrowLeft size={16} />
           </Link>
-          <div className="h-6 w-px bg-white/10 hidden lg:block" />
-          <div className="flex flex-col">
-             <div className="flex items-center gap-2 lg:gap-3">
-                <h1 className="text-[13px] lg:text-[15px] font-bold tracking-tight text-white truncate max-w-[100px] lg:max-w-none">{currentWorkflow?.name || 'Loading...'}</h1>
-                <StatusBadge status={currentWorkflow?.status || 'draft'} size="small" className="scale-75 lg:scale-100 origin-left" />
-             </div>
-             <div className="text-[10px] lg:text-[12px] text-[#86868b] flex items-center gap-1.5 mt-0.5 font-medium">
-                {isSaving ? <div className="w-1.5 h-1.5 lg:w-1.5 lg:h-1.5 rounded-full bg-[#007aff] animate-pulse" /> : <Check size={10} className="text-[#34c759] lg:hidden" />}
-                {isSaving ? null : <Check size={12} className="text-[#34c759] hidden lg:block" />}
-                <span className="truncate">{isSaving ? 'Saving...' : 'All changes saved'}</span>
-             </div>
+
+          <div
+            className="hidden lg:block"
+            style={{ width: '1px', height: '24px', backgroundColor: 'rgba(255,255,255,0.08)' }}
+          />
+
+          {/* Workflow icon + name */}
+          <div className="flex items-center" style={{ gap: '12px' }}>
+            <div
+              className="hidden lg:flex items-center justify-center"
+              style={{
+                width: '36px', height: '36px', borderRadius: '10px',
+                background: 'linear-gradient(135deg, rgba(0,122,255,0.3), rgba(6,182,212,0.15))',
+                border: '1px solid rgba(0,122,255,0.25)',
+              }}
+            >
+              <Workflow size={16} style={{ color: '#007aff' }} />
+            </div>
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center" style={{ gap: '8px' }}>
+                <h1
+                  className="font-extrabold tracking-tight text-white truncate"
+                  style={{ fontSize: '15px', maxWidth: '180px' }}
+                >
+                  {currentWorkflow?.name || 'Loading...'}
+                </h1>
+                <StatusBadge status={currentWorkflow?.status || 'draft'} size="small" />
+              </div>
+              <div
+                className="flex items-center font-semibold"
+                style={{ fontSize: '11px', color: '#64748b', gap: '5px', marginTop: '1px' }}
+              >
+                {isSaving
+                  ? <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#007aff' }} className="animate-pulse" />
+                  : <Check size={10} style={{ color: '#34c759' }} />
+                }
+                <span>{isSaving ? 'Saving...' : 'All changes saved'}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 lg:gap-4">
-           <GlassButton 
-             variant="secondary" 
-             icon={Save} 
-             loading={isSaving} 
-             onClick={onSave} 
-             className="!py-1.5 !px-3 !text-[12px] lg:!py-2 lg:!px-4 lg:!text-[13px] bg-white/5 hover:bg-white/10 border-white/10 hidden sm:flex"
-           >
-             Save
-           </GlassButton>
-           <button 
-             onClick={onExecute} 
-             disabled={isExecuting}
-             className="flex items-center gap-1.5 lg:gap-2 px-3 py-1.5 lg:px-5 lg:py-2 bg-[#34c759] text-white text-[12px] lg:text-[13px] font-bold rounded-xl shadow-lg hover:bg-[#2eb350] active:scale-95 transition-all disabled:opacity-50"
-            >
-             <Play size={14} className="fill-current lg:hidden" />
-             <Play size={16} className="fill-current hidden lg:block" />
-             <span className="hidden xs:inline">{isExecuting ? 'Running...' : 'Run'}</span>
-             <span className="hidden lg:inline"> Workflow</span>
-           </button>
-           <div className="h-5 w-px bg-white/10 mx-1 lg:mx-2" />
-           <button className="p-2 lg:p-2.5 hover:bg-white/10 rounded-xl transition-all text-[#86868b] hover:text-white border border-transparent hover:border-white/10">
-              <Settings size={16} className="lg:hidden" />
-              <Settings size={18} className="hidden lg:block" />
-           </button>
+        {/* Right: action buttons */}
+        <div className="flex items-center" style={{ gap: '10px' }}>
+          {/* Save */}
+          <button
+            onClick={onSave}
+            disabled={isSaving}
+            className="hidden sm:flex items-center font-bold transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
+            style={{
+              gap: '7px', padding: '8px 16px', fontSize: '13px', borderRadius: '10px',
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: '#f8fafc',
+            }}
+          >
+            <Save size={14} />
+            Save
+          </button>
+
+          {/* Run Workflow */}
+          <button
+            onClick={onExecute}
+            disabled={isExecuting}
+            className="flex items-center font-bold text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
+            style={{
+              gap: '7px', padding: '8px 18px', fontSize: '13px', borderRadius: '10px',
+              background: isExecuting
+                ? 'rgba(52,199,89,0.5)'
+                : 'linear-gradient(135deg, #34c759, #2eb350)',
+              boxShadow: '0 4px 16px rgba(52,199,89,0.3)',
+              border: '1px solid rgba(255,255,255,0.1)',
+            }}
+          >
+            <Play size={14} className="fill-current" />
+            <span className="hidden xs:inline">{isExecuting ? 'Running...' : 'Run'}</span>
+            <span className="hidden lg:inline"> Workflow</span>
+          </button>
+
+          <div style={{ width: '1px', height: '20px', backgroundColor: 'rgba(255,255,255,0.08)', margin: '0 4px' }} />
+
+          <button
+            className="flex items-center justify-center transition-all text-[#86868b] hover:text-white"
+            style={{
+              width: '36px', height: '36px', borderRadius: '10px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.07)',
+            }}
+          >
+            <Settings size={16} />
+          </button>
         </div>
       </header>
 
-      {/* Main Canvas Area */}
+      {/* ── MAIN CANVAS AREA ────────────────────────── */}
       <div className="flex-1 flex overflow-hidden relative">
         <NodePalette isOpen={isPaletteOpen} setIsOpen={setIsPaletteOpen} />
         
+        {/* Collapsed palette — "Add Step" floating button */}
         {!isPaletteOpen && (
            <button 
              onClick={() => setIsPaletteOpen(true)}
-             className="absolute left-6 top-6 p-3 bg-[#007aff] text-white rounded-2xl shadow-2xl z-40 lg:flex items-center gap-2 hover:bg-[#006ce6] transition-all animate-in fade-in slide-in-from-left-4"
+             className="absolute z-40 flex items-center font-bold text-white transition-all hover:opacity-90 active:scale-95 animate-in fade-in slide-in-from-left-4"
+             style={{
+               top: '24px', left: '24px',
+               gap: '8px', padding: '10px 18px', fontSize: '13px', borderRadius: '12px',
+               background: 'linear-gradient(135deg, #007aff, #06b6d4)',
+               boxShadow: '0 4px 20px rgba(0,122,255,0.4)',
+               border: '1px solid rgba(255,255,255,0.15)',
+             }}
            >
-             <Plus size={20} strokeWidth={3} />
-             <span className="text-[13px] font-bold pr-1 hidden lg:inline">Add Step</span>
+             <Plus size={16} strokeWidth={2.5} />
+             <span className="hidden lg:inline">Add Step</span>
            </button>
         )}
 
+        {/* Canvas */}
         <div className="flex-1 relative" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -314,30 +393,144 @@ function FlowEditor() {
               style: { strokeWidth: 2 }
             }}
           >
-            <Background color="rgba(255,255,255,0.1)" variant="dots" gap={24} size={1.5} />
-            <Controls className="!bg-[#1e1e1e]/80 !backdrop-blur-xl !border-white/10 !rounded-xl !overflow-hidden !shadow-2xl !m-6" />
+            {/* Subtle dot grid matching dashboard background */}
+            <Background color="rgba(255,255,255,0.07)" variant="dots" gap={28} size={1.5} />
+
+            {/* Zoom Controls */}
+            <Controls className="!bg-transparent !border-0 !shadow-none !m-6" />
+
+            {/* Minimap as glass card */}
             <MiniMap 
-               className="!bg-[#1e1e1e]/80 !backdrop-blur-xl !border-white/10 !rounded-xl !shadow-2xl !m-6 !p-2" 
-               maskColor="rgba(22, 22, 24, 0.7)"
+               className="!border !rounded-2xl !shadow-2xl !m-6 !p-2" 
+               style={{
+                 background: 'rgba(5,9,20,0.85)',
+                 backdropFilter: 'blur(40px)',
+                 WebkitBackdropFilter: 'blur(40px)',
+                 borderColor: 'rgba(255,255,255,0.08)',
+                 borderRadius: '16px',
+                 boxShadow: '0 20px 60px -15px rgba(0,0,0,0.6), 0 0 40px -10px rgba(0,122,255,0.08)',
+               }}
+               maskColor="rgba(5,9,20,0.7)"
                nodeColor={(n) => {
                  const type = getNodeType(n.data?.type);
                  return type?.category === 'trigger' ? '#007aff' : '#34c759';
                }}
             />
             
+            {/* Stats pill — top right */}
             <Panel position="top-right">
-               <div className="bg-[#1e1e1e]/80 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-white/10 flex items-center gap-5 m-6 shadow-2xl">
-                  <div className="flex items-center gap-2.5">
-                     <span className="text-[13px] font-bold text-white">{nodes.length}</span>
-                     <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider">Steps</span>
+               <div
+                 className="flex items-center m-6"
+                 style={{
+                   padding: '10px 18px',
+                   borderRadius: '14px',
+                   background: 'rgba(255,255,255,0.04)',
+                   backdropFilter: 'blur(40px)',
+                   WebkitBackdropFilter: 'blur(40px)',
+                   border: '1px solid rgba(255,255,255,0.08)',
+                   boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
+                   gap: '16px',
+                 }}
+               >
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                     <span className="font-extrabold text-white" style={{ fontSize: '15px' }}>{nodes.length}</span>
+                     <span className="font-bold uppercase tracking-widest" style={{ fontSize: '10px', color: '#64748b' }}>Steps</span>
                   </div>
-                  <div className="w-px h-4 bg-white/10" />
-                  <div className="flex items-center gap-2.5">
-                     <span className="text-[13px] font-bold text-white">{edges.length}</span>
-                     <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider">Edges</span>
+                  <div style={{ width: '1px', height: '16px', backgroundColor: 'rgba(255,255,255,0.08)' }} />
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                     <span className="font-extrabold text-white" style={{ fontSize: '15px' }}>{edges.length}</span>
+                     <span className="font-bold uppercase tracking-widest" style={{ fontSize: '10px', color: '#64748b' }}>Edges</span>
                   </div>
                </div>
             </Panel>
+
+            {/* ── EMPTY CANVAS STATE ─── */}
+            {nodes.length === 0 && (
+              <Panel position="center">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center text-center pointer-events-none"
+                  style={{
+                    padding: '40px 48px',
+                    borderRadius: '28px',
+                    background: 'rgba(255,255,255,0.03)',
+                    backdropFilter: 'blur(40px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: '0 30px 60px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+                    gap: '20px',
+                    maxWidth: '380px',
+                  }}
+                >
+                  {/* Icon */}
+                  <div
+                    className="flex items-center justify-center"
+                    style={{
+                      width: '64px', height: '64px', borderRadius: '18px',
+                      background: 'linear-gradient(135deg, rgba(0,122,255,0.2), rgba(6,182,212,0.1))',
+                      border: '1px solid rgba(0,122,255,0.2)',
+                      boxShadow: '0 0 30px rgba(0,122,255,0.15)',
+                    }}
+                  >
+                    <MousePointer2 size={28} style={{ color: '#007aff' }} />
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <h3
+                      className="font-extrabold text-white tracking-tight"
+                      style={{ fontSize: '20px', margin: 0 }}
+                    >
+                      Build your first workflow
+                    </h3>
+                    <p
+                      className="font-medium leading-relaxed"
+                      style={{ fontSize: '14px', color: '#64748b', margin: 0, maxWidth: '260px' }}
+                    >
+                      Drag a trigger from the left panel to begin building your automation.
+                    </p>
+                  </div>
+
+                  {/* Step guide pills */}
+                  <div className="flex flex-col w-full" style={{ gap: '8px' }}>
+                    {[
+                      { num: '1', text: 'Add a Trigger' },
+                      { num: '2', text: 'Connect Actions' },
+                      { num: '3', text: 'Run & Monitor' },
+                    ].map(step => (
+                      <div
+                        key={step.num}
+                        className="flex items-center"
+                        style={{
+                          gap: '12px', padding: '10px 14px', borderRadius: '10px',
+                          background: 'rgba(255,255,255,0.03)',
+                          border: '1px solid rgba(255,255,255,0.06)',
+                        }}
+                      >
+                        <div
+                          className="flex items-center justify-center font-extrabold flex-shrink-0"
+                          style={{
+                            width: '24px', height: '24px', borderRadius: '8px',
+                            background: 'rgba(0,122,255,0.15)',
+                            border: '1px solid rgba(0,122,255,0.25)',
+                            fontSize: '11px', color: '#007aff',
+                          }}
+                        >
+                          {step.num}
+                        </div>
+                        <span
+                          className="font-bold"
+                          style={{ fontSize: '13px', color: '#94a3b8' }}
+                        >
+                          {step.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </Panel>
+            )}
           </ReactFlow>
         </div>
 
@@ -346,38 +539,107 @@ function FlowEditor() {
         </AnimatePresence>
       </div>
 
-      {/* Execution HUD */}
+      {/* ── EXECUTION HUD ───────────────────────────── */}
       <AnimatePresence>
         {showExecutionPanel && (
           <motion.div
             initial={{ y: 300, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 300, opacity: 0 }}
-            className="fixed bottom-0 lg:bottom-8 left-0 lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-[800px] h-[350px] lg:h-[320px] mac-bento-card !rounded-t-3xl lg:!rounded-[32px] p-6 flex flex-col shadow-2xl z-[100]"
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-0 lg:bottom-8 left-0 lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-[820px] h-[340px] lg:h-[300px] flex flex-col z-[100]"
+            style={{
+              borderRadius: '28px 28px 0 0',
+              padding: '24px',
+              background: 'rgba(5,9,20,0.92)',
+              backdropFilter: 'blur(60px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(60px) saturate(180%)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderBottom: 'none',
+              boxShadow: '0 -20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+            }}
+            // On large screens: fully rounded
+            {...(window.innerWidth >= 1024
+              ? { style: {
+                  borderRadius: '28px',
+                  padding: '24px',
+                  background: 'rgba(5,9,20,0.92)',
+                  backdropFilter: 'blur(60px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(60px) saturate(180%)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 -20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+                }}
+              : {}
+            )}
           >
-            <div className="flex justify-between items-center mb-6">
-               <div className="flex items-center gap-4">
-                  <div className="p-2 rounded-xl bg-gradient-to-br from-[#007aff] to-[#34c759] shadow-lg">
-                     <Terminal size={18} className="text-white" />
+            {/* HUD Header */}
+            <div className="flex justify-between items-center" style={{ marginBottom: '16px' }}>
+               <div className="flex items-center" style={{ gap: '12px' }}>
+                  <div
+                    className="flex items-center justify-center"
+                    style={{
+                      width: '36px', height: '36px', borderRadius: '10px',
+                      background: 'linear-gradient(135deg, #007aff, #34c759)',
+                      boxShadow: '0 4px 12px rgba(0,122,255,0.3)',
+                    }}
+                  >
+                     <Terminal size={16} className="text-white" />
                   </div>
-                  <h3 className="font-bold text-[15px] lg:text-[16px] tracking-tight text-white">Debug Console</h3>
+                  <div>
+                    <h3 className="font-extrabold text-white" style={{ fontSize: '15px', margin: 0 }}>Debug Console</h3>
+                    {isExecuting && (
+                      <div className="flex items-center" style={{ gap: '6px', marginTop: '2px' }}>
+                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#007aff' }} className="animate-pulse" />
+                        <span className="font-bold uppercase tracking-widest" style={{ fontSize: '10px', color: '#007aff' }}>Live</span>
+                      </div>
+                    )}
+                  </div>
                </div>
-               <button onClick={() => setShowExecutionPanel(false)} className="p-2 hover:bg-white/10 rounded-xl text-[#86868b] hover:text-white transition-colors border border-transparent hover:border-white/10 shadow-sm">
-                  <X size={18} />
+               <button
+                 onClick={() => setShowExecutionPanel(false)}
+                 className="flex items-center justify-center transition-all text-[#86868b] hover:text-white"
+                 style={{
+                   width: '32px', height: '32px', borderRadius: '8px',
+                   background: 'rgba(255,255,255,0.05)',
+                   border: '1px solid rgba(255,255,255,0.08)',
+                 }}
+               >
+                  <X size={16} />
                </button>
             </div>
             
-            <div className="flex-1 bg-black/40 rounded-xl p-4 lg:p-5 overflow-y-auto font-mono text-[12px] lg:text-[13px] space-y-2 border border-white/5 custom-scrollbar shadow-inner">
+            {/* Log output */}
+            <div
+              className="flex-1 overflow-y-auto custom-scrollbar font-mono"
+              style={{
+                padding: '16px',
+                borderRadius: '14px',
+                background: 'rgba(0,0,0,0.5)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.4)',
+                fontSize: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px',
+              }}
+            >
                {executionLogs.map((log, idx) => (
-                 <div key={idx} className={`flex gap-3 lg:gap-4 ${log.type === 'error' ? 'text-[#ff2d55]' : log.type === 'success' ? 'text-[#34c759]' : 'text-[#86868b]'}`}>
-                    <span className="opacity-50 tabular-nums text-[10px] lg:text-[12px]">[{log.time}]</span>
-                    <span className="font-medium tracking-wide leading-relaxed">{log.message}</span>
+                 <div
+                   key={idx}
+                   className="flex"
+                   style={{
+                     gap: '12px',
+                     color: log.type === 'error' ? '#ff453a' : log.type === 'success' ? '#34c759' : '#94a3b8',
+                   }}
+                 >
+                    <span style={{ opacity: 0.45, tabularNums: true, fontSize: '11px', flexShrink: 0 }}>[{log.time}]</span>
+                    <span className="font-medium leading-relaxed">{log.message}</span>
                  </div>
                ))}
                {isExecuting && (
-                 <div className="flex items-center gap-3 mt-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#007aff] animate-pulse shadow-[0_0_8px_#007aff]" />
-                    <span className="text-[#007aff] font-bold uppercase tracking-widest text-[10px] lg:text-[11px]">Processing Pipeline...</span>
+                 <div className="flex items-center" style={{ gap: '8px', marginTop: '6px' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#007aff', boxShadow: '0 0 8px #007aff' }} className="animate-pulse" />
+                    <span className="font-bold uppercase tracking-widest" style={{ fontSize: '10px', color: '#007aff' }}>Processing Pipeline...</span>
                  </div>
                )}
             </div>

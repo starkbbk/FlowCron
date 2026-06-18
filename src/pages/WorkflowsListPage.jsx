@@ -13,7 +13,7 @@ import GlassButton from '../components/ui/GlassButton';
 import { GlassInput, GlassSelect } from '../components/ui/GlassInput';
 import StatusBadge from '../components/common/StatusBadge';
 import GlassModal from '../components/ui/GlassModal';
-import { TableSkeleton } from '../components/common/LoadingSkeleton';
+import { CardSkeleton } from '../components/common/LoadingSkeleton';
 import TemplatesDialog from '../components/common/TemplatesDialog';
 
 import api from '../services/api';
@@ -92,21 +92,19 @@ export default function WorkflowsListPage() {
   };
 
   return (
-    <div 
-      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-0 relative z-10"
-      style={{ maxWidth: '1400px' }}
-    >
+    <div className="w-full flex flex-col pt-0 relative z-10" style={{ gap: '32px' }}>
       {/* Header & Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-white/[0.06]" style={{ marginTop: 0, marginBottom: '32px', paddingTop: '8px' }}>
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 pb-6 border-b border-white/[0.06]" style={{ marginTop: 0, marginBottom: '32px', paddingTop: '8px' }}>
         <div>
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="text-[32px] md:text-[40px] font-black text-white tracking-tight"
+            style={{ marginBottom: '8px' }}
           >
             Workflows
           </motion.h1>
-          <p className="text-[15px] text-[#94a3b8] font-medium mt-1">
+          <p className="text-[15px] text-[#94a3b8] font-medium mt-1" style={{ marginBottom: '24px' }}>
             Design, deploy and scale your automated pipelines with precision.
           </p>
         </div>
@@ -184,9 +182,14 @@ export default function WorkflowsListPage() {
       </div>
 
       {/* Main Content Area */}
-      {isLoading ? (
-        <TableSkeleton rows={6} />
-      ) : filteredWorkflows.length === 0 ? (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        ) : filteredWorkflows.length === 0 ? (
         /* Empty states: Center content, padding 48px, gap 16px */
         <GlassCard 
           padding="none" 
@@ -224,7 +227,7 @@ export default function WorkflowsListPage() {
                 className="flex flex-col group cursor-pointer border border-white/[0.08] transition-all duration-300 relative overflow-hidden"
                 style={{ 
                   minHeight: '310px', 
-                  padding: '28px', // Large cards: padding: 28px
+                  padding: '32px', // Large cards: padding: 32px
                   backgroundColor: 'rgba(255,255,255,0.035)', 
                   backdropFilter: 'blur(32px) saturate(140%)',
                   WebkitBackdropFilter: 'blur(32px) saturate(140%)',
@@ -349,6 +352,7 @@ export default function WorkflowsListPage() {
           </div>
         </GlassCard>
       )}
+      </div>
 
       {/* Create Workflow Modal */}
       <GlassModal 

@@ -40,8 +40,8 @@ const ProtectedLayout = () => {
           Editor pages render full-bleed (no padding)
       */}
       <main
-        className={`min-h-screen relative z-10 transition-all duration-300 ease-in-out ${isEditorRoute ? '' : 'pt-4 md:pt-12'}`}
-        style={{ paddingLeft: isEditorRoute ? '0' : 'var(--sidebar-width)' }}
+        className="min-h-screen relative z-10 transition-all duration-300 ease-in-out"
+        style={{ paddingLeft: isEditorRoute ? '0' : 'var(--sidebar-offset)' }}
       >
         <AnimatePresence mode="wait">
           <motion.div

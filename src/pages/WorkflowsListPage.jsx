@@ -93,11 +93,11 @@ export default function WorkflowsListPage() {
 
   return (
     <div 
-      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10"
+      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-0 relative z-10"
       style={{ maxWidth: '1400px' }}
     >
       {/* Header & Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-white/[0.06]">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-white/[0.06]" style={{ marginTop: 0, marginBottom: '32px', paddingTop: '8px' }}>
         <div>
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}

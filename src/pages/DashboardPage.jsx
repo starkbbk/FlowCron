@@ -57,7 +57,7 @@ export default function DashboardPage() {
   if (isLoading) return <StatSkeleton />;
 
   return (
-    <div className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10">
+    <div className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-0 relative z-10">
       {/* Dashboard Hero Banner: padding 32px */}
       <GlassCard 
         padding="none" 
@@ -66,7 +66,8 @@ export default function DashboardPage() {
         style={{
           borderRadius: '24px',
           background: 'rgba(255, 255, 255, 0.04)',
-          padding: '32px'
+          padding: '32px',
+          marginTop: '24px'
         }}
       >
         {/* Soft background light beams */}

@@ -31,21 +31,21 @@
 
 :root {
   --sidebar-width: 0px;
-  --sidebar-gap: 0px;
+  --sidebar-offset: 0px;
   --panel-width: 320px;
 }
 
 @media (min-width: 1024px) {
   :root {
     --sidebar-width: 280px;
-    --sidebar-gap: 3rem;
+    --sidebar-offset: calc(var(--sidebar-width) + 24px);
   }
 }
 
 @media (max-width: 1023px) {
   :root {
     --sidebar-width: 0px;
-    --sidebar-gap: 0px;
+    --sidebar-offset: 0px;
   }
 }
 
@@ -437,16 +437,22 @@ input:focus-visible {
 
 /* Utility for responsive padding */
 .responsive-container {
-  padding-left: 5%;
-  padding-right: 5%;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 32px; /* desktop: 32px */
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .responsive-container {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px; /* smaller screens: 20px */
+  }
+}
+
+@media (min-width: 1440px) {
+  .responsive-container {
+    padding: 40px; /* large screens: 40px */
   }
 }

@@ -64,9 +64,9 @@ const ExecutionDetailPage = () => {
   if (isLoading) return <div className="max-w-7xl mx-auto p-8"><CardSkeleton /></div>;
 
   return (
-    <div className="mx-auto pb-20" style={{ display: 'flex', flexDirection: 'column', gap: '48px', padding: '100px 32px 40px', maxWidth: '1400px' }}>
+    <div className="mx-auto pb-20" style={{ display: 'flex', flexDirection: 'column', gap: '48px', maxWidth: '1400px' }}>
       {/* Page Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6" style={{ marginTop: 0, marginBottom: '32px', paddingTop: '8px' }}>
         <div className="flex items-start gap-5">
            <button 
              onClick={() => navigate(-1)} 

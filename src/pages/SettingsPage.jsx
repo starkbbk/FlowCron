@@ -108,10 +108,10 @@ const SettingsPage = () => {
 
   return (
     <div 
-      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-6 lg:pt-10 relative z-10"
+      className="flex flex-col gap-6 lg:gap-8 pb-20 mx-auto w-full pt-0 relative z-10"
       style={{ maxWidth: '1400px' }}
     >
-      <div className="flex flex-col md:flex-row justify-between items-end pb-6 border-b border-white/[0.06]" style={{ gap: '24px' }}>
+      <div className="flex flex-col md:flex-row justify-between items-end pb-6 border-b border-white/[0.06]" style={{ gap: '24px', marginTop: 0, marginBottom: '32px', paddingTop: '8px' }}>
         <div>
           <h1 className="font-extrabold text-white tracking-tight" style={{ fontSize: '32px', marginBottom: '8px' }}>Settings</h1>
           <p className="text-[#94a3b8] font-medium" style={{ fontSize: '15px' }}>Manage your profile, security, and notification settings.</p>

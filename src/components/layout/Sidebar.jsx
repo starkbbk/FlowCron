@@ -56,7 +56,10 @@ const Sidebar = () => {
       <div 
         className="flex items-center shrink-0 overflow-hidden"
         style={{ 
-          padding: '24px',
+          paddingTop: '32px',
+          paddingLeft: '24px',
+          paddingRight: '24px',
+          paddingBottom: '24px',
           justifyContent: collapsed ? 'center' : 'flex-start'
         }}
       >

@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Zap, ArrowRight, Shield, Workflow, Clock } from 'lucide-react';
 import { SignIn } from '@clerk/clerk-react';
+import { dark } from '@clerk/themes';
 import useAuthStore from '../stores/authStore';
 
 const clerkAppearance = {
-  baseTheme: undefined,
+  baseTheme: dark,
   variables: {
     colorPrimary: '#007aff',
     colorBackground: 'rgba(255, 255, 255, 0.03)',

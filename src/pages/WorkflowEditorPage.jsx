@@ -28,26 +28,13 @@ import ErrorBoundary from '../components/common/ErrorBoundary';
 import api from '../services/api';
 import useWorkflowStore from '../stores/workflowStore';
 import { generateId } from '../utils/helpers';
-import { getNodeType } from '../utils/nodeTypes';
+import { getNodeType, NODE_TYPES } from '../utils/nodeTypes';
 
-const nodeTypes = {
-  manual_trigger: GenericNode,
-  cron_trigger: GenericNode,
-  webhook_trigger: GenericNode,
-  http_request: GenericNode,
-  send_email: GenericNode,
-  send_slack: GenericNode,
-  send_discord: GenericNode,
-  store_data: GenericNode,
-  read_data: GenericNode,
-  if_condition: GenericNode,
-  switch_condition: GenericNode,
-  delay_node: GenericNode,
-  loop_node: GenericNode,
-  transform_node: GenericNode,
-  code_node: GenericNode,
-  filter_node: GenericNode,
-};
+// Dynamically register every node type defined in nodeTypes.js with GenericNode.
+// This ensures new categories (Storage, AI & Data, etc.) are never missed.
+const nodeTypes = Object.fromEntries(
+  NODE_TYPES.map(n => [n.type, GenericNode])
+);
 
 const edgeTypes = {
   glow: GlowEdge,

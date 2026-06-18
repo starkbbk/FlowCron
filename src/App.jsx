@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // Layouts
@@ -79,6 +79,29 @@ const PageLoader = () => (
   </div>
 );
 
+// Auth Route Guard for standalone full-screen pages
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, isLoading } = useAuthStore();
+  const location = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#161618]">
+        <div className="flex flex-col items-center gap-6 z-10 relative">
+          <div className="w-12 h-12 border-2 border-[#3a3a3c] border-t-[#007aff] rounded-full animate-spin" />
+          <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#86868b] animate-pulse">Initializing Data</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -112,12 +135,21 @@ export default function App() {
               <Route path="/" element={<ProtectedLayout />}>
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="workflows" element={<WorkflowsListPage />} />
-                <Route path="workflows/:id/edit" element={<WorkflowEditorPage />} />
                 <Route path="executions" element={<ExecutionsListPage />} />
                 <Route path="executions/:id" element={<ExecutionDetailPage />} />
                 <Route path="activity" element={<ActivityLogPage />} />
                 <Route path="settings" element={<SettingsPage />} />
               </Route>
+
+              {/* Standalone Full Screen Protected Routes */}
+              <Route 
+                path="workflows/:id/edit" 
+                element={
+                  <ProtectedRoute>
+                    <WorkflowEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
 
               {/* Catch-all */}
               <Route path="*" element={<Navigate to="/" replace />} />

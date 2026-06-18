@@ -7,26 +7,26 @@
    ========================================== */
 
 @theme {
-  --color-primary: #007aff; 
+  --color-primary: #0a84ff; 
   --color-primary-hover: #006ce6;
-  --color-accent-teal: #34c759;
-  --color-accent-pink: #ff2d55;
+  --color-accent-teal: #22c55e;
+  --color-accent-pink: #ef4444;
   --color-accent-indigo: #5856d6;
-  --color-accent-cyan: #32ade6;
+  --color-accent-cyan: #22d3ee;
   --color-accent-orange: #ff9500;
   
-  --color-surface-bg: #0d0d0f;
-  --color-surface-app: #1c1c1e;
-  --color-surface-bento: rgba(28, 28, 30, 0.4);
+  --color-surface-bg: #050914;
+  --color-surface-app: rgba(255, 255, 255, 0.035);
+  --color-surface-bento: rgba(255, 255, 255, 0.035);
   
-  --color-border-dim: rgba(255, 255, 255, 0.05);
-  --color-border-bright: rgba(255, 255, 255, 0.12);
+  --color-border-dim: rgba(255, 255, 255, 0.08);
+  --color-border-bright: rgba(255, 255, 255, 0.15);
   
-  --color-text-primary: #f5f5f7;
-  --color-text-secondary: #86868b;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
 
-  --blur-pro: blur(40px);
-  --blur-ultra: blur(80px);
+  --blur-pro: blur(45px);
+  --blur-ultra: blur(90px);
 }
 
 :root {
@@ -87,7 +87,11 @@ input, textarea, pre, code {
   inset: 0;
   z-index: -3; /* Base layer */
   overflow: hidden;
-  background-color: var(--color-surface-bg);
+  background-image: linear-gradient(rgba(5, 9, 20, 0.45), rgba(5, 9, 20, 0.45)), url('/luxury-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: #050914;
 }
 
 .floating-orb {
@@ -160,14 +164,14 @@ input, textarea, pre, code {
 }
 
 .mac-bento-card {
-  background: rgba(44, 44, 48, 0.3);
-  backdrop-filter: var(--blur-pro);
-  -webkit-backdrop-filter: var(--blur-pro);
-  border: 1px solid var(--color-border-dim);
-  border-radius: 48px;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
   box-shadow: 
-    0 15px 40px -10px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+    0 30px 60px -15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   position: relative;
   overflow: hidden;
@@ -178,25 +182,25 @@ input, textarea, pre, code {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top left, rgba(255,255,255,0.05) 0%, transparent 60%);
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
   pointer-events: none;
 }
 
 .mac-bento-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  background: rgba(44, 44, 48, 0.45);
-  border-color: var(--color-border-bright);
+  transform: translateY(-4px) scale(1.005);
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 
-    0 30px 60px -12px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+    0 40px 80px -20px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .mac-bento-card:active {
   transform: translateY(-1px) scale(0.995);
-  border-color: rgba(0, 122, 255, 0.4);
+  border-color: rgba(10, 132, 255, 0.4);
   box-shadow:
-    0 0 40px -8px rgba(0, 122, 255, 0.3),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    0 0 40px -8px rgba(10, 132, 255, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   transition: all 0.1s ease;
 }
 

@@ -128,8 +128,8 @@ const SettingsPage = () => {
                onClick={() => setActiveTab(tab.id)}
                className={`w-full flex items-center justify-between transition-all duration-200 group relative cursor-pointer ${
                  activeTab === tab.id 
-                  ? 'bg-[#1c1c1e] text-white border border-white/10' 
-                  : 'text-[#86868b] hover:text-white hover:bg-white/5'
+                  ? 'bg-white/10 text-white border border-white/10 shadow-inner' 
+                  : 'text-[#94a3b8] hover:text-white hover:bg-white/5'
                }`}
                style={{ padding: '16px 20px', borderRadius: '16px' }}
              >
@@ -147,7 +147,15 @@ const SettingsPage = () => {
         {/* Main Content Area */}
         <div 
           className="flex-1 overflow-hidden"
-          style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', minHeight: '600px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
+          style={{ 
+            backgroundColor: 'rgba(255, 255, 255, 0.035)', 
+            backdropFilter: 'blur(40px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)', 
+            borderRadius: '28px', 
+            minHeight: '600px', 
+            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)' 
+          }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -165,7 +173,7 @@ const SettingsPage = () => {
                           <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Profile Details</h3>
                           <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Update your account information and how you appear to others.</p>
                        </div>
-                      <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}>
+                      <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
                          <User size={24} className="text-[#007aff]" />
                       </div>
                    </div>
@@ -173,7 +181,7 @@ const SettingsPage = () => {
                    <div className="flex items-center border border-white/10" style={{ gap: '32px', padding: '40px', borderRadius: '24px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
                       <div 
                         className="flex items-center justify-center font-extrabold border border-white/10 overflow-hidden" 
-                        style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#2c2c2e', fontSize: '28px' }}
+                        style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: 'rgba(255, 255, 255, 0.05)', fontSize: '28px' }}
                       >
                          {profileImage ? (
                            <img src={profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -227,7 +235,7 @@ const SettingsPage = () => {
                            <h3 className="font-extrabold text-white" style={{ fontSize: '24px', marginBottom: '8px' }}>Security</h3>
                            <p className="font-medium text-[#86868b]" style={{ fontSize: '16px' }}>Manage your password, two-factor authentication, and account protection.</p>
                         </div>
-                        <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: '#2c2c2e' }}>
+                        <div className="flex items-center justify-center border border-white/10" style={{ padding: '12px', borderRadius: '16px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
                            <Lock size={24} className="text-[#ff3b30]" />
                         </div>
                     </div>
@@ -321,7 +329,7 @@ const SettingsPage = () => {
                            <div className="flex items-center" style={{ gap: '20px' }}>
                               <div 
                                 className="flex items-center justify-center text-[#86868b] border border-white/10 group-hover:text-[#007aff] transition-colors"
-                                style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: '#2c2c2e' }}
+                                style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                               >
                                  <Database size={22} />
                               </div>

@@ -1,9 +1,27 @@
 import { motion } from 'framer-motion'
 
 const variants = {
-  default: { backgroundColor: '#18181b', border: '1px solid #27272a' },
-  strong: { backgroundColor: '#111113', border: '1px solid #27272a' },
-  subtle: { backgroundColor: '#1f1f23', border: '1px solid #27272a' },
+  default: { 
+    backgroundColor: 'rgba(255, 255, 255, 0.035)', 
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    backdropFilter: 'blur(30px) saturate(140%)',
+    WebkitBackdropFilter: 'blur(30px) saturate(140%)',
+    boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)'
+  },
+  strong: { 
+    backgroundColor: 'rgba(255, 255, 255, 0.055)', 
+    border: '1px solid rgba(255, 255, 255, 0.12)',
+    backdropFilter: 'blur(40px) saturate(160%)',
+    WebkitBackdropFilter: 'blur(40px) saturate(160%)',
+    boxShadow: '0 40px 80px -20px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12)'
+  },
+  subtle: { 
+    backgroundColor: 'rgba(255, 255, 255, 0.02)', 
+    border: '1px solid rgba(255, 255, 255, 0.05)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.4), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05)'
+  },
 }
 
 const paddingPresets = {
@@ -31,9 +49,10 @@ export default function GlassCard({
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.2, ease: 'easeOut' },
         whileHover: hover ? { 
-          borderColor: '#3f3f46',
-          backgroundColor: variant === 'strong' ? '#18181b' : '#1f1f23',
-          transition: { duration: 0.15 } 
+          borderColor: 'rgba(255, 255, 255, 0.18)',
+          backgroundColor: variant === 'strong' ? 'rgba(255, 255, 255, 0.085)' : 'rgba(255, 255, 255, 0.055)',
+          y: -4,
+          transition: { duration: 0.2, ease: 'easeOut' } 
         } : undefined,
       }
     : {}
@@ -44,7 +63,7 @@ export default function GlassCard({
       onClick={onClick}
       style={{ 
         ...variants[variant],
-        borderRadius: '12px',
+        borderRadius: '24px',
         position: 'relative', 
         cursor: onClick ? 'pointer' : 'default',
         boxSizing: 'border-box'

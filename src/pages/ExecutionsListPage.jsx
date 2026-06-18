@@ -60,7 +60,7 @@ const ExecutionsListPage = () => {
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-between" style={{ gap: '20px', marginTop: '16px', marginBottom: '16px' }}>
-         <div className="flex p-1.5 rounded-2xl bg-[#1c1c1e] border border-white/10 overflow-x-auto no-scrollbar" style={{ gap: '4px' }}>
+         <div className="flex p-1.5 rounded-2xl bg-white/5 border border-white/10 overflow-x-auto no-scrollbar" style={{ gap: '4px' }}>
             {['All', 'Running', 'Completed', 'Failed'].map(status => (
               <button
                 key={status}
@@ -76,7 +76,7 @@ const ExecutionsListPage = () => {
               </button>
             ))}
          </div>
-         <div className="text-[#86868b] bg-[#1c1c1e] border border-white/10 rounded-xl" style={{ padding: '12px 20px', fontSize: '13px', fontWeight: 700, letterSpacing: '0.05em' }}>
+         <div className="text-[#86868b] bg-white/5 border border-white/10 rounded-xl" style={{ padding: '12px 20px', fontSize: '13px', fontWeight: 700, letterSpacing: '0.05em' }}>
             {filteredExecutions.length} WORKFLOW RUNS
          </div>
       </div>
@@ -84,8 +84,8 @@ const ExecutionsListPage = () => {
       {isLoading ? (
         <TableSkeleton rows={8} />
       ) : executions.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(255, 255, 255, 0.05)', marginBottom: '32px' }}>
                <Activity size={40} className="text-[#86868b]" />
             </div>
             <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No execution history</h3>
@@ -97,10 +97,12 @@ const ExecutionsListPage = () => {
         <div 
           className="overflow-hidden overflow-x-auto" 
           style={{ 
-            backgroundColor: '#1c1c1e', 
-            border: '1px solid rgba(255,255,255,0.1)', 
-            borderRadius: '24px', 
-            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            backgroundColor: 'rgba(255, 255, 255, 0.035)', 
+            backdropFilter: 'blur(40px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)', 
+            borderRadius: '28px', 
+            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)',
             marginTop: '8px',
           }}
         >

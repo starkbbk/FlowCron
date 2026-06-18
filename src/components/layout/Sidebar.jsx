@@ -42,7 +42,7 @@ const Sidebar = () => {
 
   return (
     <aside 
-      className="fixed top-6 bottom-6 left-6 bg-white/5 backdrop-blur-[40px] border border-white/10 z-50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] shrink-0 hidden lg:flex flex-col shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] rounded-[32px] overflow-visible"
+      className="fixed top-6 bottom-6 left-6 bg-white/[0.03] backdrop-blur-3xl border border-white/[0.08] z-50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] shrink-0 hidden lg:flex flex-col shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] rounded-[32px] overflow-visible"
       style={{ 
         width: 'var(--sidebar-width, 260px)',
         overflow: 'visible',
@@ -107,8 +107,8 @@ const Sidebar = () => {
             className={({ isActive }) => `
               flex items-center rounded-2xl transition-all duration-500 group relative font-bold overflow-hidden
               ${isActive 
-                ? 'bg-white/10 text-[#007aff] shadow-inner' 
-                : 'text-[#86868b] hover:bg-white/5 hover:text-white'}
+                ? 'bg-white/10 text-[#0a84ff] shadow-inner' 
+                : 'text-[#94a3b8] hover:bg-white/5 hover:text-white'}
             `}
             style={({ isActive }) => ({ 
               height: '64px',
@@ -121,10 +121,10 @@ const Sidebar = () => {
                 {isActive && (
                   <motion.div 
                     layoutId="active-indicator"
-                    className="absolute left-0 w-1 h-6 bg-[#007aff] rounded-r-full shadow-[0_0_15px_#007aff]"
+                    className="absolute left-0 w-1 h-6 bg-[#0a84ff] rounded-r-full shadow-[0_0_15px_#0a84ff]"
                   />
                 )}
-                <item.icon size={22} className={`shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(0,122,255,0.6)]' : 'group-hover:scale-110'}`} />
+                <item.icon size={22} className={`shrink-0 transition-all duration-500 ${isActive ? 'scale-110 drop-shadow-[0_0_8px_rgba(10,132,255,0.6)]' : 'group-hover:scale-110'}`} />
                 <AnimatePresence>
                   {!collapsed && (
                     <motion.span 
@@ -180,7 +180,7 @@ const Sidebar = () => {
                 <div className="text-[14px] font-bold text-white truncate">
                   {user?.username || user?.email?.split('@')[0]}
                 </div>
-                <div className="text-[11px] font-black text-[#007aff] uppercase tracking-widest mt-0.5 opacity-80">
+                <div className="text-[11px] font-black text-[#0a84ff] uppercase tracking-widest mt-0.5 opacity-80">
                    Premium
                 </div>
               </motion.div>

@@ -52,8 +52,8 @@ const ActivityLogPage = () => {
       {isLoading ? (
         <TableSkeleton rows={10} />
       ) : logs.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+            <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(255, 255, 255, 0.05)', marginBottom: '32px' }}>
                <Activity size={40} className="text-[#86868b]" />
             </div>
             <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No activity recorded</h3>
@@ -62,7 +62,14 @@ const ActivityLogPage = () => {
       ) : (
         <div 
           className="overflow-hidden"
-          style={{ backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
+          style={{ 
+            backgroundColor: 'rgba(255, 255, 255, 0.035)', 
+            backdropFilter: 'blur(40px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)', 
+            borderRadius: '28px', 
+            boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)' 
+          }}
         >
           <div>
             <AnimatePresence initial={false}>
@@ -79,7 +86,7 @@ const ActivityLogPage = () => {
                   {/* Status Indicator */}
                   <div 
                     className={`flex items-center justify-center border border-white/10 transition-all group-hover:border-white/20 ${log.status === 'completed' ? 'text-[#34c759]' : log.status === 'failed' ? 'text-[#ff3b30]' : 'text-[#007aff]'}`}
-                    style={{ width: '60px', height: '60px', borderRadius: '18px', backgroundColor: '#2c2c2e' }}
+                    style={{ width: '60px', height: '60px', borderRadius: '18px', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                   >
                      {log.status === 'completed' ? <CheckCircle2 size={28} /> : log.status === 'failed' ? <XCircle size={28} /> : <Zap size={28} />}
                   </div>

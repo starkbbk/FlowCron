@@ -126,7 +126,7 @@ export default function WorkflowsListPage() {
           </div>
 
           <div className="flex items-center" style={{ gap: '16px' }}>
-             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
                {['All', 'Active', 'Paused'].map(status => (
                  <button
                    key={status}
@@ -146,7 +146,7 @@ export default function WorkflowsListPage() {
                ))}
              </div>
 
-             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: '#1c1c1e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+             <div className="flex items-center" style={{ gap: '6px', padding: '6px', backgroundColor: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
                 <button 
                    onClick={() => setView('grid')}
                    className="transition-all flex items-center justify-center cursor-pointer"
@@ -198,8 +198,8 @@ export default function WorkflowsListPage() {
       {isLoading ? (
         <TableSkeleton rows={6} />
       ) : filteredWorkflows.length === 0 ? (
-        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center bg-[#1c1c1e] border-white/10" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-           <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: '#2c2c2e', marginBottom: '32px' }}>
+        <GlassCard padding="large" className="flex flex-col items-center justify-center text-center" hover={false} style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+           <div className="flex items-center justify-center border border-white/10 shadow-inner" style={{ width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '32px' }}>
               <GitBranch size={40} className="text-[#86868b]" />
            </div>
            <h3 className="font-bold text-white tracking-tight" style={{ fontSize: '24px', marginBottom: '12px' }}>No workflows found</h3>
@@ -219,15 +219,15 @@ export default function WorkflowsListPage() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="flex flex-col group cursor-pointer hover:bg-white/10 transition-all duration-500 overflow-hidden"
+                className="flex flex-col group cursor-pointer hover:border-[#0a84ff]/50 hover:shadow-[0_20px_50px_rgba(10,132,255,0.15)] transition-all duration-300 overflow-hidden"
                 style={{ 
                   height: '340px', 
                   padding: '40px', 
-                  backgroundColor: 'rgba(255,255,255,0.03)', 
-                  backdropFilter: 'blur(40px)',
-                  border: '1px solid rgba(255,255,255,0.06)', 
-                  borderRadius: '32px',
-                  boxShadow: '0 30px 60px -12px rgba(0,0,0,0.4)',
+                  backgroundColor: 'rgba(255,255,255,0.035)', 
+                  backdropFilter: 'blur(30px) saturate(120%)',
+                  border: '1px solid rgba(255,255,255,0.08)', 
+                  borderRadius: '28px',
+                  boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08)',
                 }}
                 onClick={() => navigate(`/workflows/${wf.id}/edit`)}
               >
@@ -275,7 +275,7 @@ export default function WorkflowsListPage() {
           </AnimatePresence>
         </div>
       ) : (
-        <GlassCard padding="none" className="overflow-hidden border-[#27272a] bg-[#111113]">
+        <GlassCard padding="none" className="overflow-hidden" hover={false}>
            <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                  <thead>

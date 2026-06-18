@@ -17,14 +17,17 @@ const GlassModal = ({ isOpen, onClose, title, children, maxWidth = '480px' }) =>
             onClick={onClose}
           />
 
-          {/* Midnight Carbon Modal Surface */}
+          {/* Frosted Glass Modal Surface */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 4 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="relative w-full bg-[#18181b] border border-[#27272a] rounded-[16px] overflow-hidden gpu-accel"
-            style={{ maxWidth }}
+            className="relative w-full bg-white/[0.045] backdrop-blur-3xl border border-white/[0.08] rounded-[32px] overflow-hidden shadow-2xl gpu-accel"
+            style={{ 
+              maxWidth, 
+              boxShadow: '0 40px 100px -15px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)' 
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}

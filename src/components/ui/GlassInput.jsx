@@ -1,14 +1,16 @@
 import { forwardRef, useState } from 'react'
 
 const baseStyles = {
-  backgroundColor: '#111113',
-  border: '1px solid #27272a',
-  borderRadius: '8px',
-  color: '#fafafa',
+  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+  border: '1px solid rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  borderRadius: '16px',
+  color: '#f8fafc',
   fontSize: '14px',
   outline: 'none',
   width: '100%',
-  transition: 'border-color 150ms ease',
+  transition: 'all 200ms ease',
   fontFamily: 'inherit',
   boxSizing: 'border-box',
 }
@@ -41,10 +43,10 @@ export const GlassInput = forwardRef(
               paddingBottom: '24px',
               paddingLeft: `${padLeft + 32}px`,
               paddingRight: `${padRight + 32}px`,
-              borderColor: error ? '#ef4444' : '#3a3a3c',
+              borderColor: error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.08)',
               fontSize: '16px'
             }}
-            className="focus:border-[#007aff] shadow-sm"
+            className="focus:border-[#0a84ff] focus:ring-4 focus:ring-[#0a84ff]/20 shadow-sm"
             {...props}
           />
           {endAdornment ? (
@@ -76,7 +78,7 @@ export const GlassTextarea = forwardRef(({ label, error, className = '', ...prop
         minHeight: '100px',
         borderColor: error ? '#ef4444' : '#27272a',
       }}
-      className="focus:border-[#3b82f6]"
+      className="focus:border-[#0a84ff] focus:ring-4 focus:ring-[#0a84ff]/20"
       {...props}
     />
     {error && <span className="text-[12px] text-[#ef4444] font-medium ml-0.5">{error}</span>}
@@ -96,17 +98,17 @@ export const GlassSelect = forwardRef(({ label, error, options = [], className =
         ref={ref}
         style={{
           ...baseStyles,
-          backgroundColor: '#111113',
+          backgroundColor: '#080f1f',
           appearance: 'none',
           padding: '10px 40px 10px 12px',
           cursor: 'pointer',
-          borderColor: error ? '#ef4444' : '#27272a',
+          borderColor: error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.08)',
         }}
-        className="focus:border-[#3b82f6]"
+        className="focus:border-[#0a84ff] focus:ring-4 focus:ring-[#0a84ff]/20"
         {...props}
       >
         {options.map((opt) => (
-          <option key={typeof opt === 'string' ? opt : opt.value} value={typeof opt === 'string' ? opt : opt.value} style={{ background: '#111113', color: '#fafafa' }}>
+          <option key={typeof opt === 'string' ? opt : opt.value} value={typeof opt === 'string' ? opt : opt.value} style={{ background: '#080f1f', color: '#f8fafc' }}>
             {typeof opt === 'string' ? opt : opt.label}
           </option>
         ))}
@@ -139,8 +141,8 @@ export function GlassToggle({ label, checked: initialChecked, onChange, classNam
           borderRadius: '14px',
           padding: '3px',
           transition: 'all 0.2s ease',
-          backgroundColor: isOn ? '#007aff' : '#3a3a3c',
-          boxShadow: isOn ? '0 0 16px rgba(0, 122, 255, 0.4)' : 'none',
+          backgroundColor: isOn ? '#0a84ff' : 'rgba(255,255,255,0.08)',
+          boxShadow: isOn ? '0 0 16px rgba(10, 132, 255, 0.4)' : 'none',
           cursor: 'pointer',
           position: 'relative',
           flexShrink: 0,

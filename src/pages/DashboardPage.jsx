@@ -96,10 +96,8 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             onClick={() => stat.path && navigate(stat.path)}
-            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)] border border-white/10 cursor-pointer ${stat.glow}`}
+            className={`mac-bento-card flex flex-col items-center justify-center gap-6 h-[180px] cursor-pointer ${stat.glow}`}
             style={{
-              background: 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-              backdropFilter: 'blur(40px)',
               padding: '40px'
             }}
           >
@@ -135,10 +133,8 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mac-bento-card flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10"
+            className="mac-bento-card flex flex-col"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-              backdropFilter: 'blur(40px)',
               padding: '40px'
             }}
           >
@@ -206,10 +202,8 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mac-bento-card space-y-14 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 overflow-hidden relative"
+            className="mac-bento-card space-y-14 overflow-hidden relative"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-              backdropFilter: 'blur(40px)',
               padding: '40px'
             }}
           >
@@ -257,10 +251,8 @@ export default function DashboardPage() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: 0.6 }}
-             className="mac-bento-card min-h-[600px] flex flex-col shadow-[0_30px_70px_-20px_rgba(0,0,0,0.6)] border border-white/10 relative overflow-hidden"
+             className="mac-bento-card min-h-[600px] flex flex-col relative overflow-hidden"
              style={{
-               background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-               backdropFilter: 'blur(40px)',
                padding: '40px'
              }}
            >
